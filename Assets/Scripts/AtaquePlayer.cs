@@ -22,7 +22,7 @@ public class AtaquePlayer : MonoBehaviour
     {
         if (isCooldownEnabled)
         {
-            Enemie.Vida = -1;
+            Enemie.vidaEnemie = -1;
             cooldown = 0.2f;
             isCooldownEnabled = false;
         }
@@ -32,8 +32,8 @@ public class AtaquePlayer : MonoBehaviour
     {
         if (isCooldownEnabled)
         {
-            Enemie.Vida = -6;
-            cooldown = 0.2f;
+            Enemie.vidaEnemie = -6;
+            cooldown = 1f;
             isCooldownEnabled = false;
         }
 
@@ -50,7 +50,7 @@ public class AtaquePlayer : MonoBehaviour
      DAÑO 6
      */
 
-    private bool Cooldown()
+    private void Cooldown()
     {
         //cuando se le llame toma el valor del cooldown actual y va restando 0.1 cada 0.1 segundos
         

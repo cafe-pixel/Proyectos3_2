@@ -2,8 +2,18 @@ using UnityEngine;
 
 public class Enemie : MonoBehaviour
 {
-    //debe de tener una vida
-    //debe tener una defensa
-    //debe tener un ataque
+    public static int vidaEnemie;
+    private int defensa = 1;
+    public static int ataque = 1;
+    public static void EnemieSumarVida()
+    {
+        vidaEnemie++;
     }
+    
+    public static void EnemieRestarVida()
+    {
+        vidaEnemie--;
+    }
+    
+    
 }
