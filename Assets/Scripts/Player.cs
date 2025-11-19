@@ -4,24 +4,69 @@ public class Player : MonoBehaviour
 {
     private float x;
     private float y;
+    private float force = 3;
     static public int vidaPlayer = 5;
     private int dash = 0;
+    new Vector3 initialPosition;
+    private Rigidbody2D rb;
+    private bool canAttack = false;
+    private bool canInteract;
+    private Enemy enemigo;
 
     void Start()
     {
-        GetComponent<Enemie>();
+        initialPosition = transform.position;
+        rb = GetComponent<Rigidbody2D>();
+        enemigo = GetComponent<RotatorEnemy>();
     }
     void Update()
     {
-        x = Input.GetAxisRaw("Horizontal");
-        y = Input.GetAxisRaw("Vertical");
+        Jump();
+        Interact();
+        Attack();
+    }
+
+    private void Interact()
+    {
+        if (canInteract)
+        {
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                IInteractable.Interact();
+            }
+        }
+    }
+
+    private void Attack()
+    {
+        if (canAttack)
+        {
+            //la tecla que voy a meter es un placeholder de ataque
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                enemigo.EnemyRestarVida(1);
+            }
+            
+        }
         
-        this.gameObject.transform.position += new Vector3(x, y, 0).normalized * (Time.deltaTime * 4);
+    }
+
+    void Jump()
+    {
+        
+    }
+
+    void FixedUpdate()//solo los fisicos acumulables
+    {
+        x = Input.GetAxis("Horizontal");//toda variable q declares en un sitio es local
+        y = Input.GetAxis("Vertical");
+        
+        rb.AddForce(new Vector3(x, 0, y).normalized * force, ForceMode2D.Force);
     }
 
     public void PlayerRestarVida()
     {
-        vidaPlayer -= Enemie.ataque;
+        vidaPlayer -= enemigo.Ataque;
         //aqui falta pensar en la defensa
         if (vidaPlayer == 0)
         {
@@ -53,11 +98,15 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter(Collider col)
     {
-        if (CompareTag("Enemie"))
+        if (col.CompareTag("Enemy"))
         {
-            Enemie.EnemieRestarVida();
+            canAttack = true;
         }
-        if ( IInteractable)
+
+        if (col.TryGetComponent<IInteractable>(out var interactable))
+        {
+            canInteract = true;
+        }
         //cuando colisione con un objeto de ataque enemigo RestarVida() a menos que use un parry
         //si lo hace con algo guay SumarVida()
         

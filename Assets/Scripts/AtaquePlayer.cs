@@ -8,13 +8,14 @@ public class AtaquePlayer : MonoBehaviour
     private int daño;
     private float cooldown;
     private bool isCooldownEnabled;
+    private Enemy enemigo;
     
 
     private void Start()
     {
         cooldown = 0;
         isCooldownEnabled = true;
-        GetComponent<Enemie>();
+        enemigo = GetComponent<Enemy>();
 
     }
 
@@ -22,7 +23,7 @@ public class AtaquePlayer : MonoBehaviour
     {
         if (isCooldownEnabled)
         {
-            Enemie.vidaEnemie = -1;
+            enemigo.VidaEnemy = -1;
             cooldown = 0.2f;
             isCooldownEnabled = false;
         }
@@ -32,7 +33,7 @@ public class AtaquePlayer : MonoBehaviour
     {
         if (isCooldownEnabled)
         {
-            Enemie.vidaEnemie = -6;
+            enemigo.VidaEnemy = -6;
             cooldown = 1f;
             isCooldownEnabled = false;
         }
@@ -53,6 +54,8 @@ public class AtaquePlayer : MonoBehaviour
     private void Cooldown()
     {
         //cuando se le llame toma el valor del cooldown actual y va restando 0.1 cada 0.1 segundos
+        //ver de hacer el timer con corrutina
+        //las corruinas solo no se deben usar en cosas de pausar el juegp y en barras de progreso(algo que se actualice constantemente
         
         cooldown -= Time.deltaTime;
         if (cooldown <= 0)

@@ -2,7 +2,8 @@ using UnityEngine;
 
 public interface IInteractable
 {
-    void Interact()
+    //va a estar cualquier item o asset interactuable
+    public static void Interact()
     {
         
     }
