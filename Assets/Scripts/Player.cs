@@ -77,8 +77,8 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()//solo los fisicos acumulables
     {
-        x = Input.GetAxis("Horizontal");//toda variable q declares en un sitio es local
-        y = Input.GetAxis("Vertical");
+        x = Input.GetAxisRaw("Horizontal");//toda variable q declares en un sitio es local
+        y = Input.GetAxisRaw("Vertical");
         
         rb.AddForce(new Vector3(x, 0, y).normalized * force, ForceMode2D.Force);
 
