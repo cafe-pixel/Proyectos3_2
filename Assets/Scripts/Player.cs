@@ -12,12 +12,17 @@ public class Player : MonoBehaviour
     private bool canAttack = false;
     private bool canInteract;
     private Enemy enemigo;
+    private FloorDetection floor;
+    private float sueloActual;
+    private float jumpForce = 10f;
+    private bool IsJumping = false;
 
     void Start()
     {
         initialPosition = transform.position;
         rb = GetComponent<Rigidbody2D>();
         enemigo = GetComponent<RotatorEnemy>();
+        floor = GetComponent<FloorDetection>();
     }
     void Update()
     {
@@ -53,7 +58,21 @@ public class Player : MonoBehaviour
 
     void Jump()
     {
-        
+        //detecta el salto
+        if (floor.IsFloorDetected&&Input.GetKeyDown(KeyCode.Space))
+        {
+            sueloActual = transform.position.y;
+            rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            IsJumping = true;
+        }
+
+        if (IsJumping)
+        {
+            if (transform.position.y == sueloActual)
+            {
+                IsJumping = false;
+            }
+        }
     }
 
     void FixedUpdate()//solo los fisicos acumulables
@@ -62,6 +81,13 @@ public class Player : MonoBehaviour
         y = Input.GetAxis("Vertical");
         
         rb.AddForce(new Vector3(x, 0, y).normalized * force, ForceMode2D.Force);
+
+        if (IsJumping)
+        {
+            rb.AddForce(new Vector3(x, 0, 0).normalized*force, ForceMode2D.Force);
+        }
+        
+        //Controla el movimiento vertical en el salto acumulando
     }
 
     public void PlayerRestarVida()
