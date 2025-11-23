@@ -4,32 +4,58 @@ public class Player : MonoBehaviour
 {
     private float x;
     private float y;
-    private float force = 3;
+    private float force = 10f;
     static public int vidaPlayer = 5;
     private int dash = 0;
     new Vector3 initialPosition;
     private Rigidbody2D rb;
     private bool canAttack = false;
     private bool canInteract;
+    private bool isJumping;
     private Enemy enemigo;
     private FloorDetection floor;
     private float sueloActual;
-    private float jumpForce = 10f;
-    private bool IsJumping = false;
+    [SerializeField] private float jumpForce = 100f;
+    [SerializeField] private float velocidad = 1f;
+    
 
-    void Start()
+    private void Start()
     {
         initialPosition = transform.position;
         rb = GetComponent<Rigidbody2D>();
         enemigo = GetComponent<RotatorEnemy>();
-        floor = GetComponent<FloorDetection>();
+        floor = GetComponentInChildren<FloorDetection>();
     }
-    void Update()
+    private void Update()
     {
+        
+        Movement();
         Jump();
-        Interact();
-        Attack();
+        //Interact();
+        //Attack();
+        
     }
+    
+    private void Movement()
+    {
+        x = Input.GetAxisRaw("Horizontal");//toda variable q declares en un sitio es local
+
+        // Siempre que toque el suelo puede moverse en vertical, sino no 
+        if (floor.IsFloorDetected && !isJumping)
+        {
+            y = Input.GetAxisRaw("Vertical");
+        }
+        else
+        {
+            y = 0;
+        }
+
+        
+        Vector3 move = new Vector3(x, y, 0).normalized * velocidad;
+        rb.linearVelocity = move;
+    }
+
+    
 
     private void Interact()
     {
@@ -56,38 +82,50 @@ public class Player : MonoBehaviour
         
     }
 
-    void Jump()
+    private void Jump()
     {
-        //detecta el salto
-        if (floor.IsFloorDetected&&Input.GetKeyDown(KeyCode.Space))
+        //se está sumando cada poco pero mas o menos guarda la posicion
+        //lo hace en 3 clicks
+        //baja antes el floordetection ¿pq tiene un componente q el otro no?
+        //voy a usar mates :c, tengo que crear un punto máximo y cuando llegue a él tiene que comenzar a jugar con gravedad
+        //averiguar como funciona impulse
+        if (floor.IsFloorDetected&&Input.GetKeyDown(KeyCode.Space)&&!isJumping)
         {
-            sueloActual = transform.position.y;
+            
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-            IsJumping = true;
+            isJumping = true;
+            Debug.Log("0");
+
         }
 
-        if (IsJumping)
+        if (isJumping)
         {
-            if (transform.position.y == sueloActual)
-            {
-                IsJumping = false;
-            }
+            floor.IsFloorDetected = false;
+            this.rb.gravityScale = 20;
+            Debug.Log(rb.gravityScale);
+            Debug.Log("1");
         }
+
+        if (transform.position.y <= sueloActual)
+        {
+            sueloActual = transform.position.y;
+            isJumping = false;
+            floor.IsFloorDetected = true;
+            rb.gravityScale = 0;
+            Debug.Log("2");
+        }
+
     }
 
     void FixedUpdate()//solo los fisicos acumulables
     {
-        x = Input.GetAxisRaw("Horizontal");//toda variable q declares en un sitio es local
-        y = Input.GetAxisRaw("Vertical");
-        
-        rb.AddForce(new Vector3(x, 0, y).normalized * force, ForceMode2D.Force);
 
-        if (IsJumping)
-        {
-            rb.AddForce(new Vector3(x, 0, 0).normalized*force, ForceMode2D.Force);
-        }
         
-        //Controla el movimiento vertical en el salto acumulando
+
+
+
+
+
     }
 
     public void PlayerRestarVida()
@@ -122,7 +160,7 @@ public class Player : MonoBehaviour
     }
 
 
-    private void OnTriggerEnter(Collider col)
+    private void OnTriggerEnter2D(Collider2D col)
     {
         if (col.CompareTag("Enemy"))
         {
