@@ -1,9 +1,9 @@
 using UnityEngine;
 
-public interface IInteractable
+public interface IReciveItem
 {
     //va a estar cualquier item o asset interactuable
-    public static void Interact()
+    public static void AplicarEfecto(string item)
     {
         
     }

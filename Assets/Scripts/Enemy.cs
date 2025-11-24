@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Enemy : MonoBehaviour,IGiveDamage
 {
     public int VidaEnemy { get; set; } = 1;
     public int Defensa { get; set; } = 1;
@@ -16,6 +16,11 @@ public class Enemy : MonoBehaviour
     public void EnemyRestarVida(int value)
     {
         
+    }
+    
+    public void Damage()
+    {
+        EnemyRestarVida(1);
     }
 }
 
