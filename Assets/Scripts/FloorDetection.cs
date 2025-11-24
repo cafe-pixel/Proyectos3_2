@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class FloorDetection : Player
+public class FloorDetection : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public bool IsFloorDetected { get; set; } = false;

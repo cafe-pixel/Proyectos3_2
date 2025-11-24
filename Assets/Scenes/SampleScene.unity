@@ -716,7 +716,6 @@ GameObject:
   - component: {fileID: 958857078}
   - component: {fileID: 958857077}
   - component: {fileID: 958857079}
-  - component: {fileID: 958857080}
   m_Layer: 0
   m_Name: FloorDetection
   m_TagString: Player
@@ -855,35 +854,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39fc99023645871489db45a1bc91a2d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FloorDetection
-  jumpForce: 10
-  velocidad: 13
---- !u!50 &958857080
-Rigidbody2D:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 958857075}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 4
 --- !u!1 &1085340121
 GameObject:
   m_ObjectHideFlags: 0
@@ -949,7 +919,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -5.03, y: -0.53, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 958857076}
   m_Father: {fileID: 1085340122}
@@ -1061,7 +1031,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85ffdd0d943489f4faf3d7c707eb3974, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
-  jumpForce: 226.2
+  jump: 32
+  maxJumpForce: 100
+  grav: 20
   velocidad: 13
 --- !u!212 &1288966471
 SpriteRenderer:

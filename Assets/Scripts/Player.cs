@@ -2,12 +2,23 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    private float x;
-    private float y;
+    //Input
+    private float xInput;
+    private float yInput;
+    [SerializeField] private KeyCode jump = KeyCode.Space;
+    
+    //Movement
     private float force = 10f;
+    new Vector3 initialPosition;
+    [SerializeField] private float maxJumpForce;
+    [SerializeField] private float grav;
+    private float jumpForce;
+    [SerializeField] private float velocidad = 1f;
+    
+    //Vida
     static public int vidaPlayer = 5;
     private int dash = 0;
-    new Vector3 initialPosition;
+    
     private Rigidbody2D rb;
     private bool canAttack = false;
     private bool canInteract;
@@ -15,8 +26,8 @@ public class Player : MonoBehaviour
     private Enemy enemigo;
     private FloorDetection floor;
     private float sueloActual;
-    [SerializeField] private float jumpForce = 100f;
-    [SerializeField] private float velocidad = 1f;
+
+    private string state = "move";
 
 
     private void Start()
@@ -30,29 +41,56 @@ public class Player : MonoBehaviour
     private void Update()
     {
 
-        Movement();
-        Jump();
-        //Interact();
-        //Attack();
+        switch (state)
+        {
+            case "move":
+                
+                Movement();
+                Jump();
+
+                if (Input.GetKeyDown(jump))
+                {
+                    jumpForce = maxJumpForce;
+                    state = "jump";
+                }
+
+                break;
+            
+            case "jump":
+                
+                jumpForce -= grav * Time.deltaTime;
+                
+                rb.linearVelocity = new Vector2(xInput * velocidad, jumpForce);
+
+                if (jumpForce <= -maxJumpForce)
+                {
+                    rb.linearVelocity = new Vector2(0, 0);
+                    state = "move";
+                }
+                    
+
+                break;
+        }
 
     }
 
     private void Movement()
     {
-        x = Input.GetAxisRaw("Horizontal"); //toda variable q declares en un sitio es local
+        xInput = Input.GetAxisRaw("Horizontal"); //toda variable q declares en un sitio es local
+        yInput = Input.GetAxisRaw("Vertical");
 
-        // Siempre que toque el suelo puede moverse en vertical, sino no 
-        if (floor.IsFloorDetected && !isJumping)
-        {
-            y = Input.GetAxisRaw("Vertical");
-        }
-        else
-        {
-            y = 0;
-        }
+        // // Siempre que toque el suelo puede moverse en vertical, sino no 
+        // if (floor.IsFloorDetected && !isJumping)
+        // {
+        //     y = Input.GetAxisRaw("Vertical");
+        // }
+        // else
+        // {
+        //     y = 0;
+        // }
 
 
-        Vector3 move = new Vector3(x, y, 0).normalized * velocidad;
+        Vector3 move = new Vector3(xInput, yInput, 0).normalized * velocidad;
         rb.linearVelocity = move;
     }
 
@@ -85,62 +123,62 @@ public class Player : MonoBehaviour
 
     private void Jump()
     {
-        //se está sumando cada poco pero mas o menos guarda la posicion
-        //lo hace en 3 clicks
-        //baja antes el floordetection ¿pq tiene un componente q el otro no?
-        //voy a usar mates :c, tengo que crear un punto máximo y cuando llegue a él tiene que comenzar a restar
-        //no lo he logrado, lo dejo comentado
-        //dice que el ssalto es muy caro
-        if (floor.IsFloorDetected && Input.GetKeyDown(KeyCode.Space) && !isJumping)
-        {
-
-            /* rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-             isJumping = true;
-             Debug.Log("0");
-
-         }
-
-         if (isJumping)
-         {
-             floor.IsFloorDetected = false;
-             this.rb.gravityScale = 20;
-             Debug.Log(rb.gravityScale);
-             Debug.Log("1");
-         }
-
-         if (transform.position.y <= sueloActual)
-         {
-             sueloActual = transform.position.y;
-             isJumping = false;
-             floor.IsFloorDetected = true;
-             rb.gravityScale = 0;
-             Debug.Log("2");
-         }*/
-            rb.AddForceY(jumpForce);
-            rb.gravityScale = 2;
-            isJumping = true;
-            floor.IsFloorDetected = false;
-            Debug.Log("0");
-            if (rb.position.y >= sueloActual + jumpForce)
-            {
-                this.rb.gravityScale = 20;
-
-            }
-
-
-            if (transform.position.y <= sueloActual)
-            {
-
-                sueloActual = transform.position.y;
-                isJumping = false;
-                floor.IsFloorDetected = true;
-                rb.gravityScale = 0;
-                Debug.Log("2");
-                Debug.Log(rb.gravityScale);
-            }
-
-
-        }
+//         //se está sumando cada poco pero mas o menos guarda la posicion
+//         //lo hace en 3 clicks
+//         //baja antes el floordetection ¿pq tiene un componente q el otro no?
+//         //voy a usar mates :c, tengo que crear un punto máximo y cuando llegue a él tiene que comenzar a restar
+//         //no lo he logrado, lo dejo comentado
+//         //dice que el ssalto es muy caro
+//         if (floor.IsFloorDetected && Input.GetKeyDown(KeyCode.Space) && !isJumping)
+//         {
+//
+//             /* rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+//              isJumping = true;
+//              Debug.Log("0");
+//
+//          }
+//
+//          if (isJumping)
+//          {
+//              floor.IsFloorDetected = false;
+//              this.rb.gravityScale = 20;
+//              Debug.Log(rb.gravityScale);
+//              Debug.Log("1");
+//          }
+//
+//          if (transform.position.y <= sueloActual)
+//          {
+//              sueloActual = transform.position.y;
+//              isJumping = false;
+//              floor.IsFloorDetected = true;
+//              rb.gravityScale = 0;
+//              Debug.Log("2");
+//          }*/
+//             rb.AddForceY(jumpForce);
+//             rb.gravityScale = 2;
+//             isJumping = true;
+//             floor.IsFloorDetected = false;
+//             Debug.Log("0");
+//             if (rb.position.y >= sueloActual + jumpForce)
+//             {
+//                 this.rb.gravityScale = 20;
+//
+//             }
+//
+//
+//             if (transform.position.y <= sueloActual)
+//             {
+//
+//                 sueloActual = transform.position.y;
+//                 isJumping = false;
+//                 floor.IsFloorDetected = true;
+//                 rb.gravityScale = 0;
+//                 Debug.Log("2");
+//                 Debug.Log(rb.gravityScale);
+//             }
+//
+//
+//         }
     }
 
     private void FixedUpdate() //solo los fisicos acumulables
