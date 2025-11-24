@@ -87,8 +87,8 @@ public class Player : MonoBehaviour
         //se está sumando cada poco pero mas o menos guarda la posicion
         //lo hace en 3 clicks
         //baja antes el floordetection ¿pq tiene un componente q el otro no?
-        //voy a usar mates :c, tengo que crear un punto máximo y cuando llegue a él tiene que comenzar a jugar con gravedad
-        //averiguar como funciona impulse
+        //voy a usar mates :c, tengo que crear un punto máximo y cuando llegue a él tiene que comenzar a restar
+        //no lo he logrado, lo dejo comentado
         if (floor.IsFloorDetected&&Input.GetKeyDown(KeyCode.Space)&&!isJumping)
         {
             
@@ -114,6 +114,34 @@ public class Player : MonoBehaviour
             rb.gravityScale = 0;
             Debug.Log("2");
         }
+        /*  rb.AddForceY(jumpForce);
+            isJumping = true;
+            floor.IsFloorDetected = false;
+            Debug.Log("0");
+            if (rb.position.y >= sueloActual + jumpForce)
+            {
+                this.rb.gravityScale = 20;
+                isFalling = true;
+            }
+            if (isJumping&&isFalling)
+            {
+            
+            
+                Debug.Log(rb.gravityScale);
+                Debug.Log("1");
+            }
+
+            if (transform.position.y <= sueloActual)
+            {
+                isFalling = false;
+                sueloActual = transform.position.y;
+                isJumping = false;
+                floor.IsFloorDetected = true;
+                rb.gravityScale = 0;
+                Debug.Log("2");
+                Debug.Log(rb.gravityScale);
+            }
+            */
 
     }
 
