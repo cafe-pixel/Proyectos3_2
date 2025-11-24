@@ -17,7 +17,7 @@ public class Player : MonoBehaviour
     private float sueloActual;
     [SerializeField] private float jumpForce = 100f;
     [SerializeField] private float velocidad = 1f;
-    
+
 
     private void Start()
     {
@@ -26,19 +26,20 @@ public class Player : MonoBehaviour
         enemigo = GetComponent<RotatorEnemy>();
         floor = GetComponentInChildren<FloorDetection>();
     }
+
     private void Update()
     {
-        
+
         Movement();
         Jump();
         //Interact();
         //Attack();
-        
+
     }
-    
+
     private void Movement()
     {
-        x = Input.GetAxisRaw("Horizontal");//toda variable q declares en un sitio es local
+        x = Input.GetAxisRaw("Horizontal"); //toda variable q declares en un sitio es local
 
         // Siempre que toque el suelo puede moverse en vertical, sino no 
         if (floor.IsFloorDetected && !isJumping)
@@ -50,12 +51,12 @@ public class Player : MonoBehaviour
             y = 0;
         }
 
-        
+
         Vector3 move = new Vector3(x, y, 0).normalized * velocidad;
         rb.linearVelocity = move;
     }
 
-    
+
 
     private void Interact()
     {
@@ -77,9 +78,9 @@ public class Player : MonoBehaviour
             {
                 enemigo.EnemyRestarVida(1);
             }
-            
+
         }
-        
+
     }
 
     private void Jump()
@@ -89,51 +90,47 @@ public class Player : MonoBehaviour
         //baja antes el floordetection ¿pq tiene un componente q el otro no?
         //voy a usar mates :c, tengo que crear un punto máximo y cuando llegue a él tiene que comenzar a restar
         //no lo he logrado, lo dejo comentado
-        if (floor.IsFloorDetected&&Input.GetKeyDown(KeyCode.Space)&&!isJumping)
+        //dice que el ssalto es muy caro
+        if (floor.IsFloorDetected && Input.GetKeyDown(KeyCode.Space) && !isJumping)
         {
-            
-            rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-            isJumping = true;
-            Debug.Log("0");
 
-        }
+            /* rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+             isJumping = true;
+             Debug.Log("0");
 
-        if (isJumping)
-        {
-            floor.IsFloorDetected = false;
-            this.rb.gravityScale = 20;
-            Debug.Log(rb.gravityScale);
-            Debug.Log("1");
-        }
+         }
 
-        if (transform.position.y <= sueloActual)
-        {
-            sueloActual = transform.position.y;
-            isJumping = false;
-            floor.IsFloorDetected = true;
-            rb.gravityScale = 0;
-            Debug.Log("2");
-        }
-        /*  rb.AddForceY(jumpForce);
+         if (isJumping)
+         {
+             floor.IsFloorDetected = false;
+             this.rb.gravityScale = 20;
+             Debug.Log(rb.gravityScale);
+             Debug.Log("1");
+         }
+
+         if (transform.position.y <= sueloActual)
+         {
+             sueloActual = transform.position.y;
+             isJumping = false;
+             floor.IsFloorDetected = true;
+             rb.gravityScale = 0;
+             Debug.Log("2");
+         }*/
+            rb.AddForceY(jumpForce);
+            rb.gravityScale = 2;
             isJumping = true;
             floor.IsFloorDetected = false;
             Debug.Log("0");
             if (rb.position.y >= sueloActual + jumpForce)
             {
                 this.rb.gravityScale = 20;
-                isFalling = true;
+
             }
-            if (isJumping&&isFalling)
-            {
-            
-            
-                Debug.Log(rb.gravityScale);
-                Debug.Log("1");
-            }
+
 
             if (transform.position.y <= sueloActual)
             {
-                isFalling = false;
+
                 sueloActual = transform.position.y;
                 isJumping = false;
                 floor.IsFloorDetected = true;
@@ -141,67 +138,70 @@ public class Player : MonoBehaviour
                 Debug.Log("2");
                 Debug.Log(rb.gravityScale);
             }
-            */
 
+
+        }
     }
 
-    void FixedUpdate()//solo los fisicos acumulables
-    {
+    private void FixedUpdate() //solo los fisicos acumulables
+        {
 
+
+
+
+
+
+
+        }
+
+        public void PlayerRestarVida()
+        {
+            vidaPlayer -= enemigo.Ataque;
+            //aqui falta pensar en la defensa
+            if (vidaPlayer == 0)
+            {
+                Muerto();
+            }
+        }
+
+        public void PlayerSumarVida()
+        {
+            if (vidaPlayer != 5)
+            {
+                vidaPlayer++;
+            }
+        }
+
+        private void Muerto()
+        {
+            //Pantalla de Jugar Otra Vez
+
+        }
+
+        private void Dash()
+        {
+            //multiplicar la velocidad del jugador durante 3 segundos y apagarla
+            //--dash;
+            //tengo que ver lo de las corrutinas
+        }
+
+
+        private void OnTriggerEnter2D(Collider2D col)
+        {
+            if (col.CompareTag("Enemy"))
+            {
+                canAttack = true;
+            }
+
+            if (col.TryGetComponent<IInteractable>(out var interactable))
+            {
+                canInteract = true;
+            }
+            //cuando colisione con un objeto de ataque enemigo RestarVida() a menos que use un parry
+            //si lo hace con algo guay SumarVida()
+
+            //si lo hace con un asset movible lo puede tomar para tirarlo
+        }
         
-
-
-
-
-
     }
 
-    public void PlayerRestarVida()
-    {
-        vidaPlayer -= enemigo.Ataque;
-        //aqui falta pensar en la defensa
-        if (vidaPlayer == 0)
-        {
-            Muerto();
-        }
-    }
-
-    public void PlayerSumarVida()
-    {
-        if (vidaPlayer != 5)
-        {
-            vidaPlayer++;
-        }
-    }
-
-    private void Muerto()
-    {
-        //Pantalla de Jugar Otra Vez
-        
-    }
-
-    private void Dash()
-    {
-        //multiplicar la velocidad del jugador durante 3 segundos y apagarla
-        //--dash;
-        //tengo que ver lo de las corrutinas
-    }
-
-
-    private void OnTriggerEnter2D(Collider2D col)
-    {
-        if (col.CompareTag("Enemy"))
-        {
-            canAttack = true;
-        }
-
-        if (col.TryGetComponent<IInteractable>(out var interactable))
-        {
-            canInteract = true;
-        }
-        //cuando colisione con un objeto de ataque enemigo RestarVida() a menos que use un parry
-        //si lo hace con algo guay SumarVida()
-        
-        //si lo hace con un asset movible lo puede tomar para tirarlo
-    }
-}
