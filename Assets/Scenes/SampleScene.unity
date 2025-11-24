@@ -1032,9 +1032,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
   jump: 32
-  maxJumpForce: 100
-  grav: 20
-  velocidad: 13
+  maxJumpForce: 3
+  grav: 3
+  velocidad: 1
 --- !u!212 &1288966471
 SpriteRenderer:
   m_ObjectHideFlags: 0
