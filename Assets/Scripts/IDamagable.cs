@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public interface IGiveDamage
+public interface IReciveDamage
 {
-    public void Damage()//cada damage hace algo distinto dentro de hacer daño
+    public void Damage(float damage)//cada damage hace algo distinto dentro de hacer daño
     {
         
     }

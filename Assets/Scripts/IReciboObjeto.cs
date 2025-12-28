@@ -1,9 +1,9 @@
 using UnityEngine;
 
-public interface IReciveItem
+public interface IReciboObjeto
 {
     //va a estar cualquier item o asset interactuable
-    public static void AplicarEfecto(string item)
+    public void AplicarEfecto(Items.TipoItem item)
     {
         
     }
