@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
@@ -16,7 +17,7 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
     [SerializeField] private float velocidad = 1f;
 
     //Dash
-    [SerializeField] private int dashh = 2;
+    [SerializeField] private int dashForce = 2;
     [SerializeField] private float dashMaxTimer;
     private float dashTimer;
 
@@ -32,10 +33,11 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
     private float attackTimer;
 
     //Stats
-    private int vidaPlayer = 5; //los items que suben esto son permanentes y acumulativos
+    private float vidaPlayer = 1; //los items que suben esto son permanentes y acumulativos
     public float velocidadPlayer = 1f; //los items que suben el resto son temporales y acumulativos
     public float defensaPlayer = 1f;
     public float ataquePlayer = 1f;
+    private float vidaMaxPlayer = 100;
 
 
 
@@ -45,7 +47,7 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
 
     //Referencias
     private FloorDetection floor;
-    [SerializeField] private Canva canvas;
+    [SerializeField] private Canva canvasEnd;
 
 
     //States
@@ -54,6 +56,12 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
 
     //Sprites
     private SpriteRenderer sr;
+    
+    //Corrutinas
+    private bool attackFuncionando = false;
+    private bool defenseFuncionando = false;
+    private bool velocidadFuncionando = false;
+    
 
 
 
@@ -64,6 +72,7 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
         rb = GetComponent<Rigidbody2D>();
         floor = GetComponentInChildren<FloorDetection>();
         sr = GetComponent<SpriteRenderer>();
+        vidaPlayer = vidaMaxPlayer;
 
     }
 
@@ -85,7 +94,7 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
                 if (Input.GetKeyDown(dash))
                 {
                     dashTimer = dashMaxTimer;
-                    rb.AddForce(new Vector2(xInput * dashh, 0), ForceMode2D.Impulse);
+                    rb.AddForce(new Vector2(xInput * dashForce, 0), ForceMode2D.Impulse);
                     state = "dash";
                 }
 
@@ -133,7 +142,7 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
         xInput = Input.GetAxisRaw("Horizontal"); //toda variable q declares en un sitio es local
         yInput = Input.GetAxisRaw("Vertical");
 
-        Vector3 move = new Vector3(xInput, yInput, 0).normalized * velocidad;
+        Vector3 move = new Vector3(xInput, yInput, 0).normalized * (velocidad * velocidadPlayer);
         rb.linearVelocity = move;
     }
 
@@ -158,21 +167,17 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
 
     }
 
-    private void FixedUpdate() //solo los fisicos acumulables
+    public void Damage(float damage)
     {
-
-
-
-
-
-
-
+        float damageFinal = damage -  defensaPlayer;
+        PlayerRestarVida(damageFinal);
     }
 
-    public void PlayerRestarVida()
+
+    public void PlayerRestarVida(float damage)
     {
-        vidaPlayer--;
-        //aqui falta pensar en la defensa
+        vidaPlayer -= damage;
+        
         if (vidaPlayer == 0)
         {
             Muerto();
@@ -181,16 +186,24 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
 
     private void PlayerSumarVida()
     {
-        if (vidaPlayer != 5)
+        if (!Mathf.Approximately(vidaPlayer, vidaMaxPlayer))
         {
-            vidaPlayer++;
+            vidaPlayer += 25;
+            if (vidaPlayer > 100)
+            {
+                vidaPlayer = 100;
+            }
+        }
+        else
+        {
+            Debug.Log("Vida suficiente");
         }
     }
 
     private void Muerto()
     {
         sr.enabled = false;
-        canvas.CanvasAppear("Hola");
+        canvasEnd.CanvasAppear("Hola");
         //Pantalla de Jugar Otra Vez
 
     }
@@ -224,22 +237,78 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
 
     private void PlayerSubirAtaque()
     {
-        throw new System.NotImplementedException();
+        if (!attackFuncionando)
+        {
+            attackFuncionando = true;
+            StartCoroutine(Ataque());
+            
+        }
     }
 
     private void PlayerSubirDefensa()
     {
-        throw new System.NotImplementedException();
+        if (!defenseFuncionando)
+        {
+            defenseFuncionando = true;
+            StartCoroutine(Defensa());
+
+        }
     }
 
     private void PlayerSubirVelocidad()
     {
-        throw new System.NotImplementedException();
+        if (!velocidadFuncionando)
+        {
+            velocidadFuncionando = true;
+            StartCoroutine(Velocidad());
+        }
     }
 
     private void PlayerSumarVida2()
     {
-        throw new System.NotImplementedException();
+        if (vidaPlayer != vidaMaxPlayer)
+        {
+            vidaPlayer += 50;
+            if (vidaPlayer > 100)
+            {
+                vidaPlayer = 100;
+            }
+        }
+        else
+        {
+            Debug.Log("Vida suficiente");
+        }
     }
+
+    private IEnumerator Defensa()
+    {
+       
+            defensaPlayer += 0.35f;
+            yield return new WaitForSeconds(60f);
+            defensaPlayer -= 0.35f;
+            defenseFuncionando = false;
+       
+        
+    }
+
+    private IEnumerator Velocidad()
+    {
+       
+            velocidadPlayer += 0.35f;
+            yield return new WaitForSeconds(180f);
+            velocidadPlayer -= 0.35f;
+            velocidadFuncionando = false;
+       
+    }
+
+    private IEnumerator Ataque()
+    {
+        
+            ataquePlayer += 0.35f;
+            yield  return new WaitForSeconds(150f);
+            ataquePlayer -= 0.35f;
+        
+    }
+    
 }
 
