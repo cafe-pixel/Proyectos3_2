@@ -2,9 +2,10 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour,IReciveDamage
 {
-   private float vidaEnemy; 
-   private float defensaEnemy;
-   private float ataqueEnemy;
+    private float vidaEnemy;
+    private float vidaMaxEnemy = 100;
+   protected float defensaEnemy;
+   protected float ataqueEnemy;
     
     
     public void EnemySumarVida(int value)
