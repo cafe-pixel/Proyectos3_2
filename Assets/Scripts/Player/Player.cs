@@ -102,6 +102,7 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
                 {
                     attackTimer = attackMaxTimer;
                     //fijar la dirección del personaje
+                    //falta que inflija daño
                     state = "attack";
                 }
 
