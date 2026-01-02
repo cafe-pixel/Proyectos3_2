@@ -1,4 +1,7 @@
+using System.Numerics;
 using UnityEngine;
+using Quaternion = UnityEngine.Quaternion;
+using Vector3 = UnityEngine.Vector3;
 
 public class LanzaBotellas : EnemyAttack
 {
@@ -9,14 +12,17 @@ public class LanzaBotellas : EnemyAttack
     
     //referencias
     private DrunkGuy drunkGuy;
-    
+
+    private float finalAttack;
     //clase padre
     protected override float Cooldown => cooldown;
     
     //lanzar botellas
     [SerializeField] private GameObject bottle;//referencia al game object de la botella]
     [SerializeField] [Range(0f,1f)] private float dropChance;
-    private bool hasBeenDropped;
+    
+    [SerializeField] private float fuerzaHorizontal = 8f;
+    [SerializeField] private float fuerzaVertical = 6f;
 
     private void Start()
     {
@@ -25,19 +31,27 @@ public class LanzaBotellas : EnemyAttack
 
     protected override void DoAttack()
     {
-        float finalAttack =  baseDamage + drunkGuy.ataqueDrunkGuy;
-        //esto debe lanzar una botella haciendo una parábola
+        finalAttack =  baseDamage + drunkGuy.ataqueDrunkGuy;
+        
         DropBottle();
+        
     }
 
     private void DropBottle()
     {
-        hasBeenDropped = true;
+       
         float randomValue = Random.value;
         if (randomValue <= dropChance && bottle != null)
         {
-            Instantiate(bottle, transform.position, Quaternion.identity);
-            //ahora hay que hacer que cuando se instancie busque el lugar del jugador en el momento en el que se instancia y le golpee haciendo una parabola
+            GameObject bottleInstantiate = Instantiate(bottle, transform.position, Quaternion.identity);
+            Rigidbody2D bottleRigidBody = bottleInstantiate.GetComponent<Rigidbody2D>();
+            if (bottleRigidBody == null) return;
+            bottleRigidBody.AddForce((player.position - transform.position).normalized * fuerzaHorizontal + Vector3.up * fuerzaVertical, ForceMode2D.Impulse);
+            Bottle bottleInst = bottleInstantiate.GetComponent<Bottle>();
+            bottleInst.Initialize(finalAttack);
+           
+            
         }
     }
+
 }

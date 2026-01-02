@@ -55,7 +55,11 @@ public abstract class Enemy : MonoBehaviour,IReciveDamage
                break;
            
            case "attack":
-               if (inAttack) enemyAttack.TryAttack();
+               if (inAttack)
+               {
+                   enemyAttack.SetTarget(player);
+                   enemyAttack.TryAttack();
+               }
                
                else state = "chase";
                break;

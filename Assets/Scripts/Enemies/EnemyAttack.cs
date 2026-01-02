@@ -4,6 +4,8 @@ public abstract class EnemyAttack : MonoBehaviour
 {
     protected abstract float Cooldown { get; }
 
+    protected Transform player;
+
     public float lastAttackTime; //momento en el que el enemigo hizo su último ataque
 
     public void TryAttack()
@@ -12,6 +14,11 @@ public abstract class EnemyAttack : MonoBehaviour
             return; //Si el tiempo del juego es menor que el ultimo ataque + el cooldown no permite realizar el ataque
         DoAttack();
         lastAttackTime = Time.time; //Setea el ultimo ataque en el tiempo real de juego      
+    }
+
+    public void SetTarget(Transform target)
+    {
+        player = target;
     }
 
     protected abstract void DoAttack();
