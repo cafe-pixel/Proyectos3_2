@@ -1184,14 +1184,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
   jump: 32
-  attack: 113
   interact: 101
   dash: 114
+  attack: 113
   velocidad: 1
-  dashh: 2
-  maxTimer: 0
+  dashForce: 2
+  dashMaxTimer: 0
   maxJumpForce: 3
   grav: 3
+  attackMaxTimer: 2.68
+  velocidadPlayer: 1
+  defensaPlayer: 1
+  ataquePlayer: 1
+  canvasEnd: {fileID: 0}
 --- !u!212 &1288966471
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1406,6 +1411,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5872b7ff601ef1540b845c58545fc58d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AtaquePlayer
+  attack: 113
+  suaveMaxTimer: 0
 --- !u!1 &1528143499
 GameObject:
   m_ObjectHideFlags: 0
