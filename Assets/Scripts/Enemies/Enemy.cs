@@ -1,12 +1,12 @@
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour,IReciveDamage
+public abstract class Enemy : MonoBehaviour,IReciveDamage
 {
     
     //rangos de vision
-   [SerializeField] private float chaseRange = 8f;
-   [SerializeField] private float attackRange = 2f;
+   protected abstract float ChaseRange { get; }
+   protected abstract float AttackRange { get; }
    [SerializeField] private LayerMask playerLayer; //poner el jugador en la layer del jugador
    
    //referencias
@@ -51,7 +51,7 @@ public class Enemy : MonoBehaviour,IReciveDamage
                
                if (inAttack) state = "attack";
                
-               else if (!inAttack&& !inChase) state = "patrol";
+               else if (!inChase) state = "patrol";
                break;
            
            case "attack":
@@ -69,7 +69,7 @@ public class Enemy : MonoBehaviour,IReciveDamage
 
    private bool PlayerInChaseRange()
    {
-       Collider[] colliders = Physics.OverlapSphere(transform.position, chaseRange, playerLayer); 
+       Collider[] colliders = Physics.OverlapSphere(transform.position, ChaseRange, playerLayer); 
        if (colliders.Length > 0) //si el array de colliders es mayor que cero porque el overlapSphere detecta colision en una posicion dentro del radio y de la layer indicada
        {
            player =  colliders[0].transform; //toma el transform del collider que ha recogido y lo mete en el player
@@ -82,7 +82,7 @@ public class Enemy : MonoBehaviour,IReciveDamage
 
    private bool PlayerInAttackRange()
    {
-       Collider[] colliders = Physics.OverlapSphere(transform.position, attackRange, playerLayer);
+       Collider[] colliders = Physics.OverlapSphere(transform.position, AttackRange, playerLayer);
        if (colliders.Length > 0)
        {
            player =  colliders[0].transform;
@@ -113,10 +113,10 @@ public class Enemy : MonoBehaviour,IReciveDamage
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(transform.position, chaseRange);
+        Gizmos.DrawWireSphere(transform.position, ChaseRange);
         
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, attackRange);
+        Gizmos.DrawWireSphere(transform.position, AttackRange);
     }
 }
 
