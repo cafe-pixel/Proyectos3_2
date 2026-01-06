@@ -3,7 +3,7 @@ using UnityEngine;
 public class Puñetazos : EnemyAttack
 {
     //numero de puñetazos
-    [SerializeField] [Range(1, 2)] int punch;
+    [SerializeField, Range(1, 2)] private int maxPunch = 2;
     
     //stats
     [SerializeField] private float cooldown = 0.5f;
@@ -11,6 +11,8 @@ public class Puñetazos : EnemyAttack
     
     //referencias
     public Biker biker;
+    
+    private float finalDamage;
     
     //clase padre
     protected override float Cooldown => cooldown; //manda el valor del cooldown
@@ -23,7 +25,14 @@ public class Puñetazos : EnemyAttack
 
     protected override void DoAttack()
     {
-        float finalDamage = baseDamage + biker.ataqueBiker;
+        finalDamage = baseDamage + biker.ataqueBiker;
+        Hit();
+
+    }
+
+    private void Hit()
+    {
+        float randomValue = Random.value;
         
     }
 }
