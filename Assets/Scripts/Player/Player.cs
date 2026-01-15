@@ -16,6 +16,15 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
     [SerializeField] private float comboMaxTimer = 0.2f;
     private float comboTimer;
     private List<int> comboInputs = new List<int>();
+    private bool canGiveDamage3;
+    private bool canGiveDamage4;
+    private bool canGiveDamage5;
+    private bool canGiveDamage6;
+    private bool canGiveDamage7;
+    private bool canGiveDamage8;
+    private bool canGiveDamage9;
+    private bool canGiveDamage10;
+    private bool canGiveDamage11;
     
     
     
@@ -221,7 +230,10 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
         if (comboInputs.Count == 1)//si solo hay una tecla pulsada
         {
             if (comboInputs[0] == 0) SoftAttack();
-            else HardAttack();
+            if (comboInputs[0]==1) HardAttack();
+            if (comboInputs[0]==2) Dash();
+            if (comboInputs[0]==3) PreJump();
+            if (comboInputs[0]==4) Parry();
         }
         else ResolverComboEspecial();
     }
@@ -234,6 +246,9 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
             if (comboInputs[0] == 1 && comboInputs[1] == 1) SwingSwing();
             if (comboInputs[0] == 3 && comboInputs[1] == 1) HitInJump();
             if (comboInputs[0] == 3 && comboInputs[1] == 0) HitInKnee();
+            if (comboInputs[0] == 4 && comboInputs[1] == 0) AgarreYPunch();
+            if (comboInputs[0] == 2 && comboInputs[1] == 1) DashAndHit();
+            if (comboInputs[0] == 2 && comboInputs[1] == 0) DashPatada();
         }
 
         if (comboInputs.Count == 3)
@@ -242,6 +257,61 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
             if (comboInputs[0] == 0 && comboInputs[1] == 0 && comboInputs[2] == 1) JabSwingSalto();
             if (comboInputs[0] == 1 && comboInputs[1] == 1 && comboInputs[2] == 1) Cabezazo();
         }
+    }
+    
+    // --ATAQUES ESPECIALES--
+
+    private void Cabezazo()
+    {
+        //da 180
+    }
+
+    private void JabSwingSalto()
+    {
+        //da 130
+    }
+
+    private void PatadaAlta()
+    {
+        //da 130
+    }
+
+    private void DashPatada()
+    {
+        //da 115
+    }
+
+    private void DashAndHit()
+    {
+        //da 165
+    }
+
+    private void AgarreYPunch()
+    {
+        //da 115
+    }
+
+    private void HitInKnee()
+    {
+        //da 115
+    }
+
+
+    private void HitInJump()
+    {
+        //da 165
+    }
+    
+
+    private void SwingSwing()
+    {
+        //da 165
+    }
+
+    
+    private void JabCodo()
+    {
+        //da 115 de daño
     }
 
     private void HardAttack()
