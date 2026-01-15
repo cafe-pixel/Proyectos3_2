@@ -1,4 +1,6 @@
 using System.Collections;
+using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
@@ -9,7 +11,14 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
     [SerializeField] private KeyCode jump = KeyCode.Space;
     [SerializeField] private KeyCode dash = KeyCode.R;
     
-
+    //Combs
+    //lo que voy a hacer es que cuando presione una tecla se manda un numero y se guarda en una lista, si recibe solo uno tira los normales y si no busca uno que sume eso
+    [SerializeField] private float comboMaxTimer = 0.2f;
+    private float comboTimer;
+    private List<int> comboInputs = new List<int>();
+    
+    
+    
     //Movement
     new Vector3 initialPosition;
     [SerializeField] private float velocidad = 1f;
@@ -34,7 +43,6 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
 
 
     //Jump
-
     private float jumpForce;
     [SerializeField] private float maxJumpForce;
     [SerializeField] private float grav;
@@ -89,6 +97,7 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
         floor = GetComponentInChildren<FloorDetection>();
         sr = GetComponent<SpriteRenderer>();
         vidaPlayer = vidaMaxPlayer;
+        comboTimer = comboMaxTimer;
         
 
     }
@@ -96,12 +105,23 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
     private void Update()
     {
 
+        if (((ICollection)comboInputs).Count > 0)
+        {
+            comboTimer -= Time.deltaTime;
+            if (comboTimer <= 0)
+            {
+                ResolverCombo();
+                comboInputs.Clear();
+            }
+        }
+
         switch (state)
         {
             case "move":
 
                 Movement();
-
+                
+                
                 if (Input.GetKeyDown(jump))
                 {
                     jumpForce = maxJumpForce;
@@ -117,16 +137,15 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
 
                 if (Input.GetMouseButton(hardAttack)) //instaura el tiempo que va a tardar
                 {
-                    hardTimer = hardMaxTimer;
-                    canGiveDamage2 = true;
-                    state = "hardAttack";
+                    ((IList)comboInputs).Add(1); //CD
+                    comboTimer = comboMaxTimer;
                 }
 
                 if (Input.GetMouseButtonDown(softAttack))
                 {
-                    suaveTimer = suaveMaxTimer;
-                    canGiveDamage1 = true;
-                    state = "softAttack";
+                    ((IList)comboInputs).Add(0); //CI
+                    comboTimer = comboMaxTimer;
+                    
                 }
 
                 if (Input.GetKeyDown(parry))
@@ -146,6 +165,21 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
                     isParrying = false;
                     state = "parrystate";
                 }
+                break;
+            
+            case "softAttack":
+            
+                suaveTimer -=  Time.deltaTime;
+                canGiveDamage1 = false;
+                if (suaveTimer <= 0)
+                {
+                    state = "move";
+                    suaveTimer = suaveMaxTimer;
+                    
+                }
+                        
+                
+            
                 break;
             
             case "hardAttack":
@@ -182,6 +216,35 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
 
         }
 
+    }
+
+    private void ResolverCombo()//comprueba si es un ataque básico o un combo
+    {
+        if (comboInputs.Count == 1)//si solo hay una tecla pulsada
+        {
+            if (comboInputs[0] == 0) SoftAttack();
+            else HardAttack();
+        }
+        else ResolverComboEspecial();
+    }
+
+    private void ResolverComboEspecial()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    private void HardAttack()
+    {
+        hardTimer = hardMaxTimer;
+        canGiveDamage2 = true;
+        state = "hardAttack";
+    }
+
+    private void SoftAttack()
+    {
+        suaveTimer = suaveMaxTimer;
+        canGiveDamage1 = true;
+        state = "softAttack";
     }
 
     private void Movement()
