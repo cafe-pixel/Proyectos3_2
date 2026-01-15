@@ -48,7 +48,7 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
     [SerializeField] private float grav;
     
     //Parry - bloquea todo el daño por un segundo -
-    [SerializeField] private KeyCode parry = KeyCode.E;
+    [SerializeField] private KeyCode parry = KeyCode.E; //se le hace referencia con el numero 4
     private float parryTimer;
     [SerializeField] private float parryMaxTimer = 1f;
     private bool isParrying;
@@ -149,9 +149,8 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
 
                 if (Input.GetKeyDown(parry))
                 {
-                    parryTimer = parryMaxTimer;
-                    isParrying = true;
-                    state = "parrystate";
+                    ((IList)comboInputs).Add(4); //Parry
+                    comboTimer = comboMaxTimer;
                 }
 
 
@@ -273,6 +272,13 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
 
         Vector3 move = new Vector3(xInput, yInput, 0).normalized * (velocidad * velocidadPlayer);
         rb.linearVelocity = move;
+    }
+
+    private void Parry()
+    {
+        parryTimer = parryMaxTimer;
+        isParrying = true;
+        state = "parrystate";
     }
 
     private void PreJump()
