@@ -7,10 +7,8 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
     private float xInput;
     private float yInput;
     [SerializeField] private KeyCode jump = KeyCode.Space;
-
-    [SerializeField] private KeyCode interact = KeyCode.E;
     [SerializeField] private KeyCode dash = KeyCode.R;
-    [SerializeField] private KeyCode attack = KeyCode.Z;
+    
 
     //Movement
     new Vector3 initialPosition;
@@ -20,6 +18,19 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
     [SerializeField] private int dashForce = 2;
     [SerializeField] private float dashMaxTimer;
     private float dashTimer;
+    
+    //Attacks
+        //soft
+    [SerializeField] private int softAttack = 0; //boton izq
+    [SerializeField] private float suaveMaxTimer = 0.41f;
+    private float suaveTimer;
+    internal bool canGiveDamage1 = false;
+    
+        //hard
+    [SerializeField] private int hardAttack = 1;
+    [SerializeField] private float hardMaxTimer = 1.75f;
+    private float hardTimer;
+    internal bool canGiveDamage2 = false;
 
 
     //Jump
@@ -27,10 +38,14 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
     private float jumpForce;
     [SerializeField] private float maxJumpForce;
     [SerializeField] private float grav;
+    
+    //Parry - bloquea todo el daño por un segundo -
+    [SerializeField] private KeyCode parry = KeyCode.E;
+    private float parryTimer;
+    [SerializeField] private float parryMaxTimer = 1f;
+    private bool isParrying;
 
-    //Ataque
-    [SerializeField] private float attackMaxTimer;
-    private float attackTimer;
+    
 
     //Stats
     private float vidaPlayer = 1; //los items que suben esto son permanentes y acumulativos
@@ -48,6 +63,7 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
     //Referencias
     private FloorDetection floor;
     [SerializeField] private Canva canvasEnd;
+    
 
 
     //States
@@ -73,6 +89,7 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
         floor = GetComponentInChildren<FloorDetection>();
         sr = GetComponent<SpriteRenderer>();
         vidaPlayer = vidaMaxPlayer;
+        
 
     }
 
@@ -98,17 +115,53 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
                     state = "dash";
                 }
 
-                if (Input.GetKeyUp(attack))
+                if (Input.GetMouseButton(hardAttack)) //instaura el tiempo que va a tardar
                 {
-                    attackTimer = attackMaxTimer;
-                    //fijar la dirección del personaje
-                    //falta que inflija daño
-                    state = "attack";
+                    hardTimer = hardMaxTimer;
+                    canGiveDamage2 = true;
+                    state = "hardAttack";
+                }
+
+                if (Input.GetMouseButtonDown(softAttack))
+                {
+                    suaveTimer = suaveMaxTimer;
+                    canGiveDamage1 = true;
+                    state = "softAttack";
+                }
+
+                if (Input.GetKeyDown(parry))
+                {
+                    parryTimer = parryMaxTimer;
+                    isParrying = true;
+                    state = "parrystate";
                 }
 
 
                 break;
-
+            
+            case "parrystate":
+                parryTimer -= Time.deltaTime;
+                if (parryTimer <= 0)
+                {
+                    isParrying = false;
+                    state = "parrystate";
+                }
+                break;
+            
+            case "hardAttack":
+            
+                hardTimer -=  Time.deltaTime;
+                canGiveDamage2 = false;
+                if (hardTimer <= 0)
+                {
+                    state = "move";
+                    hardTimer = hardMaxTimer;
+                    
+                }
+                        
+                
+            
+                break;
             case "jump":
 
                 Jump();
@@ -125,14 +178,7 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
 
                 break;
 
-            case "attack":
-                attackTimer -= Time.deltaTime;
-                if (attackTimer <= 0f)
-                {
-                    state = "move";
-                }
-
-                break;
+            
 
         }
 
@@ -146,11 +192,6 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
         Vector3 move = new Vector3(xInput, yInput, 0).normalized * (velocidad * velocidadPlayer);
         rb.linearVelocity = move;
     }
-
-
-
-
-
 
 
 
@@ -168,14 +209,18 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
 
     }
 
-    public void Damage(float damage)
+    public void Damage(float damage) //daño recibido menos la defensa
     {
-        float damageFinal = damage -  defensaPlayer;
-        PlayerRestarVida(damageFinal);
+        if (!isParrying)
+        {
+            float damageFinal = damage -  defensaPlayer;
+            PlayerRestarVida(damageFinal);
+        }
+        
     }
 
 
-    public void PlayerRestarVida(float damage)
+    public void PlayerRestarVida(float damage) //le resta el daño total
     {
         vidaPlayer -= damage;
         
@@ -185,7 +230,7 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
         }
     }
 
-    private void PlayerSumarVida()
+    private void PlayerSumarVida() //suma vida si es que puede (bebida1)
     {
         if (!Mathf.Approximately(vidaPlayer, vidaMaxPlayer))
         {
@@ -201,7 +246,7 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
         }
     }
 
-    private void Muerto()
+    private void Muerto() //hacer el canvas
     {
         sr.enabled = false;
         canvasEnd.CanvasAppear("Hola");
@@ -236,7 +281,7 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
 
     }
 
-    private void PlayerSubirAtaque()
+    private void PlayerSubirAtaque() //le añade 0.35 de fuerza durante 3 mins
     {
         if (!attackFuncionando)
         {
@@ -246,7 +291,7 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
         }
     }
 
-    private void PlayerSubirDefensa()
+    private void PlayerSubirDefensa() //le añade 0.35 de deefensa durante 1 mins
     {
         if (!defenseFuncionando)
         {
@@ -256,7 +301,7 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
         }
     }
 
-    private void PlayerSubirVelocidad()
+    private void PlayerSubirVelocidad() //le añade 0.35 de fuerza durante 2.5 mins
     {
         if (!velocidadFuncionando)
         {
@@ -265,9 +310,9 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
         }
     }
 
-    private void PlayerSumarVida2()
+    private void PlayerSumarVida2() //le suma la bebida2
     {
-        if (vidaPlayer != vidaMaxPlayer)
+        if (!Mathf.Approximately(vidaPlayer, vidaMaxPlayer))
         {
             vidaPlayer += 50;
             if (vidaPlayer > 100)
