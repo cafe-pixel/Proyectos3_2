@@ -8,7 +8,7 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
     //Input
     private float xInput;
     private float yInput;
-    [SerializeField] private KeyCode jump = KeyCode.Space;
+    [SerializeField] private KeyCode jump = KeyCode.Space; //en los combos aparece como un 3
     [SerializeField] private KeyCode dash = KeyCode.R;
     
     //Combs
@@ -23,7 +23,7 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
     new Vector3 initialPosition;
     [SerializeField] private float velocidad = 1f;
 
-    //Dash
+    //Dash (en los combos aparece como un 2)
     [SerializeField] private int dashForce = 2;
     [SerializeField] private float dashMaxTimer;
     private float dashTimer;
@@ -124,15 +124,14 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
                 
                 if (Input.GetKeyDown(jump))
                 {
-                    jumpForce = maxJumpForce;
-                    state = "jump";
+                    ((IList)comboInputs).Add(3); //Jump
+                    comboTimer = comboMaxTimer;
                 }
 
                 if (Input.GetKeyDown(dash))
                 {
-                    dashTimer = dashMaxTimer;
-                    rb.AddForce(new Vector2(xInput * dashForce, 0), ForceMode2D.Impulse);
-                    state = "dash";
+                    ((IList)comboInputs).Add(2); //Dash
+                    comboTimer = comboMaxTimer;
                 }
 
                 if (Input.GetMouseButton(hardAttack)) //instaura el tiempo que va a tardar
@@ -230,7 +229,20 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
 
     private void ResolverComboEspecial()
     {
-        throw new System.NotImplementedException();
+        if (comboInputs.Count == 2)
+        {
+            if (comboInputs[0] == 0 && comboInputs[1] == 0) JabCodo();
+            if (comboInputs[0] == 1 && comboInputs[1] == 1) SwingSwing();
+            if (comboInputs[0] == 3 && comboInputs[1] == 1) HitInJump();
+            if (comboInputs[0] == 3 && comboInputs[1] == 0) HitInKnee();
+        }
+
+        if (comboInputs.Count == 3)
+        {
+            if (comboInputs[0] == 0 && comboInputs[1] == 0 && comboInputs[2] == 0) PatadaAlta();
+            if (comboInputs[0] == 0 && comboInputs[1] == 0 && comboInputs[2] == 1) JabSwingSalto();
+            if (comboInputs[0] == 1 && comboInputs[1] == 1 && comboInputs[2] == 1) Cabezazo();
+        }
     }
 
     private void HardAttack()
@@ -247,6 +259,13 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
         state = "softAttack";
     }
 
+    private void Dash()
+    {
+        dashTimer = dashMaxTimer;
+        rb.AddForce(new Vector2(xInput * dashForce, 0), ForceMode2D.Impulse);
+        state = "dash";
+    }
+
     private void Movement()
     {
         xInput = Input.GetAxisRaw("Horizontal"); //toda variable q declares en un sitio es local
@@ -254,6 +273,12 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
 
         Vector3 move = new Vector3(xInput, yInput, 0).normalized * (velocidad * velocidadPlayer);
         rb.linearVelocity = move;
+    }
+
+    private void PreJump()
+    {
+        jumpForce = maxJumpForce;
+        state = "jump";
     }
 
 
