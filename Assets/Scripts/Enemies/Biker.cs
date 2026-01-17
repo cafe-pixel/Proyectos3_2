@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Biker : Enemy
@@ -13,4 +14,11 @@ public class Biker : Enemy
     //clases padres
     protected override float ChaseRange => chaseRange;
     protected override float AttackRange => attackRange;
+
+    private void Start()
+    {
+        ataqueEnemy = ataqueBiker;
+        defensaEnemy = 2f;
+        velocidadEnemy = 3f;
+    }
 }

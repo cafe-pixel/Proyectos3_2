@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class Puñetazos : EnemyAttack
@@ -8,6 +9,7 @@ public class Puñetazos : EnemyAttack
     //stats
     [SerializeField] private float cooldown = 0.5f;
     [SerializeField] private float baseDamage = 10f;
+    [SerializeField] private float timeBetweenPunches = 0.25f;
     
     //referencias
     public Biker biker;
@@ -16,23 +18,49 @@ public class Puñetazos : EnemyAttack
     
     //clase padre
     protected override float Cooldown => cooldown; //manda el valor del cooldown
+    
+    //Corrutinas
+    private Coroutine attackPunches;
 
 
     private void Start()
     {
         biker = GetComponent<Biker>();
+        
     }
 
     protected override void DoAttack()
     {
-        finalDamage = baseDamage + biker.ataqueBiker;
-        Hit();
+        if (!player || attackPunches != null) return;
+        attackPunches = StartCoroutine(Punches());
+
 
     }
 
-    private void Hit()
+    private void Hit() //le llama desde el Animator
     {
-        float randomValue = Random.value;
+        if (!player) return;
+
+        if (player.TryGetComponent<IReciveDamage>(out IReciveDamage playerHealth))
+        {
+            playerHealth.Damage(finalDamage);
+        }
         
+    }
+
+    private IEnumerator Punches()
+    {
+        finalDamage = baseDamage + biker.ataqueBiker;
+        
+        int punches = Random.Range(1, maxPunch + 1);
+        for (int i = 0; i < punches; i++)
+        {
+            //Animamtor.SetInteger("comboIndex", i)
+            //Animator.SetTrigger("Punch");
+            yield return new WaitForSeconds(0.01f); //mini dilay para q arranque animacion
+            yield return new WaitForSeconds(timeBetweenPunches);
+        }
+        //Animator.SetInteger("comboIndex", i);
+        attackPunches = null;
     }
 }

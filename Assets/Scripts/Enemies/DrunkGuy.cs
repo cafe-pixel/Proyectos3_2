@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class DrunkGuy : Enemy
@@ -14,4 +15,12 @@ public class DrunkGuy : Enemy
     
     protected override float ChaseRange => chaseRange;
     protected override float AttackRange => attackRange;
+
+
+    private void Start()
+    {
+        ataqueEnemy = ataqueDrunkGuy;
+        velocidadEnemy = 2f;
+        defensaEnemy = 3f;
+    }
 }

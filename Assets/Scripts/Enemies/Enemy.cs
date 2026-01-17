@@ -73,7 +73,7 @@ public abstract class Enemy : MonoBehaviour,IReciveDamage
 
    private bool PlayerInChaseRange()
    {
-       Collider[] colliders = Physics.OverlapSphere(transform.position, ChaseRange, playerLayer); 
+       Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, ChaseRange, playerLayer); 
        if (colliders.Length > 0) //si el array de colliders es mayor que cero porque el overlapSphere detecta colision en una posicion dentro del radio y de la layer indicada
        {
            player =  colliders[0].transform; //toma el transform del collider que ha recogido y lo mete en el player
@@ -86,7 +86,7 @@ public abstract class Enemy : MonoBehaviour,IReciveDamage
 
    private bool PlayerInAttackRange()
    {
-       Collider[] colliders = Physics.OverlapSphere(transform.position, AttackRange, playerLayer);
+       Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, AttackRange, playerLayer);
        if (colliders.Length > 0)
        {
            player =  colliders[0].transform;

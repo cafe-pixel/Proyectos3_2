@@ -18,7 +18,7 @@ public class Player : MonoBehaviour, IReciboObjeto
 
     [SerializeField] private LayerMask layerAttackable;
 
-    private bool canGiveDamage;
+    private bool canGiveDamage = true;
     
     [Header("Combos")] 
     //lo que voy a hacer es que cuando presione una tecla se manda un numero y se guarda en una lista, si recibe solo uno tira los normales y si no busca uno que sume eso
@@ -46,6 +46,7 @@ public class Player : MonoBehaviour, IReciboObjeto
     [SerializeField] private int softAttack = 0; //boton izq
     [SerializeField] private float suaveMaxTimer = 0.41f;
     private float suaveTimer;
+    private int softAttackNumber = 0;
     
     [Header("HardAttack")] 
     [SerializeField] private int hardAttack = 1;
@@ -93,15 +94,16 @@ public class Player : MonoBehaviour, IReciboObjeto
     [Header("References")] 
     private FloorDetection floor;
     [SerializeField] private Canva canvasEnd;
-   
+    //Sprites 
+    private SpriteRenderer sr;
+    private Animator anim;
 
 
     //States
     private string state = "move";
 
 
-    //Sprites 
-    private SpriteRenderer sr;
+    
     
     //Coroutines 
     private bool attackFuncionando = false;
@@ -118,10 +120,9 @@ public class Player : MonoBehaviour, IReciboObjeto
         rb = GetComponent<Rigidbody2D>();
         floor = GetComponentInChildren<FloorDetection>();
         sr = GetComponent<SpriteRenderer>();
+        anim = GetComponent<Animator>();
         
         comboTimer = comboMaxTimer;
-        
-
     }
 
     private void Update()
@@ -195,12 +196,20 @@ public class Player : MonoBehaviour, IReciboObjeto
                 
                 if (suaveTimer <= 0)
                 {
+                    softAttackNumber = 0;
+                    anim.SetInteger("softCombo", softAttackNumber);
+                    
                     state = "move";
                     suaveTimer = suaveMaxTimer;
                     canGiveDamage = true;
                 }
                         
-                
+                if (Input.GetMouseButtonDown(softAttack)&&canGiveDamage)
+                {
+                    SoftAttack();
+                    // ((IList)comboInputs).Add(0); //CI
+                    // comboTimer = comboMaxTimer;
+                }
             
                 break;
             
@@ -354,9 +363,21 @@ public class Player : MonoBehaviour, IReciboObjeto
 
     private void SoftAttack()
     {
-        suaveTimer = suaveMaxTimer;
-        canGiveDamage = false;
-        state = "softAttack";
+        if (softAttackNumber < 4)
+        {
+            Debug.Log(2);
+            softAttackNumber++;
+            anim.SetInteger("softCombo", softAttackNumber);
+            suaveTimer = suaveMaxTimer;
+            //canGiveDamage = false;
+            state = "softAttack";
+        }
+        else
+        {
+            softAttackNumber = 0;
+            anim.SetInteger("softCombo", softAttackNumber);
+            state = "move";
+        }
     }
 
     private void Dash()
@@ -371,6 +392,17 @@ public class Player : MonoBehaviour, IReciboObjeto
         xInput = Input.GetAxisRaw("Horizontal"); //toda variable q declares en un sitio es local
         yInput = Input.GetAxisRaw("Vertical");
 
+        if (xInput != 0 || yInput != 0)
+        {
+            //Se mueve
+            anim.SetBool("isWalking", true);
+        }
+        else
+        {
+            //Quieto parao
+            anim.SetBool("isWalking", false);
+        }
+        
         Vector3 move = new Vector3(xInput, yInput, 0).normalized * (velocidad * velocidadPlayer);
         rb.linearVelocity = move;
     }
@@ -385,6 +417,7 @@ public class Player : MonoBehaviour, IReciboObjeto
     private void PreJump()
     {
         jumpForce = maxJumpForce;
+        anim.SetTrigger("jump");
         state = "jump";
     }
 
