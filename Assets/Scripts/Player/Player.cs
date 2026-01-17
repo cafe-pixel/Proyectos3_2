@@ -186,7 +186,7 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
                 if (parryTimer <= 0)
                 {
                     isParrying = false;
-                    state = "parrystate";
+                    state = "move";
                 }
                 break;
             
