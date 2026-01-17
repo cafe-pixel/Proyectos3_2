@@ -69,10 +69,6 @@ public class PlayerHealth : MonoBehaviour, IReciveDamage, IReciboObjeto
         }
     }
     
-    
-
-    
-
     private void Muerto() //hacer el canvas
     {
        
@@ -88,5 +84,15 @@ public class PlayerHealth : MonoBehaviour, IReciveDamage, IReciboObjeto
             PlayerRestarVida(damageFinal);
         }
         
+    }
+    
+    public float GetCurrentLife()
+    {
+        return vidaPlayer;
+    }
+
+    public float GetMaxLife()
+    {
+        return vidaMaxPlayer;
     }
 }
