@@ -80,7 +80,7 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
     //Referencias
     private FloorDetection floor;
     [SerializeField] private Canva canvasEnd;
-    
+    private AtaquePlayer ataquePlayerComp;
 
 
     //States
@@ -105,6 +105,7 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
         rb = GetComponent<Rigidbody2D>();
         floor = GetComponentInChildren<FloorDetection>();
         sr = GetComponent<SpriteRenderer>();
+        ataquePlayerComp = GetComponent<AtaquePlayer>();
         vidaPlayer = vidaMaxPlayer;
         comboTimer = comboMaxTimer;
         
@@ -130,6 +131,7 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
 
                 Movement();
                 
+                #region Combos
                 
                 if (Input.GetKeyDown(jump))
                 {
@@ -161,7 +163,8 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
                     ((IList)comboInputs).Add(4); //Parry
                     comboTimer = comboMaxTimer;
                 }
-
+    
+                #endregion
 
                 break;
             
@@ -263,6 +266,7 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
 
     private void Cabezazo()
     {
+        ataquePlayerComp.attackType = AtaquePlayer.AttackTypes.cabezazo;
         //da 180
     }
 
@@ -306,8 +310,9 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
     private void SwingSwing()
     {
         //da 165
+        //tiempo del bate hacia la izq y otro hacia la der
     }
-
+    
     
     private void JabCodo()
     {
