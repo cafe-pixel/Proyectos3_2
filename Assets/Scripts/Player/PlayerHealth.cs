@@ -1,8 +1,10 @@
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerHealth : MonoBehaviour, IReciveDamage, IReciboObjeto
 {
+    [SerializeField] private Image healthBar;
     [SerializeField] private float vidaMaxPlayer = 100;
     private float vidaPlayer;
 
@@ -12,6 +14,13 @@ public class PlayerHealth : MonoBehaviour, IReciveDamage, IReciboObjeto
     {
         player = GetComponent<Player>();
         vidaPlayer = vidaMaxPlayer;
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.U)) PlayerRestarVida(10);
+        if (Input.GetKeyDown(KeyCode.I)) PlayerSumarVida2();
+        if (Input.GetKeyDown(KeyCode.O)) PlayerSumarVida();
     }
 
     private void PlayerSumarVida() //suma vida si es que puede (bebida1)
@@ -28,6 +37,8 @@ public class PlayerHealth : MonoBehaviour, IReciveDamage, IReciboObjeto
         {
             Debug.Log("Vida suficiente");
         }
+        
+        healthBar.fillAmount = vidaPlayer / vidaMaxPlayer;
     }
 
     private void PlayerSumarVida2() //le suma la bebida2
@@ -44,6 +55,8 @@ public class PlayerHealth : MonoBehaviour, IReciveDamage, IReciboObjeto
         {
             Debug.Log("Vida suficiente");
         }
+        
+        healthBar.fillAmount = vidaPlayer / vidaMaxPlayer;
     }
 
     public void AplicarEfecto(Items.TipoItem item)
@@ -67,6 +80,9 @@ public class PlayerHealth : MonoBehaviour, IReciveDamage, IReciboObjeto
         {
             Muerto();
         }
+        
+        healthBar.fillAmount = vidaPlayer / vidaMaxPlayer;
+        
     }
     
     private void Muerto() //hacer el canvas

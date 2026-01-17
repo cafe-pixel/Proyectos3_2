@@ -25,6 +25,7 @@ public class Player : MonoBehaviour, IReciboObjeto
     [SerializeField] private float comboMaxTimer = 0.2f;
     private float comboTimer;
     private List<int> comboInputs = new List<int>();
+    private bool comboActivated;
     
     
     [Header("Headbutt")] 
@@ -149,32 +150,37 @@ public class Player : MonoBehaviour, IReciboObjeto
                 if (Input.GetKeyDown(jump))
                 {
                     ((IList)comboInputs).Add(3); //Jump
-                    comboTimer = comboMaxTimer;
+                    if (!comboActivated) comboTimer = comboMaxTimer;
+                    comboActivated = true;
                 }
 
                 if (Input.GetKeyDown(dash))
                 {
                     ((IList)comboInputs).Add(2); //Dash
-                    comboTimer = comboMaxTimer;
+                    if (!comboActivated) comboTimer = comboMaxTimer;
+                    comboActivated = true;
                 }
 
                 if (Input.GetMouseButton(hardAttack)&&canGiveDamage) //instaura el tiempo que va a tardar
                 {
                     ((IList)comboInputs).Add(1); //CD
-                    comboTimer = comboMaxTimer;
+                    if (!comboActivated) comboTimer = comboMaxTimer;
+                    comboActivated = true;
                 }
 
                 if (Input.GetMouseButtonDown(softAttack)&&canGiveDamage)
                 {
                     ((IList)comboInputs).Add(0); //CI
-                    comboTimer = comboMaxTimer;
+                    if (!comboActivated) comboTimer = comboMaxTimer;
+                    comboActivated = true;
                     
                 }
 
                 if (Input.GetKeyDown(parry))
                 {
                     ((IList)comboInputs).Add(4); //Parry
-                    comboTimer = comboMaxTimer;
+                    if (!comboActivated) comboTimer = comboMaxTimer;
+                    comboActivated = true;
                 }
     
                 #endregion
