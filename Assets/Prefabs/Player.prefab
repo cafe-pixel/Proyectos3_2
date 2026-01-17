@@ -45,6 +45,7 @@ GameObject:
   - component: {fileID: 3414000577249669889}
   - component: {fileID: 4380179957833925397}
   - component: {fileID: 3690811347323707675}
+  - component: {fileID: 1449795683993892577}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -255,12 +256,24 @@ MonoBehaviour:
   grav: 10
   parry: 101
   parryMaxTimer: 1
-  vidaPlayer: 1
+  isParrying: 0
   velocidadPlayer: 1
   defensaPlayer: 1
   ataquePlayer: 1
-  vidaMaxPlayer: 100
   canvasEnd: {fileID: 0}
+--- !u!114 &1449795683993892577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6268106174993044909}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a823cefe3eaed04dbfbd070008763b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vidaMaxPlayer: 100
 --- !u!1 &6607624977783625415
 GameObject:
   m_ObjectHideFlags: 0

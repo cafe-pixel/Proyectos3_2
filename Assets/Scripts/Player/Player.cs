@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
+public class Player : MonoBehaviour, IReciboObjeto
 {
     [Header("Inputs")] 
     private float xInput;
@@ -74,16 +74,15 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
     [SerializeField] private KeyCode parry = KeyCode.E; //se le hace referencia con el numero 4
     private float parryTimer;
     [SerializeField] private float parryMaxTimer = 1f;
-    private bool isParrying;
+    public bool isParrying;
 
     
 
     [Header("PlayerStats")] 
-    [SerializeField] private float vidaPlayer = 1; //los items que suben esto son permanentes y acumulativos
     [SerializeField] public float velocidadPlayer = 1f; //los items que suben el resto son temporales y acumulativos
     [SerializeField] public float defensaPlayer = 1f;
     [SerializeField] public float ataquePlayer = 1f;
-    [SerializeField] private float vidaMaxPlayer = 100;
+    
 
 
 
@@ -119,7 +118,7 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
         rb = GetComponent<Rigidbody2D>();
         floor = GetComponentInChildren<FloorDetection>();
         sr = GetComponent<SpriteRenderer>();
-        vidaPlayer = vidaMaxPlayer;
+        
         comboTimer = comboMaxTimer;
         
 
@@ -405,62 +404,17 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
 
     }
 
-    public void Damage(float damage) //daño recibido menos la defensa
-    {
-        if (!isParrying)
-        {
-            float damageFinal = damage -  defensaPlayer;
-            PlayerRestarVida(damageFinal);
-        }
-        
-    }
+    
 
 
-    public void PlayerRestarVida(float damage) //le resta el daño total
-    {
-        vidaPlayer -= damage;
-        
-        if (vidaPlayer == 0)
-        {
-            Muerto();
-        }
-    }
-
-    private void PlayerSumarVida() //suma vida si es que puede (bebida1)
-    {
-        if (!Mathf.Approximately(vidaPlayer, vidaMaxPlayer))
-        {
-            vidaPlayer += 25;
-            if (vidaPlayer > 100)
-            {
-                vidaPlayer = 100;
-            }
-        }
-        else
-        {
-            Debug.Log("Vida suficiente");
-        }
-    }
-
-    private void Muerto() //hacer el canvas
-    {
-        sr.enabled = false;
-        canvasEnd.CanvasAppear("Hola");
-        //Pantalla de Jugar Otra Vez
-
-    }
+    
 
 
     public void AplicarEfecto(Items.TipoItem item)
     {
         switch (item)
         {
-            case Items.TipoItem.BebidaEnergetica:
-                PlayerSumarVida();
-                break;
-            case Items.TipoItem.BebidaEnergetica2:
-                PlayerSumarVida2();
-                break;
+            
             case Items.TipoItem.PatatasPicantes:
                 PlayerSubirAtaque();
                 break;
@@ -506,21 +460,7 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
         }
     }
 
-    private void PlayerSumarVida2() //le suma la bebida2
-    {
-        if (!Mathf.Approximately(vidaPlayer, vidaMaxPlayer))
-        {
-            vidaPlayer += 50;
-            if (vidaPlayer > 100)
-            {
-                vidaPlayer = 100;
-            }
-        }
-        else
-        {
-            Debug.Log("Vida suficiente");
-        }
-    }
+    
 
     private IEnumerator Defensa()
     {
