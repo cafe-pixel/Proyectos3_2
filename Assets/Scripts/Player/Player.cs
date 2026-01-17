@@ -1,4 +1,6 @@
 using System.Collections;
+using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
@@ -6,31 +8,61 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
     //Input
     private float xInput;
     private float yInput;
-    [SerializeField] private KeyCode jump = KeyCode.Space;
-
-    [SerializeField] private KeyCode interact = KeyCode.E;
+    [SerializeField] private KeyCode jump = KeyCode.Space; //en los combos aparece como un 3
     [SerializeField] private KeyCode dash = KeyCode.R;
-    [SerializeField] private KeyCode attack = KeyCode.Z;
-
+    
+    //Combs
+    //lo que voy a hacer es que cuando presione una tecla se manda un numero y se guarda en una lista, si recibe solo uno tira los normales y si no busca uno que sume eso
+    [SerializeField] private float comboMaxTimer = 0.2f;
+    private float comboTimer;
+    private List<int> comboInputs = new List<int>();
+    private bool canGiveDamage3;
+    private bool canGiveDamage4;
+    private bool canGiveDamage5;
+    private bool canGiveDamage6;
+    private bool canGiveDamage7;
+    private bool canGiveDamage8;
+    private bool canGiveDamage9;
+    private bool canGiveDamage10;
+    private bool canGiveDamage11;
+    
+    
+    
     //Movement
     new Vector3 initialPosition;
     [SerializeField] private float velocidad = 1f;
 
-    //Dash
+    //Dash (en los combos aparece como un 2)
     [SerializeField] private int dashForce = 2;
     [SerializeField] private float dashMaxTimer;
     private float dashTimer;
+    
+    //Attacks
+        //soft
+    [SerializeField] private int softAttack = 0; //boton izq
+    [SerializeField] private float suaveMaxTimer = 0.41f;
+    private float suaveTimer;
+    internal bool canGiveDamage1 = false;
+    
+        //hard
+    [SerializeField] private int hardAttack = 1;
+    [SerializeField] private float hardMaxTimer = 1.75f;
+    private float hardTimer;
+    internal bool canGiveDamage2 = false;
 
 
     //Jump
-
     private float jumpForce;
     [SerializeField] private float maxJumpForce;
     [SerializeField] private float grav;
+    
+    //Parry - bloquea todo el daño por un segundo -
+    [SerializeField] private KeyCode parry = KeyCode.E; //se le hace referencia con el numero 4
+    private float parryTimer;
+    [SerializeField] private float parryMaxTimer = 1f;
+    private bool isParrying;
 
-    //Ataque
-    [SerializeField] private float attackMaxTimer;
-    private float attackTimer;
+    
 
     //Stats
     private float vidaPlayer = 1; //los items que suben esto son permanentes y acumulativos
@@ -48,6 +80,7 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
     //Referencias
     private FloorDetection floor;
     [SerializeField] private Canva canvasEnd;
+    
 
 
     //States
@@ -73,42 +106,103 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
         floor = GetComponentInChildren<FloorDetection>();
         sr = GetComponent<SpriteRenderer>();
         vidaPlayer = vidaMaxPlayer;
+        comboTimer = comboMaxTimer;
+        
 
     }
 
     private void Update()
     {
 
+        if (((ICollection)comboInputs).Count > 0)
+        {
+            comboTimer -= Time.deltaTime;
+            if (comboTimer <= 0)
+            {
+                ResolverCombo();
+                comboInputs.Clear();
+            }
+        }
+
         switch (state)
         {
             case "move":
 
                 Movement();
-
+                
+                
                 if (Input.GetKeyDown(jump))
                 {
-                    jumpForce = maxJumpForce;
-                    state = "jump";
+                    ((IList)comboInputs).Add(3); //Jump
+                    comboTimer = comboMaxTimer;
                 }
 
                 if (Input.GetKeyDown(dash))
                 {
-                    dashTimer = dashMaxTimer;
-                    rb.AddForce(new Vector2(xInput * dashForce, 0), ForceMode2D.Impulse);
-                    state = "dash";
+                    ((IList)comboInputs).Add(2); //Dash
+                    comboTimer = comboMaxTimer;
                 }
 
-                if (Input.GetKeyUp(attack))
+                if (Input.GetMouseButton(hardAttack)) //instaura el tiempo que va a tardar
                 {
-                    attackTimer = attackMaxTimer;
-                    //fijar la dirección del personaje
-                    //falta que inflija daño
-                    state = "attack";
+                    ((IList)comboInputs).Add(1); //CD
+                    comboTimer = comboMaxTimer;
+                }
+
+                if (Input.GetMouseButtonDown(softAttack))
+                {
+                    ((IList)comboInputs).Add(0); //CI
+                    comboTimer = comboMaxTimer;
+                    
+                }
+
+                if (Input.GetKeyDown(parry))
+                {
+                    ((IList)comboInputs).Add(4); //Parry
+                    comboTimer = comboMaxTimer;
                 }
 
 
                 break;
-
+            
+            case "parrystate":
+                parryTimer -= Time.deltaTime;
+                if (parryTimer <= 0)
+                {
+                    isParrying = false;
+                    state = "parrystate";
+                }
+                break;
+            
+            case "softAttack":
+            
+                suaveTimer -=  Time.deltaTime;
+                canGiveDamage1 = false;
+                if (suaveTimer <= 0)
+                {
+                    state = "move";
+                    suaveTimer = suaveMaxTimer;
+                    
+                }
+                        
+                
+            
+                break;
+            
+            case "hardAttack":
+            
+                hardTimer -=  Time.deltaTime;
+                canGiveDamage2 = false;
+                if (hardTimer <= 0)
+                {
+                    state = "move";
+                    hardTimer = hardMaxTimer;
+                    
+                }
+                        
+                
+            
+                break;
             case "jump":
 
                 Jump();
@@ -125,17 +219,120 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
 
                 break;
 
-            case "attack":
-                attackTimer -= Time.deltaTime;
-                if (attackTimer <= 0f)
-                {
-                    state = "move";
-                }
-
-                break;
+            
 
         }
 
+    }
+
+    private void ResolverCombo()//comprueba si es un ataque básico o un combo
+    {
+        if (comboInputs.Count == 1)//si solo hay una tecla pulsada
+        {
+            if (comboInputs[0] == 0) SoftAttack();
+            if (comboInputs[0]==1) HardAttack();
+            if (comboInputs[0]==2) Dash();
+            if (comboInputs[0]==3) PreJump();
+            if (comboInputs[0]==4) Parry();
+        }
+        else ResolverComboEspecial();
+    }
+
+    private void ResolverComboEspecial()
+    {
+        if (comboInputs.Count == 2)
+        {
+            if (comboInputs[0] == 0 && comboInputs[1] == 0) JabCodo();
+            if (comboInputs[0] == 1 && comboInputs[1] == 1) SwingSwing();
+            if (comboInputs[0] == 3 && comboInputs[1] == 1) HitInJump();
+            if (comboInputs[0] == 3 && comboInputs[1] == 0) HitInKnee();
+            if (comboInputs[0] == 4 && comboInputs[1] == 0) AgarreYPunch();
+            if (comboInputs[0] == 2 && comboInputs[1] == 1) DashAndHit();
+            if (comboInputs[0] == 2 && comboInputs[1] == 0) DashPatada();
+        }
+
+        if (comboInputs.Count == 3)
+        {
+            if (comboInputs[0] == 0 && comboInputs[1] == 0 && comboInputs[2] == 0) PatadaAlta();
+            if (comboInputs[0] == 0 && comboInputs[1] == 0 && comboInputs[2] == 1) JabSwingSalto();
+            if (comboInputs[0] == 1 && comboInputs[1] == 1 && comboInputs[2] == 1) Cabezazo();
+        }
+    }
+    
+    // --ATAQUES ESPECIALES--
+
+    private void Cabezazo()
+    {
+        //da 180
+    }
+
+    private void JabSwingSalto()
+    {
+        //da 130
+    }
+
+    private void PatadaAlta()
+    {
+        //da 130
+    }
+
+    private void DashPatada()
+    {
+        //da 115
+    }
+
+    private void DashAndHit()
+    {
+        //da 165
+    }
+
+    private void AgarreYPunch()
+    {
+        //da 115
+    }
+
+    private void HitInKnee()
+    {
+        //da 115
+    }
+
+
+    private void HitInJump()
+    {
+        //da 165
+    }
+    
+
+    private void SwingSwing()
+    {
+        //da 165
+    }
+
+    
+    private void JabCodo()
+    {
+        //da 115 de daño
+    }
+
+    private void HardAttack()
+    {
+        hardTimer = hardMaxTimer;
+        canGiveDamage2 = true;
+        state = "hardAttack";
+    }
+
+    private void SoftAttack()
+    {
+        suaveTimer = suaveMaxTimer;
+        canGiveDamage1 = true;
+        state = "softAttack";
+    }
+
+    private void Dash()
+    {
+        dashTimer = dashMaxTimer;
+        rb.AddForce(new Vector2(xInput * dashForce, 0), ForceMode2D.Impulse);
+        state = "dash";
     }
 
     private void Movement()
@@ -147,10 +344,18 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
         rb.linearVelocity = move;
     }
 
+    private void Parry()
+    {
+        parryTimer = parryMaxTimer;
+        isParrying = true;
+        state = "parrystate";
+    }
 
-
-
-
+    private void PreJump()
+    {
+        jumpForce = maxJumpForce;
+        state = "jump";
+    }
 
 
 
@@ -168,14 +373,18 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
 
     }
 
-    public void Damage(float damage)
+    public void Damage(float damage) //daño recibido menos la defensa
     {
-        float damageFinal = damage -  defensaPlayer;
-        PlayerRestarVida(damageFinal);
+        if (!isParrying)
+        {
+            float damageFinal = damage -  defensaPlayer;
+            PlayerRestarVida(damageFinal);
+        }
+        
     }
 
 
-    public void PlayerRestarVida(float damage)
+    public void PlayerRestarVida(float damage) //le resta el daño total
     {
         vidaPlayer -= damage;
         
@@ -185,7 +394,7 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
         }
     }
 
-    private void PlayerSumarVida()
+    private void PlayerSumarVida() //suma vida si es que puede (bebida1)
     {
         if (!Mathf.Approximately(vidaPlayer, vidaMaxPlayer))
         {
@@ -201,7 +410,7 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
         }
     }
 
-    private void Muerto()
+    private void Muerto() //hacer el canvas
     {
         sr.enabled = false;
         canvasEnd.CanvasAppear("Hola");
@@ -236,7 +445,7 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
 
     }
 
-    private void PlayerSubirAtaque()
+    private void PlayerSubirAtaque() //le añade 0.35 de fuerza durante 3 mins
     {
         if (!attackFuncionando)
         {
@@ -246,7 +455,7 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
         }
     }
 
-    private void PlayerSubirDefensa()
+    private void PlayerSubirDefensa() //le añade 0.35 de deefensa durante 1 mins
     {
         if (!defenseFuncionando)
         {
@@ -256,7 +465,7 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
         }
     }
 
-    private void PlayerSubirVelocidad()
+    private void PlayerSubirVelocidad() //le añade 0.35 de fuerza durante 2.5 mins
     {
         if (!velocidadFuncionando)
         {
@@ -265,9 +474,9 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
         }
     }
 
-    private void PlayerSumarVida2()
+    private void PlayerSumarVida2() //le suma la bebida2
     {
-        if (vidaPlayer != vidaMaxPlayer)
+        if (!Mathf.Approximately(vidaPlayer, vidaMaxPlayer))
         {
             vidaPlayer += 50;
             if (vidaPlayer > 100)
