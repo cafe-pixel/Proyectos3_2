@@ -25,14 +25,10 @@ public class HealthBar : MonoBehaviour
 
         float currentHealth = Mathf.Clamp(player.GetCurrentLife(), 0, player.GetMaxLife());
         healthSlider.value = currentHealth;
-
-        // Actualiza fillAmount
+        
         fillImage.fillAmount = currentHealth / player.GetMaxLife();
 
-        // Opción 1: desaparecer de golpe
-        // fillImage.enabled = currentHealth > 0;
-
-        // Opción 2: desvanecimiento suave (recomendado)
+        //Desvanecimiento suave
         Color c = fillImage.color;
         float targetAlpha = currentHealth > 0 ? 1f : 0f;
         c.a = Mathf.MoveTowards(c.a, targetAlpha, fadeSpeed * Time.deltaTime);
