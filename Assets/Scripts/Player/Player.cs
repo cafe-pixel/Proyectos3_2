@@ -5,30 +5,54 @@ using UnityEngine;
 
 public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
 {
-    //Input
+    [Header("Inputs")] 
     private float xInput;
     private float yInput;
     [SerializeField] private KeyCode jump = KeyCode.Space; //en los combos aparece como un 3
     [SerializeField] private KeyCode dash = KeyCode.R;
     
-    //Combs
+    
+    //ATTACKS
+    [Header("Attack-Area")] 
+    [SerializeField] private Transform attackPoint;
+
+    [SerializeField] private LayerMask layerAttackable;
+
+    private bool canGiveDamage;
+    
+    [Header("Combos")] 
     //lo que voy a hacer es que cuando presione una tecla se manda un numero y se guarda en una lista, si recibe solo uno tira los normales y si no busca uno que sume eso
     [SerializeField] private float comboMaxTimer = 0.2f;
     private float comboTimer;
     private List<int> comboInputs = new List<int>();
-    private bool canGiveDamage3;
-    private bool canGiveDamage4;
-    private bool canGiveDamage5;
-    private bool canGiveDamage6;
-    private bool canGiveDamage7;
-    private bool canGiveDamage8;
-    private bool canGiveDamage9;
-    private bool canGiveDamage10;
-    private bool canGiveDamage11;
     
     
+    [Header("Headbutt")] 
+    [SerializeField] private float headbuttDamage;
+    [SerializeField] private float maxHeadbuttTimer;
+    private float headbuttTimer;
     
-    //Movement
+    [Header("SwingSwing")] 
+    [SerializeField] private float swingDamage;
+    [SerializeField] private float maxSwingTimer;
+    private float swingTimer;
+    
+    [Header("ElbowStrike")] 
+    [SerializeField] private float elbowStrikeDamage;
+    [SerializeField] private float maxElbowStrikeTimer;
+    private float elbowStrikeTimer;
+    
+    [Header("SoftAttack")] 
+    [SerializeField] private int softAttack = 0; //boton izq
+    [SerializeField] private float suaveMaxTimer = 0.41f;
+    private float suaveTimer;
+    
+    [Header("HardAttack")] 
+    [SerializeField] private int hardAttack = 1;
+    [SerializeField] private float hardMaxTimer = 1.75f;
+    private float hardTimer;
+    
+    [Header("Movement")] 
     new Vector3 initialPosition;
     [SerializeField] private float velocidad = 1f;
 
@@ -37,25 +61,15 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
     [SerializeField] private float dashMaxTimer;
     private float dashTimer;
     
-    //Attacks
-        //soft
-    [SerializeField] private int softAttack = 0; //boton izq
-    [SerializeField] private float suaveMaxTimer = 0.41f;
-    private float suaveTimer;
-    internal bool canGiveDamage1 = false;
-    
-        //hard
-    [SerializeField] private int hardAttack = 1;
-    [SerializeField] private float hardMaxTimer = 1.75f;
-    private float hardTimer;
-    internal bool canGiveDamage2 = false;
 
-
+    [Header("Jump")] 
     //Jump
     private float jumpForce;
     [SerializeField] private float maxJumpForce;
     [SerializeField] private float grav;
     
+    
+    [Header("Parry")] 
     //Parry - bloquea todo el daño por un segundo -
     [SerializeField] private KeyCode parry = KeyCode.E; //se le hace referencia con el numero 4
     private float parryTimer;
@@ -64,33 +78,33 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
 
     
 
-    //Stats
-    private float vidaPlayer = 1; //los items que suben esto son permanentes y acumulativos
-    public float velocidadPlayer = 1f; //los items que suben el resto son temporales y acumulativos
-    public float defensaPlayer = 1f;
-    public float ataquePlayer = 1f;
-    private float vidaMaxPlayer = 100;
+    [Header("PlayerStats")] 
+    [SerializeField] private float vidaPlayer = 1; //los items que suben esto son permanentes y acumulativos
+    [SerializeField] public float velocidadPlayer = 1f; //los items que suben el resto son temporales y acumulativos
+    [SerializeField] public float defensaPlayer = 1f;
+    [SerializeField] public float ataquePlayer = 1f;
+    [SerializeField] private float vidaMaxPlayer = 100;
 
 
 
-    //Fisicas
+    //Physiques
     private Rigidbody2D rb;
 
 
-    //Referencias
+    [Header("References")] 
     private FloorDetection floor;
     [SerializeField] private Canva canvasEnd;
-    private AtaquePlayer ataquePlayerComp;
+   
 
 
     //States
     private string state = "move";
 
 
-    //Sprites
+    //Sprites 
     private SpriteRenderer sr;
     
-    //Corrutinas
+    //Coroutines 
     private bool attackFuncionando = false;
     private bool defenseFuncionando = false;
     private bool velocidadFuncionando = false;
@@ -105,7 +119,6 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
         rb = GetComponent<Rigidbody2D>();
         floor = GetComponentInChildren<FloorDetection>();
         sr = GetComponent<SpriteRenderer>();
-        ataquePlayerComp = GetComponent<AtaquePlayer>();
         vidaPlayer = vidaMaxPlayer;
         comboTimer = comboMaxTimer;
         
@@ -145,13 +158,13 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
                     comboTimer = comboMaxTimer;
                 }
 
-                if (Input.GetMouseButton(hardAttack)) //instaura el tiempo que va a tardar
+                if (Input.GetMouseButton(hardAttack)&&canGiveDamage) //instaura el tiempo que va a tardar
                 {
                     ((IList)comboInputs).Add(1); //CD
                     comboTimer = comboMaxTimer;
                 }
 
-                if (Input.GetMouseButtonDown(softAttack))
+                if (Input.GetMouseButtonDown(softAttack)&&canGiveDamage)
                 {
                     ((IList)comboInputs).Add(0); //CI
                     comboTimer = comboMaxTimer;
@@ -180,12 +193,12 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
             case "softAttack":
             
                 suaveTimer -=  Time.deltaTime;
-                canGiveDamage1 = false;
+                
                 if (suaveTimer <= 0)
                 {
                     state = "move";
                     suaveTimer = suaveMaxTimer;
-                    
+                    canGiveDamage = true;
                 }
                         
                 
@@ -195,11 +208,12 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
             case "hardAttack":
             
                 hardTimer -=  Time.deltaTime;
-                canGiveDamage2 = false;
+                
                 if (hardTimer <= 0)
                 {
                     state = "move";
                     hardTimer = hardMaxTimer;
+                    canGiveDamage = true;
                     
                 }
                         
@@ -221,6 +235,34 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
 
 
                 break;
+            
+            case "headbutt":
+                headbuttTimer -= Time.deltaTime;
+                if (headbuttTimer <= 0f)
+                {
+                    state = "move";
+                    canGiveDamage = true;
+                }
+                break;
+            
+            case "swing":
+                swingTimer -= Time.deltaTime;
+                if (swingTimer <= 0f)
+                {
+                    state = "move";
+                    canGiveDamage = true;
+                }
+                break;
+            
+            case "elbow":
+                elbowStrikeTimer -= Time.deltaTime;
+                if (swingTimer <= 0f)
+                {
+                    state = "move";
+                    canGiveDamage=true;
+                }
+                break;
+                
 
             
 
@@ -247,18 +289,29 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
         {
             if (comboInputs[0] == 0 && comboInputs[1] == 0) JabCodo();
             if (comboInputs[0] == 1 && comboInputs[1] == 1) SwingSwing();
-            if (comboInputs[0] == 3 && comboInputs[1] == 1) HitInJump();
-            if (comboInputs[0] == 3 && comboInputs[1] == 0) HitInKnee();
-            if (comboInputs[0] == 4 && comboInputs[1] == 0) AgarreYPunch();
-            if (comboInputs[0] == 2 && comboInputs[1] == 1) DashAndHit();
-            if (comboInputs[0] == 2 && comboInputs[1] == 0) DashPatada();
+          
         }
 
         if (comboInputs.Count == 3)
         {
-            if (comboInputs[0] == 0 && comboInputs[1] == 0 && comboInputs[2] == 0) PatadaAlta();
-            if (comboInputs[0] == 0 && comboInputs[1] == 0 && comboInputs[2] == 1) JabSwingSalto();
+           
             if (comboInputs[0] == 1 && comboInputs[1] == 1 && comboInputs[2] == 1) Cabezazo();
+        }
+    }
+    
+    
+    // --EFECTUAR EL ATAQUE --
+    
+    public void Attack(float damage) //toma el daño del ataque seleccionado
+    {
+        Collider2D[] col = Physics2D.OverlapCircleAll(attackPoint.position, 1,layerAttackable); //desde el punto de ataque con un radio de uno golpea solo a los enemigos e items
+
+        foreach (var c in col)
+        {
+            if (c.TryGetComponent<IReciveDamage>(out IReciveDamage enemy))
+            {
+                enemy.Damage(damage);
+            }
         }
     }
     
@@ -266,70 +319,44 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
 
     private void Cabezazo()
     {
-        ataquePlayerComp.attackType = AtaquePlayer.AttackTypes.cabezazo;
-        //da 180
+        Attack(headbuttDamage);
+        headbuttTimer = maxHeadbuttTimer;
+        state = "headbutt";
+
+        //falta ponerle la animacion
     }
 
-    private void JabSwingSalto()
-    {
-        //da 130
-    }
-
-    private void PatadaAlta()
-    {
-        //da 130
-    }
-
-    private void DashPatada()
-    {
-        //da 115
-    }
-
-    private void DashAndHit()
-    {
-        //da 165
-    }
-
-    private void AgarreYPunch()
-    {
-        //da 115
-    }
-
-    private void HitInKnee()
-    {
-        //da 115
-    }
-
-
-    private void HitInJump()
-    {
-        //da 165
-    }
-    
 
     private void SwingSwing()
     {
-        //da 165
-        //tiempo del bate hacia la izq y otro hacia la der
+        Attack(swingDamage);
+        swingTimer = maxSwingTimer;
+        state = "swing";
+        
+        //falta animacion
     }
     
     
     private void JabCodo()
     {
-        //da 115 de daño
+        Attack(elbowStrikeDamage);
+        elbowStrikeTimer = maxElbowStrikeTimer;
+        state = "elbow";
+        
+        // falta animacion
     }
 
     private void HardAttack()
     {
         hardTimer = hardMaxTimer;
-        canGiveDamage2 = true;
+        canGiveDamage = false;
         state = "hardAttack";
     }
 
     private void SoftAttack()
     {
         suaveTimer = suaveMaxTimer;
-        canGiveDamage1 = true;
+        canGiveDamage = false;
         state = "softAttack";
     }
 
