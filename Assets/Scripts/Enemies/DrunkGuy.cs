@@ -10,6 +10,8 @@ public class DrunkGuy : Enemy
     [SerializeField] private float chaseRange = 8f;
     [SerializeField] private float attackRange = 2f; //este enemigo ataca desde una distancia mayor porque realiza un ataque a larga distancia
     
+    //referencias
+    
     
     //clase padre
     
@@ -17,10 +19,16 @@ public class DrunkGuy : Enemy
     protected override float AttackRange => attackRange;
 
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
+        
         ataqueEnemy = ataqueDrunkGuy;
         velocidadEnemy = 2f;
         defensaEnemy = 3f;
     }
+    
+    
+   
+
 }

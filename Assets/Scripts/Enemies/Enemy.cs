@@ -3,7 +3,6 @@ using UnityEngine;
 
 public abstract class Enemy : MonoBehaviour,IReciveDamage
 {
-    
     //rangos de vision
    protected abstract float ChaseRange { get; }
    protected abstract float AttackRange { get; }
@@ -11,9 +10,11 @@ public abstract class Enemy : MonoBehaviour,IReciveDamage
    
    //referencias
    private Transform player; //va a pillar el transform de lo que llames player
-    
+   protected Animator anim;
+   private Rigidbody2D rb;
+   
     //stats
-    private float vidaEnemy;
+    protected float vidaEnemy; 
     private float vidaMaxEnemy = 100;
    protected float defensaEnemy;
    protected float ataqueEnemy;
@@ -25,28 +26,37 @@ public abstract class Enemy : MonoBehaviour,IReciveDamage
    public EnemyAttack enemyAttack;
 
 
-   private void Awake()
+   protected virtual void Start()
    {
        vidaEnemy = vidaMaxEnemy;
+
+       rb = GetComponent<Rigidbody2D>();
+       
        
        patrol = GetComponent<PatrolSystem>();
        enemyAttack = GetComponent<EnemyAttack>();
+       anim = GetComponent<Animator>();
    }
     
    private void Update() //update ejecuta cada frame, NO USAR WHILE
    {
+       
+       
+       
        bool inChase = PlayerInChaseRange();
        bool inAttack = PlayerInAttackRange();
        
        switch (state)
        {
            case "patrol":
-               patrol.Patrol();
+               anim.SetBool("isWalking",true);
+               patrol.Update();
                if(inChase) state = "chase";
                
                break;
            
            case "chase":
+               anim.SetBool("isWalking",true);
                if(inChase)Chase();
                
                if (inAttack) state = "attack";
@@ -55,6 +65,7 @@ public abstract class Enemy : MonoBehaviour,IReciveDamage
                break;
            
            case "attack":
+               anim.SetBool("isWalking", false);
                if (inAttack)
                {
                    enemyAttack.SetTarget(player);
@@ -80,7 +91,7 @@ public abstract class Enemy : MonoBehaviour,IReciveDamage
            return true;
        }
 
-       player = null;
+       
        return false;
    }
 
@@ -92,15 +103,19 @@ public abstract class Enemy : MonoBehaviour,IReciveDamage
            player =  colliders[0].transform;
            return true;
        }
-       player = null;
+      
        return false;
    }
    
     
-    private void EnemyRestarVida(float value)
+    protected virtual void EnemyRestarVida(float value)
     {
         vidaEnemy -= value;
-        if(vidaEnemy<=0) Morir();
+        anim.SetTrigger("hitTaken");
+        if (vidaEnemy <= 0)
+        {
+            anim.SetTrigger("death");
+        }
     }
     
     public void Damage(float damage)
@@ -109,12 +124,12 @@ public abstract class Enemy : MonoBehaviour,IReciveDamage
         EnemyRestarVida(damageFinal);
     }
 
-    private void Morir()
+    private void Morir() //se enciende en el animator
     {
         Destroy(gameObject);
     }
 
-    private void OnDrawGizmosSelected()
+    private void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position, ChaseRange);

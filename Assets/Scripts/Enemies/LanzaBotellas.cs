@@ -32,7 +32,7 @@ public class LanzaBotellas : EnemyAttack
     protected override void DoAttack()
     {
         finalAttack =  baseDamage + drunkGuy.ataqueDrunkGuy;
-        
+        Debug.Log("Voy a tirar la botella");
         DropBottle();
         
     }
@@ -49,8 +49,8 @@ public class LanzaBotellas : EnemyAttack
             bottleRigidBody.AddForce((player.position - transform.position).normalized * fuerzaHorizontal + Vector3.up * fuerzaVertical, ForceMode2D.Impulse);
             Bottle bottleInst = bottleInstantiate.GetComponent<Bottle>();
             bottleInst.Initialize(finalAttack);
-           
-            
+            Debug.Log("He tirado la botella");
+
         }
     }
 
