@@ -1,19 +1,10 @@
 fileFormatVersion: 2
-guid: f8aa2dd7d865f1d489b9370c6c1e1138
+guid: 11159b57740cbef418f992e16259f6d6
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -1958676783162264248
-    second: PlayButton_0
-  - first:
-      213: 7928353779462949069
-    second: PlayButton_1
-  - first:
-      213: -3248335609562203678
-    second: PlayButton_2
-  - first:
-      213: -2922150867334361037
-    second: PlayButton_3
+      213: -8811190038128692301
+    second: Botella_Boss_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -55,7 +46,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -122,12 +113,12 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: PlayButton_0
+      name: Botella_Boss_0
       rect:
         serializedVersion: 2
-        x: 11
-        y: 3
-        width: 26
+        x: 4
+        y: 5
+        width: 28
         height: 26
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -137,74 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 845fecdd7d161d4e0800000000000000
-      internalID: -1958676783162264248
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PlayButton_1
-      rect:
-        serializedVersion: 2
-        x: 39
-        y: 3
-        width: 26
-        height: 26
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: dc8c38691cb270e60800000000000000
-      internalID: 7928353779462949069
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PlayButton_2
-      rect:
-        serializedVersion: 2
-        x: 67
-        y: 3
-        width: 26
-        height: 26
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 2e9fac839f79be2d0800000000000000
-      internalID: -3248335609562203678
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PlayButton_3
-      rect:
-        serializedVersion: 2
-        x: 96
-        y: 3
-        width: 27
-        height: 26
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 3309f64b44f6277d0800000000000000
-      internalID: -2922150867334361037
+      spriteID: 3b3f0e0185d58b580800000000000000
+      internalID: -8811190038128692301
       vertices: []
       indices: 
       edges: []
@@ -213,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -223,10 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      PlayButton_0: -1958676783162264248
-      PlayButton_1: 7928353779462949069
-      PlayButton_2: -3248335609562203678
-      PlayButton_3: -2922150867334361037
+      Botella_Boss_0: -8811190038128692301
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

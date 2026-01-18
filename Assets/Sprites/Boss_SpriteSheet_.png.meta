@@ -1,31 +1,49 @@
 fileFormatVersion: 2
-guid: 5d9995cb84a40f04a813ff6519954532
+guid: 63f80e143ad9e314f9f5d4a4eada3f7b
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2257040759460654887
-    second: ControlsButton_0
+      213: -1824840128752083351
+    second: Boss_SpriteSheet__0
   - first:
-      213: 1449686986640880635
-    second: ControlsButton_1
+      213: 3536226909390468172
+    second: Boss_SpriteSheet__1
   - first:
-      213: -6459439873526359688
-    second: ControlsButton_2
+      213: -8681276105751858821
+    second: Boss_SpriteSheet__2
   - first:
-      213: -1034431450596478416
-    second: ControlsButton_3
+      213: -8176162684898812894
+    second: Boss_SpriteSheet__3
   - first:
-      213: 2680792213297157982
-    second: ControlsButton_4
+      213: 9032133457609432056
+    second: Boss_SpriteSheet__4
   - first:
-      213: -6601225466238611085
-    second: ControlsButton_5
+      213: -5041939818486396175
+    second: Boss_SpriteSheet__5
   - first:
-      213: -888730545965260124
-    second: ControlsButton_6
+      213: 7794162793789694489
+    second: Boss_SpriteSheet__6
   - first:
-      213: 6158011194694072401
-    second: ControlsButton_7
+      213: -1357318166296504006
+    second: Boss_SpriteSheet__7
+  - first:
+      213: -3238773665825193159
+    second: Boss_SpriteSheet__8
+  - first:
+      213: 8682144353848012528
+    second: Boss_SpriteSheet__9
+  - first:
+      213: 9127580277323859799
+    second: Boss_SpriteSheet__10
+  - first:
+      213: 3922924720620620298
+    second: Boss_SpriteSheet__11
+  - first:
+      213: 154855204057375258
+    second: Boss_SpriteSheet__12
+  - first:
+      213: -1924801719664704649
+    second: Boss_SpriteSheet__13
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -67,12 +85,12 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 32
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -134,177 +152,221 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: ControlsButton_0
+      name: Boss_SpriteSheet__0
       rect:
         serializedVersion: 2
-        x: 15
-        y: 3
-        width: 26
-        height: 26
+        x: 0
+        y: 256
+        width: 256
+        height: 256
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9d015c833616da0e0800000000000000
-      internalID: -2257040759460654887
+      spriteID: 96e9ad1429ddca6e0800000000000000
+      internalID: -1824840128752083351
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ControlsButton_1
+      name: Boss_SpriteSheet__1
       rect:
         serializedVersion: 2
-        x: 43
-        y: 3
-        width: 26
-        height: 26
+        x: 256
+        y: 256
+        width: 256
+        height: 256
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: bf37c3232a25e1410800000000000000
-      internalID: 1449686986640880635
+      spriteID: c44756b63a3331130800000000000000
+      internalID: 3536226909390468172
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ControlsButton_2
+      name: Boss_SpriteSheet__2
       rect:
         serializedVersion: 2
-        x: 71
-        y: 3
-        width: 27
-        height: 26
+        x: 512
+        y: 256
+        width: 256
+        height: 256
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 879977a98a57b56a0800000000000000
-      internalID: -6459439873526359688
+      spriteID: b71f29f8069e58780800000000000000
+      internalID: -8681276105751858821
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ControlsButton_3
+      name: Boss_SpriteSheet__3
       rect:
         serializedVersion: 2
-        x: 99
-        y: 3
-        width: 26
-        height: 26
+        x: 768
+        y: 256
+        width: 256
+        height: 256
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 03274ba8316f4a1f0800000000000000
-      internalID: -1034431450596478416
+      spriteID: 22c5dc47b5f688e80800000000000000
+      internalID: -8176162684898812894
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ControlsButton_4
+      name: Boss_SpriteSheet__4
       rect:
         serializedVersion: 2
-        x: 127
-        y: 3
-        width: 26
-        height: 26
+        x: 1024
+        y: 256
+        width: 256
+        height: 256
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e57d5368056143520800000000000000
-      internalID: 2680792213297157982
+      spriteID: 8fb1bb08685985d70800000000000000
+      internalID: 9032133457609432056
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ControlsButton_5
+      name: Boss_SpriteSheet__5
       rect:
         serializedVersion: 2
-        x: 155
-        y: 3
-        width: 26
-        height: 26
+        x: 0
+        y: 0
+        width: 256
+        height: 256
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 371d59ac96cb364a0800000000000000
-      internalID: -6601225466238611085
+      spriteID: 1fa883cc27e670ab0800000000000000
+      internalID: -5041939818486396175
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ControlsButton_6
+      name: Boss_SpriteSheet__6
       rect:
         serializedVersion: 2
-        x: 184
-        y: 3
-        width: 26
-        height: 26
+        x: 256
+        y: 0
+        width: 256
+        height: 256
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4a2a3b2f6489aa3f0800000000000000
-      internalID: -888730545965260124
+      spriteID: 912a66504cd6a2c60800000000000000
+      internalID: 7794162793789694489
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ControlsButton_7
+      name: Boss_SpriteSheet__7
       rect:
         serializedVersion: 2
-        x: 212
-        y: 3
-        width: 26
-        height: 26
+        x: 512
+        y: 0
+        width: 256
+        height: 256
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 1587e961e86a57550800000000000000
-      internalID: 6158011194694072401
+      spriteID: a3956b2b156d92de0800000000000000
+      internalID: -1357318166296504006
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss_SpriteSheet__8
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 0
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 933899cb2809d03d0800000000000000
+      internalID: -3238773665825193159
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Boss_SpriteSheet__9
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 0
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0fe26c33a4c2d7870800000000000000
+      internalID: 8682144353848012528
       vertices: []
       indices: 
       edges: []
@@ -313,7 +375,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 42f115736b483a949845eaadc9a90bda
     internalID: 0
     vertices: []
     indices: 
@@ -323,14 +385,16 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      ControlsButton_0: -2257040759460654887
-      ControlsButton_1: 1449686986640880635
-      ControlsButton_2: -6459439873526359688
-      ControlsButton_3: -1034431450596478416
-      ControlsButton_4: 2680792213297157982
-      ControlsButton_5: -6601225466238611085
-      ControlsButton_6: -888730545965260124
-      ControlsButton_7: 6158011194694072401
+      Boss_SpriteSheet__0: -1824840128752083351
+      Boss_SpriteSheet__1: 3536226909390468172
+      Boss_SpriteSheet__2: -8681276105751858821
+      Boss_SpriteSheet__3: -8176162684898812894
+      Boss_SpriteSheet__4: 9032133457609432056
+      Boss_SpriteSheet__5: -5041939818486396175
+      Boss_SpriteSheet__6: 7794162793789694489
+      Boss_SpriteSheet__7: -1357318166296504006
+      Boss_SpriteSheet__8: -3238773665825193159
+      Boss_SpriteSheet__9: 8682144353848012528
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
