@@ -8,7 +8,7 @@ public class Boss : MonoBehaviour
     public float returnSpeed = 6f;
     public float chargeSpeed = 12f;
 
-    [Header("References")]
+    [Header("Referencias")]
     public Transform player;
     public Rigidbody2D rb;
 

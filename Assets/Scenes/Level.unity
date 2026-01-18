@@ -854,7 +854,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3690811347323707675, guid: 13b9e2f62b797204d8b75645960219cd, type: 3}
       propertyPath: layerAttackable.m_Bits
-      value: 0
+      value: 64
       objectReference: {fileID: 0}
     - target: {fileID: 3746685417677238834, guid: 13b9e2f62b797204d8b75645960219cd, type: 3}
       propertyPath: m_Value

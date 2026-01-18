@@ -563,7 +563,7 @@ MonoBehaviour:
   attackPoint: {fileID: 8788197514584393076}
   layerAttackable:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   comboMaxTimer: 0.2
   headbuttDamage: 100
   maxHeadbuttTimer: 2
