@@ -18,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8482952832110796815
 RectTransform:
   m_ObjectHideFlags: 0
@@ -135,8 +135,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 39178644440137505}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.094, y: 0}
+  m_AnchorMax: {x: 0.094, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -375,7 +375,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6065425259595644898}
   - component: {fileID: 677685727403453160}
-  - component: {fileID: 3089579347528274077}
+  - component: {fileID: 7742903768003680961}
   - component: {fileID: 3414000577249669889}
   - component: {fileID: 4380179957833925397}
   - component: {fileID: 3690811347323707675}
@@ -396,7 +396,7 @@ Transform:
   m_GameObject: {fileID: 6268106174993044909}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.03, y: -0.53, z: 0}
+  m_LocalPosition: {x: -8, y: -0.53, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -432,8 +432,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!61 &3089579347528274077
-BoxCollider2D:
+--- !u!70 &7742903768003680961
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -462,22 +462,13 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0}
-    oldSize: {x: 4, y: 4}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
+  m_Offset: {x: -0.26641083, y: 1.9337876}
+  m_Size: {x: 1.65588, y: 3.8675752}
+  m_Direction: 0
 --- !u!95 &3414000577249669889
 Animator:
   serializedVersion: 7
@@ -809,7 +800,7 @@ RectTransform:
   m_Father: {fileID: 3132219201126402050}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
