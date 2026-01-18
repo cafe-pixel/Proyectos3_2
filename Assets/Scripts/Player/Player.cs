@@ -333,6 +333,7 @@ public class Player : MonoBehaviour, IReciboObjeto
     
     public void Attack(float damage) //toma el daño del ataque seleccionado
     {
+        Debug.Log("te ataco xd");
         Collider2D[] col = Physics2D.OverlapCircleAll(attackPoint.position, 1,layerAttackable); //desde el punto de ataque con un radio de uno golpea solo a los enemigos e items
 
         foreach (var c in col)
