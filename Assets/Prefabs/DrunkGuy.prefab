@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4168389716824731544}
   - component: {fileID: 7257635792948282273}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: ToDrop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -131,7 +131,7 @@ GameObject:
   - component: {fileID: 101567866455238353}
   - component: {fileID: 2773273976792650465}
   - component: {fileID: 6375141643131574024}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: DrunkGuy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
