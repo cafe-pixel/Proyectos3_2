@@ -13,7 +13,7 @@ public class Puñetazos : EnemyAttack
     
     //referencias
     public Biker biker;
-    
+    private Animator anim;
     private float finalDamage;
     
     //clase padre
@@ -56,7 +56,7 @@ public class Puñetazos : EnemyAttack
         for (int i = 0; i < punches; i++)
         {
             //Animamtor.SetInteger("comboIndex", i)
-            //Animator.SetTrigger("Punch");
+            anim.SetTrigger("punch");
             yield return new WaitForSeconds(0.01f); //mini dilay para q arranque animacion
             yield return new WaitForSeconds(timeBetweenPunches);
         }

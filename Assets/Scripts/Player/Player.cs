@@ -53,6 +53,7 @@ public class Player : MonoBehaviour, IReciboObjeto
     [SerializeField] private int hardAttack = 1;
     [SerializeField] private float hardMaxTimer = 1.75f;
     private float hardTimer;
+    private int hardAttackNumber = 0;
     
     [Header("Movement")] 
     new Vector3 initialPosition;
@@ -161,10 +162,12 @@ public class Player : MonoBehaviour, IReciboObjeto
                     comboActivated = true;
                 }
 
-                if (Input.GetMouseButton(hardAttack)&&canGiveDamage) //instaura el tiempo que va a tardar
+                if (Input.GetMouseButton(hardAttack)&& canGiveDamage) //instaura el tiempo que va a tardar
                 {
+                    Debug.Log("tomo input");
                     ((IList)comboInputs).Add(1); //CD
                     if (!comboActivated) comboTimer = comboMaxTimer;
+                    Debug.Log("Activo combo");
                     comboActivated = true;
                 }
 
@@ -222,13 +225,25 @@ public class Player : MonoBehaviour, IReciboObjeto
             case "hardAttack":
             
                 hardTimer -=  Time.deltaTime;
+                Debug.Log("Estoy restando tiempo");
                 
                 if (hardTimer <= 0)
                 {
+                    Debug.Log("El timer es 0");
+                    hardAttackNumber = 0;
+                    anim.SetInteger("hardComb", hardAttackNumber);
+                    Debug.Log("Mando animacion");
+                    
+                    
                     state = "move";
                     hardTimer = hardMaxTimer;
                     canGiveDamage = true;
                     
+                }
+                
+                if (Input.GetMouseButtonDown(hardAttack)&&canGiveDamage) //instaura el tiempo que va a tardar
+                {
+                    HardAttack();
                 }
                         
                 
@@ -362,8 +377,24 @@ public class Player : MonoBehaviour, IReciboObjeto
 
     private void HardAttack()
     {
-        hardTimer = hardMaxTimer;
-        canGiveDamage = false;
+        if (hardAttackNumber < 4)
+        {
+            Debug.Log(3);
+            hardAttackNumber++;
+            anim.SetInteger("hardComb", hardAttackNumber);
+            hardTimer = hardMaxTimer;
+
+            state = "hardAttack";
+        }
+
+        else
+        {
+            hardAttackNumber = 0;
+            anim.SetInteger("hardComb", hardAttackNumber);
+            state = "move";
+        }
+        
+        //canGiveDamage = false;
         state = "hardAttack";
     }
 
@@ -390,6 +421,7 @@ public class Player : MonoBehaviour, IReciboObjeto
     {
         dashTimer = dashMaxTimer;
         rb.AddForce(new Vector2(xInput * dashForce, 0), ForceMode2D.Impulse);
+        anim.SetTrigger("dash");
         state = "dash";
     }
 
@@ -417,6 +449,7 @@ public class Player : MonoBehaviour, IReciboObjeto
     {
         parryTimer = parryMaxTimer;
         isParrying = true;
+        anim.SetTrigger("parry");
         state = "parrystate";
     }
 
