@@ -34,6 +34,7 @@ public class LanzaBotellas : EnemyAttack
     {
         finalAttack =  baseDamage + drunkGuy.ataqueDrunkGuy;
         Debug.Log("Voy a tirar la botella");
+        anim.SetTrigger("hit");
         DropBottle();
         
     }

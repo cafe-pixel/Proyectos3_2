@@ -13,6 +13,7 @@ public abstract class Enemy : MonoBehaviour,IReciveDamage
    private Transform player; //va a pillar el transform de lo que llames player
    protected Animator anim;
    private Rigidbody2D rb;
+   private SpriteRenderer spr;
    
     //stats
     protected float vidaEnemy; 
@@ -40,6 +41,8 @@ public abstract class Enemy : MonoBehaviour,IReciveDamage
        anim = GetComponent<Animator>();
 
        attackTimer = maxAttackTimer;
+
+       spr = GetComponent<SpriteRenderer>();
    }
     
    private void Update() //update ejecuta cada frame, NO USAR WHILE
@@ -85,6 +88,16 @@ public abstract class Enemy : MonoBehaviour,IReciveDamage
                    {
                        Debug.Log(enemyAttack);
                        Debug.Log(player);
+                       if (transform.position.x > player.position.x)//mira si mi posicion es superior a la del punto de patrulla, mi objetivo está a la izquierda
+                       {
+                           spr.flipX = true;
+                       }
+                       else
+                       {
+                           spr.flipX = false;
+                       }
+                       
+                       
                        enemyAttack.SetTarget(player);
                        enemyAttack.TryAttack();
                    }
@@ -99,6 +112,14 @@ public abstract class Enemy : MonoBehaviour,IReciveDamage
    private void Chase()
    {
        transform.position = Vector3.MoveTowards(transform.position, player.position, velocidadEnemy * Time.deltaTime);
+       if (transform.position.x > player.position.x)//mira si mi posicion es superior a la del punto de patrulla, mi objetivo está a la izquierda
+       {
+           spr.flipX = true;
+       }
+       else
+       {
+           spr.flipX = false;
+       }
    }
 
    private bool PlayerInChaseRange()
