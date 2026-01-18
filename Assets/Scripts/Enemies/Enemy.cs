@@ -1,3 +1,4 @@
+using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -23,7 +24,9 @@ public abstract class Enemy : MonoBehaviour,IReciveDamage
    //states
    private string state = "patrol";
    public PatrolSystem patrol;
-   public EnemyAttack enemyAttack;
+   [SerializeField] EnemyAttack enemyAttack;
+   private float maxAttackTimer = 1.3f;
+   private float attackTimer;
 
 
    protected virtual void Start()
@@ -34,8 +37,9 @@ public abstract class Enemy : MonoBehaviour,IReciveDamage
        
        
        patrol = GetComponent<PatrolSystem>();
-       enemyAttack = GetComponent<EnemyAttack>();
        anim = GetComponent<Animator>();
+
+       attackTimer = maxAttackTimer;
    }
     
    private void Update() //update ejecuta cada frame, NO USAR WHILE
@@ -50,7 +54,7 @@ public abstract class Enemy : MonoBehaviour,IReciveDamage
        {
            case "patrol":
                anim.SetBool("isWalking",true);
-               patrol.Update();
+               patrol.Patrol();
                if(inChase) state = "chase";
                
                break;
@@ -58,21 +62,36 @@ public abstract class Enemy : MonoBehaviour,IReciveDamage
            case "chase":
                anim.SetBool("isWalking",true);
                if(inChase)Chase();
-               
-               if (inAttack) state = "attack";
+
+               if (inAttack)
+               {
+                   attackTimer = maxAttackTimer;
+                   state = "attack";
+               }
                
                else if (!inChase) state = "patrol";
                break;
            
            case "attack":
                anim.SetBool("isWalking", false);
-               if (inAttack)
+
+               attackTimer -= Time.deltaTime;
+
+               if (attackTimer <= 0)
                {
-                   enemyAttack.SetTarget(player);
-                   enemyAttack.TryAttack();
+                   attackTimer = maxAttackTimer;
+                   
+                   if (inAttack)
+                   {
+                       Debug.Log(enemyAttack);
+                       Debug.Log(player);
+                       enemyAttack.SetTarget(player);
+                       enemyAttack.TryAttack();
+                   }
+               
+                   else state = "chase";
                }
                
-               else state = "chase";
                break;
        }
    }

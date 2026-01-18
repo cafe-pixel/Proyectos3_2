@@ -12,8 +12,8 @@ public class Puñetazos : EnemyAttack
     [SerializeField] private float timeBetweenPunches = 0.25f;
     
     //referencias
-    public Biker biker;
-    private Animator anim;
+    [SerializeField] Biker biker;
+    [SerializeField] Animator anim;
     private float finalDamage;
     
     //clase padre
@@ -25,7 +25,7 @@ public class Puñetazos : EnemyAttack
 
     private void Start()
     {
-        biker = GetComponent<Biker>();
+        
         
     }
 
@@ -50,6 +50,7 @@ public class Puñetazos : EnemyAttack
 
     private IEnumerator Punches()
     {
+        Debug.Log("awe");
         finalDamage = baseDamage + biker.ataqueBiker;
         
         int punches = Random.Range(1, maxPunch + 1);

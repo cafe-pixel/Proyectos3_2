@@ -16,7 +16,7 @@ public class PatrolSystem : MonoBehaviour
         }
     }
 
-    public void Update()
+    public void Patrol()
     {
         //transform se mueve en una direccion y el move towards se mueve a una posicion
         //si no pone rb es sin fisicas

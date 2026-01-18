@@ -11,7 +11,8 @@ public class LanzaBotellas : EnemyAttack
     [SerializeField] private float baseDamage = 20f;
     
     //referencias
-    private DrunkGuy drunkGuy;
+   [SerializeField] private DrunkGuy drunkGuy;
+   [SerializeField] private Animator anim;
 
     private float finalAttack;
     //clase padre
@@ -26,7 +27,7 @@ public class LanzaBotellas : EnemyAttack
 
     private void Start()
     {
-        drunkGuy = GetComponent<DrunkGuy>();
+        
     }
 
     protected override void DoAttack()
