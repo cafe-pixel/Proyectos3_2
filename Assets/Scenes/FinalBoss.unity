@@ -1108,6 +1108,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3690811347323707675, guid: 13b9e2f62b797204d8b75645960219cd, type: 3}
+      propertyPath: ataquePlayer
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 3690811347323707675, guid: 13b9e2f62b797204d8b75645960219cd, type: 3}
       propertyPath: dashMaxTimer
       value: 0.5
       objectReference: {fileID: 0}

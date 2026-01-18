@@ -44,11 +44,14 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Level
+  - name: BackGround
     uniqueID: 4021348917
     locked: 0
   - name: Characters
     uniqueID: 6336013
+    locked: 0
+  - name: Front
+    uniqueID: 1825520167
     locked: 0
   m_RenderingLayers:
   - Default

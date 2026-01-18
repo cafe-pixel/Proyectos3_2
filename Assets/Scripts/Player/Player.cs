@@ -566,4 +566,3 @@ public class Player : MonoBehaviour, IReciboObjeto
     }
     
 }
-
