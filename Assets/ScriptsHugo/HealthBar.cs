@@ -27,8 +27,7 @@ public class HealthBar : MonoBehaviour
         healthSlider.value = currentHealth;
         
         fillImage.fillAmount = currentHealth / player.GetMaxLife();
-
-        //Desvanecimiento suave
+        
         Color c = fillImage.color;
         float targetAlpha = currentHealth > 0 ? 1f : 0f;
         c.a = Mathf.MoveTowards(c.a, targetAlpha, fadeSpeed * Time.deltaTime);

@@ -6,7 +6,7 @@ public class PlayerHealth : MonoBehaviour, IReciveDamage, IReciboObjeto
 {
     [SerializeField] private Image healthBar;
     [SerializeField] private float vidaMaxPlayer = 100;
-    private float vidaPlayer;
+    [SerializeField] private float vidaPlayer;
 
     private Player player;
 
