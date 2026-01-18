@@ -79,7 +79,7 @@ MonoBehaviour:
   maxPunch: 2
   cooldown: 0.5
   baseDamage: 10
-  timeBetweenPunches: 0.25
+  timeBetweenPunches: 0.5
   biker: {fileID: 4387513296152578226}
   anim: {fileID: 7129235665015348769}
 --- !u!1 &7536426542009998833
