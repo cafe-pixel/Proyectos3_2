@@ -11,7 +11,8 @@ public class LanzaBotellas : EnemyAttack
     [SerializeField] private float baseDamage = 20f;
     
     //referencias
-    private DrunkGuy drunkGuy;
+   [SerializeField] private DrunkGuy drunkGuy;
+   [SerializeField] private Animator anim;
 
     private float finalAttack;
     //clase padre
@@ -26,13 +27,14 @@ public class LanzaBotellas : EnemyAttack
 
     private void Start()
     {
-        drunkGuy = GetComponent<DrunkGuy>();
+        
     }
 
     protected override void DoAttack()
     {
         finalAttack =  baseDamage + drunkGuy.ataqueDrunkGuy;
-        
+        Debug.Log("Voy a tirar la botella");
+        anim.SetTrigger("hit");
         DropBottle();
         
     }
@@ -49,8 +51,8 @@ public class LanzaBotellas : EnemyAttack
             bottleRigidBody.AddForce((player.position - transform.position).normalized * fuerzaHorizontal + Vector3.up * fuerzaVertical, ForceMode2D.Impulse);
             Bottle bottleInst = bottleInstantiate.GetComponent<Bottle>();
             bottleInst.Initialize(finalAttack);
-           
-            
+            Debug.Log("He tirado la botella");
+
         }
     }
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
+public class Player : MonoBehaviour, IReciboObjeto
 {
     [Header("Inputs")] 
     private float xInput;
@@ -18,13 +18,14 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
 
     [SerializeField] private LayerMask layerAttackable;
 
-    private bool canGiveDamage;
+    private bool canGiveDamage = true;
     
     [Header("Combos")] 
     //lo que voy a hacer es que cuando presione una tecla se manda un numero y se guarda en una lista, si recibe solo uno tira los normales y si no busca uno que sume eso
     [SerializeField] private float comboMaxTimer = 0.2f;
     private float comboTimer;
     private List<int> comboInputs = new List<int>();
+    private bool comboActivated;
     
     
     [Header("Headbutt")] 
@@ -46,11 +47,13 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
     [SerializeField] private int softAttack = 0; //boton izq
     [SerializeField] private float suaveMaxTimer = 0.41f;
     private float suaveTimer;
+    private int softAttackNumber = 0;
     
     [Header("HardAttack")] 
     [SerializeField] private int hardAttack = 1;
     [SerializeField] private float hardMaxTimer = 1.75f;
     private float hardTimer;
+    private int hardAttackNumber = 0;
     
     [Header("Movement")] 
     new Vector3 initialPosition;
@@ -74,16 +77,15 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
     [SerializeField] private KeyCode parry = KeyCode.E; //se le hace referencia con el numero 4
     private float parryTimer;
     [SerializeField] private float parryMaxTimer = 1f;
-    private bool isParrying;
+    public bool isParrying;
 
     
 
     [Header("PlayerStats")] 
-    [SerializeField] private float vidaPlayer = 1; //los items que suben esto son permanentes y acumulativos
     [SerializeField] public float velocidadPlayer = 1f; //los items que suben el resto son temporales y acumulativos
     [SerializeField] public float defensaPlayer = 1f;
     [SerializeField] public float ataquePlayer = 1f;
-    [SerializeField] private float vidaMaxPlayer = 100;
+    
 
 
 
@@ -94,15 +96,16 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
     [Header("References")] 
     private FloorDetection floor;
     [SerializeField] private Canva canvasEnd;
-   
+    //Sprites 
+    private SpriteRenderer sr;
+    private Animator anim;
 
 
     //States
     private string state = "move";
 
 
-    //Sprites 
-    private SpriteRenderer sr;
+    
     
     //Coroutines 
     private bool attackFuncionando = false;
@@ -119,10 +122,9 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
         rb = GetComponent<Rigidbody2D>();
         floor = GetComponentInChildren<FloorDetection>();
         sr = GetComponent<SpriteRenderer>();
-        vidaPlayer = vidaMaxPlayer;
-        comboTimer = comboMaxTimer;
+        anim = GetComponent<Animator>();
         
-
+        comboTimer = comboMaxTimer;
     }
 
     private void Update()
@@ -149,32 +151,39 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
                 if (Input.GetKeyDown(jump))
                 {
                     ((IList)comboInputs).Add(3); //Jump
-                    comboTimer = comboMaxTimer;
+                    if (!comboActivated) comboTimer = comboMaxTimer;
+                    comboActivated = true;
                 }
 
                 if (Input.GetKeyDown(dash))
                 {
                     ((IList)comboInputs).Add(2); //Dash
-                    comboTimer = comboMaxTimer;
+                    if (!comboActivated) comboTimer = comboMaxTimer;
+                    comboActivated = true;
                 }
 
-                if (Input.GetMouseButton(hardAttack)&&canGiveDamage) //instaura el tiempo que va a tardar
+                if (Input.GetMouseButton(hardAttack)&& canGiveDamage) //instaura el tiempo que va a tardar
                 {
+                    Debug.Log("tomo input");
                     ((IList)comboInputs).Add(1); //CD
-                    comboTimer = comboMaxTimer;
+                    if (!comboActivated) comboTimer = comboMaxTimer;
+                    Debug.Log("Activo combo");
+                    comboActivated = true;
                 }
 
                 if (Input.GetMouseButtonDown(softAttack)&&canGiveDamage)
                 {
                     ((IList)comboInputs).Add(0); //CI
-                    comboTimer = comboMaxTimer;
+                    if (!comboActivated) comboTimer = comboMaxTimer;
+                    comboActivated = true;
                     
                 }
 
                 if (Input.GetKeyDown(parry))
                 {
                     ((IList)comboInputs).Add(4); //Parry
-                    comboTimer = comboMaxTimer;
+                    if (!comboActivated) comboTimer = comboMaxTimer;
+                    comboActivated = true;
                 }
     
                 #endregion
@@ -186,7 +195,7 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
                 if (parryTimer <= 0)
                 {
                     isParrying = false;
-                    state = "parrystate";
+                    state = "move";
                 }
                 break;
             
@@ -196,25 +205,45 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
                 
                 if (suaveTimer <= 0)
                 {
+                    softAttackNumber = 0;
+                    anim.SetInteger("softCombo", softAttackNumber);
+                    
                     state = "move";
                     suaveTimer = suaveMaxTimer;
                     canGiveDamage = true;
                 }
                         
-                
+                if (Input.GetMouseButtonDown(softAttack)&&canGiveDamage)
+                {
+                    SoftAttack();
+                    // ((IList)comboInputs).Add(0); //CI
+                    // comboTimer = comboMaxTimer;
+                }
             
                 break;
             
             case "hardAttack":
             
                 hardTimer -=  Time.deltaTime;
+                Debug.Log("Estoy restando tiempo");
                 
                 if (hardTimer <= 0)
                 {
+                    Debug.Log("El timer es 0");
+                    hardAttackNumber = 0;
+                    anim.SetInteger("hardComb", hardAttackNumber);
+                    Debug.Log("Mando animacion");
+                    
+                    
                     state = "move";
                     hardTimer = hardMaxTimer;
                     canGiveDamage = true;
                     
+                }
+                
+                if (Input.GetMouseButtonDown(hardAttack)&&canGiveDamage) //instaura el tiempo que va a tardar
+                {
+                    HardAttack();
                 }
                         
                 
@@ -304,6 +333,7 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
     
     public void Attack(float damage) //toma el daño del ataque seleccionado
     {
+        Debug.Log("te ataco xd");
         Collider2D[] col = Physics2D.OverlapCircleAll(attackPoint.position, 1,layerAttackable); //desde el punto de ataque con un radio de uno golpea solo a los enemigos e items
 
         foreach (var c in col)
@@ -348,22 +378,51 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
 
     private void HardAttack()
     {
-        hardTimer = hardMaxTimer;
-        canGiveDamage = false;
+        if (hardAttackNumber < 4)
+        {
+            Debug.Log(3);
+            hardAttackNumber++;
+            anim.SetInteger("hardComb", hardAttackNumber);
+            hardTimer = hardMaxTimer;
+
+            state = "hardAttack";
+        }
+
+        else
+        {
+            hardAttackNumber = 0;
+            anim.SetInteger("hardComb", hardAttackNumber);
+            state = "move";
+        }
+        
+        //canGiveDamage = false;
         state = "hardAttack";
     }
 
     private void SoftAttack()
     {
-        suaveTimer = suaveMaxTimer;
-        canGiveDamage = false;
-        state = "softAttack";
+        if (softAttackNumber < 4)
+        {
+            Debug.Log(2);
+            softAttackNumber++;
+            anim.SetInteger("softCombo", softAttackNumber);
+            suaveTimer = suaveMaxTimer;
+            //canGiveDamage = false;
+            state = "softAttack";
+        }
+        else
+        {
+            softAttackNumber = 0;
+            anim.SetInteger("softCombo", softAttackNumber);
+            state = "move";
+        }
     }
 
     private void Dash()
     {
         dashTimer = dashMaxTimer;
         rb.AddForce(new Vector2(xInput * dashForce, 0), ForceMode2D.Impulse);
+        anim.SetTrigger("dash");
         state = "dash";
     }
 
@@ -372,6 +431,17 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
         xInput = Input.GetAxisRaw("Horizontal"); //toda variable q declares en un sitio es local
         yInput = Input.GetAxisRaw("Vertical");
 
+        if (xInput != 0 || yInput != 0)
+        {
+            //Se mueve
+            anim.SetBool("isWalking", true);
+        }
+        else
+        {
+            //Quieto parao
+            anim.SetBool("isWalking", false);
+        }
+        
         Vector3 move = new Vector3(xInput, yInput, 0).normalized * (velocidad * velocidadPlayer);
         rb.linearVelocity = move;
     }
@@ -380,12 +450,14 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
     {
         parryTimer = parryMaxTimer;
         isParrying = true;
+        anim.SetTrigger("parry");
         state = "parrystate";
     }
 
     private void PreJump()
     {
         jumpForce = maxJumpForce;
+        anim.SetTrigger("jump");
         state = "jump";
     }
 
@@ -405,62 +477,17 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
 
     }
 
-    public void Damage(float damage) //daño recibido menos la defensa
-    {
-        if (!isParrying)
-        {
-            float damageFinal = damage -  defensaPlayer;
-            PlayerRestarVida(damageFinal);
-        }
-        
-    }
+    
 
 
-    public void PlayerRestarVida(float damage) //le resta el daño total
-    {
-        vidaPlayer -= damage;
-        
-        if (vidaPlayer == 0)
-        {
-            Muerto();
-        }
-    }
-
-    private void PlayerSumarVida() //suma vida si es que puede (bebida1)
-    {
-        if (!Mathf.Approximately(vidaPlayer, vidaMaxPlayer))
-        {
-            vidaPlayer += 25;
-            if (vidaPlayer > 100)
-            {
-                vidaPlayer = 100;
-            }
-        }
-        else
-        {
-            Debug.Log("Vida suficiente");
-        }
-    }
-
-    private void Muerto() //hacer el canvas
-    {
-        sr.enabled = false;
-        canvasEnd.CanvasAppear("Hola");
-        //Pantalla de Jugar Otra Vez
-
-    }
+    
 
 
     public void AplicarEfecto(Items.TipoItem item)
     {
         switch (item)
         {
-            case Items.TipoItem.BebidaEnergetica:
-                PlayerSumarVida();
-                break;
-            case Items.TipoItem.BebidaEnergetica2:
-                PlayerSumarVida2();
-                break;
+            
             case Items.TipoItem.PatatasPicantes:
                 PlayerSubirAtaque();
                 break;
@@ -506,21 +533,7 @@ public class Player : MonoBehaviour, IReciboObjeto, IReciveDamage
         }
     }
 
-    private void PlayerSumarVida2() //le suma la bebida2
-    {
-        if (!Mathf.Approximately(vidaPlayer, vidaMaxPlayer))
-        {
-            vidaPlayer += 50;
-            if (vidaPlayer > 100)
-            {
-                vidaPlayer = 100;
-            }
-        }
-        else
-        {
-            Debug.Log("Vida suficiente");
-        }
-    }
+    
 
     private IEnumerator Defensa()
     {

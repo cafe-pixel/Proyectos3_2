@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Biker : Enemy
@@ -9,8 +10,23 @@ public class Biker : Enemy
     [SerializeField] private float chaseRange = 15f;
     [SerializeField] private float attackRange = 2f;  //ataca en una distancia corta al ser un ataque cuerpo a cuerpo
     
+    //referencias
     
+
     //clases padres
     protected override float ChaseRange => chaseRange;
     protected override float AttackRange => attackRange;
+
+    protected override void Start()
+    {
+        base.Start();
+        
+        ataqueEnemy = ataqueBiker;
+        defensaEnemy = 2f;
+        velocidadEnemy = 3f;
+        
+        
+    }
+
+   
 }

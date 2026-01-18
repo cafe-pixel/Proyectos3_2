@@ -1,9 +1,9 @@
+using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public abstract class Enemy : MonoBehaviour,IReciveDamage
 {
-    
     //rangos de vision
    protected abstract float ChaseRange { get; }
    protected abstract float AttackRange { get; }
@@ -11,9 +11,12 @@ public abstract class Enemy : MonoBehaviour,IReciveDamage
    
    //referencias
    private Transform player; //va a pillar el transform de lo que llames player
-    
+   protected Animator anim;
+   private Rigidbody2D rb;
+   private SpriteRenderer spr;
+   
     //stats
-    private float vidaEnemy;
+    protected float vidaEnemy; 
     private float vidaMaxEnemy = 100;
    protected float defensaEnemy;
    protected float ataqueEnemy;
@@ -22,46 +25,86 @@ public abstract class Enemy : MonoBehaviour,IReciveDamage
    //states
    private string state = "patrol";
    public PatrolSystem patrol;
-   public EnemyAttack enemyAttack;
+   [SerializeField] EnemyAttack enemyAttack;
+   private float maxAttackTimer = 1.3f;
+   private float attackTimer;
 
 
-   private void Awake()
+   protected virtual void Start()
    {
        vidaEnemy = vidaMaxEnemy;
+
+       rb = GetComponent<Rigidbody2D>();
+       
        
        patrol = GetComponent<PatrolSystem>();
-       enemyAttack = GetComponent<EnemyAttack>();
+       anim = GetComponent<Animator>();
+
+       attackTimer = maxAttackTimer;
+
+       spr = GetComponent<SpriteRenderer>();
    }
     
    private void Update() //update ejecuta cada frame, NO USAR WHILE
    {
+       
+       
+       
        bool inChase = PlayerInChaseRange();
        bool inAttack = PlayerInAttackRange();
        
        switch (state)
        {
            case "patrol":
+               anim.SetBool("isWalking",true);
                patrol.Patrol();
                if(inChase) state = "chase";
                
                break;
            
            case "chase":
+               anim.SetBool("isWalking",true);
                if(inChase)Chase();
-               
-               if (inAttack) state = "attack";
+
+               if (inAttack)
+               {
+                   attackTimer = maxAttackTimer;
+                   state = "attack";
+               }
                
                else if (!inChase) state = "patrol";
                break;
            
            case "attack":
-               if (inAttack)
+               anim.SetBool("isWalking", false);
+
+               attackTimer -= Time.deltaTime;
+
+               if (attackTimer <= 0)
                {
-                   enemyAttack.SetTarget(player);
-                   enemyAttack.TryAttack();
+                   attackTimer = maxAttackTimer;
+                   
+                   if (inAttack)
+                   {
+                       Debug.Log(enemyAttack);
+                       Debug.Log(player);
+                       if (transform.position.x > player.position.x)//mira si mi posicion es superior a la del punto de patrulla, mi objetivo está a la izquierda
+                       {
+                           spr.flipX = true;
+                       }
+                       else
+                       {
+                           spr.flipX = false;
+                       }
+                       
+                       
+                       enemyAttack.SetTarget(player);
+                       enemyAttack.TryAttack();
+                   }
+               
+                   else state = "chase";
                }
                
-               else state = "chase";
                break;
        }
    }
@@ -69,38 +112,50 @@ public abstract class Enemy : MonoBehaviour,IReciveDamage
    private void Chase()
    {
        transform.position = Vector3.MoveTowards(transform.position, player.position, velocidadEnemy * Time.deltaTime);
+       if (transform.position.x > player.position.x)//mira si mi posicion es superior a la del punto de patrulla, mi objetivo está a la izquierda
+       {
+           spr.flipX = true;
+       }
+       else
+       {
+           spr.flipX = false;
+       }
    }
 
    private bool PlayerInChaseRange()
    {
-       Collider[] colliders = Physics.OverlapSphere(transform.position, ChaseRange, playerLayer); 
+       Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, ChaseRange, playerLayer); 
        if (colliders.Length > 0) //si el array de colliders es mayor que cero porque el overlapSphere detecta colision en una posicion dentro del radio y de la layer indicada
        {
            player =  colliders[0].transform; //toma el transform del collider que ha recogido y lo mete en el player
            return true;
        }
 
-       player = null;
+       
        return false;
    }
 
    private bool PlayerInAttackRange()
    {
-       Collider[] colliders = Physics.OverlapSphere(transform.position, AttackRange, playerLayer);
+       Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, AttackRange, playerLayer);
        if (colliders.Length > 0)
        {
            player =  colliders[0].transform;
            return true;
        }
-       player = null;
+      
        return false;
    }
    
     
-    private void EnemyRestarVida(float value)
+    protected virtual void EnemyRestarVida(float value)
     {
         vidaEnemy -= value;
-        if(vidaEnemy<=0) Morir();
+        anim.SetTrigger("hitTaken");
+        if (vidaEnemy <= 0)
+        {
+            anim.SetTrigger("death");
+        }
     }
     
     public void Damage(float damage)
@@ -109,12 +164,12 @@ public abstract class Enemy : MonoBehaviour,IReciveDamage
         EnemyRestarVida(damageFinal);
     }
 
-    private void Morir()
+    private void Morir() //se enciende en el animator
     {
         Destroy(gameObject);
     }
 
-    private void OnDrawGizmosSelected()
+    private void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position, ChaseRange);
