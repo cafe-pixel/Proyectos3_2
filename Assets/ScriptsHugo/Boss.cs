@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class Boss : MonoBehaviour
 {
@@ -23,6 +24,9 @@ public class Boss : MonoBehaviour
     [Header("Bottle Attack")]
     public GameObject bottlePrefab;
     public Transform bottleSpawnPoint;
+    
+    [Header("Scene Transition")]
+    private float timeToNextScene = 15f; 
 
     private Vector2 startPosition;
     private bool isAttacking = false;
@@ -37,6 +41,16 @@ public class Boss : MonoBehaviour
             player = GameObject.FindGameObjectWithTag("Player").transform;
 
         StartCoroutine(BossLoop());
+    }
+    void OnEnable()
+    {
+        StartCoroutine(GoToNextSceneAfterTime());
+    }
+    
+    IEnumerator GoToNextSceneAfterTime()
+    {
+        yield return new WaitForSeconds(timeToNextScene);
+        SceneManager.LoadSceneAsync(2);
     }
     
     IEnumerator BossLoop()
