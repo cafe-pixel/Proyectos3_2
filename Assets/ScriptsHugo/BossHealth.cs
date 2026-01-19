@@ -2,15 +2,16 @@ using UnityEngine;
 
 public class BossHealth : MonoBehaviour,IReciveDamage
 {
-    protected float vidaEnemy; 
-    [SerializeField] private float vidaMaxEnemy;
+    [SerializeField] private float vidaMaxBoss = 100;
+    private float vidaBoss;
+    
     protected float defensaEnemy;
-    [SerializeField] private GameObject bossGameObject;
+    
     
     protected virtual void EnemyRestarVida(float value)
     {
-        vidaEnemy -= value;
-        if (vidaEnemy <= 0)
+        vidaBoss -= value;
+        if (vidaBoss <= 0)
         {
             Morir();
         }
@@ -24,7 +25,7 @@ public class BossHealth : MonoBehaviour,IReciveDamage
 
     private void Morir()
     {
-        Destroy(bossGameObject.gameObject);
+        Destroy(gameObject);
     }
     
     
