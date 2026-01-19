@@ -11,7 +11,7 @@ public class Biker : Enemy
     [SerializeField] private float attackRange = 2f;  //ataca en una distancia corta al ser un ataque cuerpo a cuerpo
     
     //referencias
-    
+    [SerializeField] private Puñetazos puñetazos;
 
     //clases padres
     protected override float ChaseRange => chaseRange;
@@ -26,6 +26,11 @@ public class Biker : Enemy
         velocidadEnemy = 3f;
         
         
+    }
+
+    public void MakeHit() //le llamo desde inspeector xd
+    {
+        puñetazos.Hit();
     }
 
    

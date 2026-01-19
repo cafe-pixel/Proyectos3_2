@@ -37,7 +37,7 @@ public class Puñetazos : EnemyAttack
 
     }
 
-    private void Hit() //le llama desde el Animator
+    public void Hit() //le llama desde el biker
     {
         if (!player) return;
 

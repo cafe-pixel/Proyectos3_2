@@ -306,6 +306,7 @@ MonoBehaviour:
   ataqueBiker: 5
   chaseRange: 15
   attackRange: 2
+  "pu\xF1etazos": {fileID: 2856529259190525177}
 --- !u!95 &7129235665015348769
 Animator:
   serializedVersion: 7
