@@ -90,11 +90,11 @@ public abstract class Enemy : MonoBehaviour,IReciveDamage
                        Debug.Log(player);
                        if (transform.position.x > player.position.x)//mira si mi posicion es superior a la del punto de patrulla, mi objetivo está a la izquierda
                        {
-                           spr.flipX = true;
+                           transform.localScale = new Vector3(1, 1, 1);
                        }
                        else
                        {
-                           spr.flipX = false;
+                           transform.localScale = new Vector3(-1, 1, 1);
                        }
                        
                        
@@ -114,11 +114,11 @@ public abstract class Enemy : MonoBehaviour,IReciveDamage
        transform.position = Vector3.MoveTowards(transform.position, player.position, velocidadEnemy * Time.deltaTime);
        if (transform.position.x > player.position.x)//mira si mi posicion es superior a la del punto de patrulla, mi objetivo está a la izquierda
        {
-           spr.flipX = true;
+           transform.localScale = new Vector3(1, 1, 1);
        }
        else
        {
-           spr.flipX = false;
+           transform.localScale = new Vector3(-1, 1, 1);
        }
    }
 
