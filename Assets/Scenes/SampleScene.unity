@@ -836,10 +836,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 1392104466}
     m_Modifications:
     - target: {fileID: 3976120161234890871, guid: 3897087f936e3f44a802bff7620dab4d, type: 3}
-      propertyPath: m_LocalScale.x
-      value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3976120161234890871, guid: 3897087f936e3f44a802bff7620dab4d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 6.34
       objectReference: {fileID: 0}
@@ -958,26 +954,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1085340122}
     m_Modifications:
-    - target: {fileID: 3089579347528274077, guid: 13b9e2f62b797204d8b75645960219cd, type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3414000577249669889, guid: 13b9e2f62b797204d8b75645960219cd, type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: 9008ca9bf615f234f9177dd06bcc2e80, type: 2}
-    - target: {fileID: 3690811347323707675, guid: 13b9e2f62b797204d8b75645960219cd, type: 3}
-      propertyPath: hardAttack
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3690811347323707675, guid: 13b9e2f62b797204d8b75645960219cd, type: 3}
-      propertyPath: hardMaxTimer
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3690811347323707675, guid: 13b9e2f62b797204d8b75645960219cd, type: 3}
-      propertyPath: suaveMaxTimer
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6065425259595644898, guid: 13b9e2f62b797204d8b75645960219cd, type: 3}
       propertyPath: m_LocalPosition.x
       value: -5.03
@@ -1021,18 +997,6 @@ PrefabInstance:
     - target: {fileID: 6268106174993044909, guid: 13b9e2f62b797204d8b75645960219cd, type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 6607624977783625415, guid: 13b9e2f62b797204d8b75645960219cd, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8798260506232891401, guid: 13b9e2f62b797204d8b75645960219cd, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8798260506232891401, guid: 13b9e2f62b797204d8b75645960219cd, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
