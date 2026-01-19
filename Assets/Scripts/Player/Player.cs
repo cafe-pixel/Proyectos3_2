@@ -104,6 +104,8 @@ public class Player : MonoBehaviour, IReciboObjeto
     //Sprites 
     private SpriteRenderer sr;
     private Animator anim;
+    //Enemy
+    private Enemy enemy;
 
 
     //States
@@ -358,6 +360,11 @@ public class Player : MonoBehaviour, IReciboObjeto
     private void BlockEnemy()
     {
         //ur por hacer
+        if (enemy != null)
+        {
+            StartCoroutine(Catch());
+        }
+        
     }
 
     private void HitInJump()
@@ -395,9 +402,15 @@ public class Player : MonoBehaviour, IReciboObjeto
 
         foreach (var c in col)
         {
-            if (c.TryGetComponent<IReciveDamage>(out IReciveDamage enemy))
+            if (c.TryGetComponent<Enemy>(out Enemy enemyHitted))
             {
-                enemy.Damage(damage);
+                enemyHitted.Damage(damage);
+                enemy = enemyHitted;
+
+            }
+            else if (c.TryGetComponent<IReciveDamage>(out IReciveDamage hitted))
+            {
+                hitted.Damage(damage);
             }
         }
     }
@@ -612,6 +625,14 @@ public class Player : MonoBehaviour, IReciboObjeto
             yield  return new WaitForSeconds(150f);
             ataquePlayer -= 0.35f;
         
+    }
+
+    private IEnumerator Catch()
+    {
+        if (enemy != null) 
+            enemy.Catched();
+        yield return new WaitForSeconds(2f);
+        //deja al enemigo moverse
     }
     
 }

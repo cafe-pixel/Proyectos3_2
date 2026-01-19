@@ -12,7 +12,7 @@ public abstract class Enemy : MonoBehaviour,IReciveDamage
    //referencias
    private Transform player; //va a pillar el transform de lo que llames player
    protected Animator anim;
-   private Rigidbody2D rb;
+   public Rigidbody2D rb;
    private SpriteRenderer spr;
    
     //stats
@@ -28,6 +28,10 @@ public abstract class Enemy : MonoBehaviour,IReciveDamage
    [SerializeField] EnemyAttack enemyAttack;
    private float maxAttackTimer = 1.3f;
    private float attackTimer;
+   
+   //catched
+   [SerializeField] private float maxCatchedTimer;
+   private float catchedTimer;
 
 
    protected virtual void Start()
@@ -106,6 +110,16 @@ public abstract class Enemy : MonoBehaviour,IReciveDamage
                }
                
                break;
+           
+           case "catched":
+               anim.SetBool("hitBool",true);
+               catchedTimer -= Time.deltaTime;
+               if (catchedTimer <= 0)
+               {
+                   anim.SetBool("hitBool", false);
+                   state = "attack";
+               }
+               break;
        }
    }
 
@@ -176,6 +190,12 @@ public abstract class Enemy : MonoBehaviour,IReciveDamage
         
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, AttackRange);
+    }
+
+    public void Catched()
+    {
+        catchedTimer = maxCatchedTimer;
+        state = "catched";
     }
 }
 
