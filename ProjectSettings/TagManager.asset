@@ -7,6 +7,7 @@ TagManager:
   - PlayerAttack
   - Enemy
   - Suelo
+  - Limit
   layers:
   - Default
   - TransparentFX

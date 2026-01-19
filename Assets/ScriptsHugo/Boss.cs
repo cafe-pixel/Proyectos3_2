@@ -7,6 +7,7 @@ public class Boss : MonoBehaviour
     public float attackCooldown = 2f;
     public float returnSpeed = 6f;
     public float chargeSpeed = 12f;
+    public float chargeDuration = 1.5f;
 
     [Header("Referencias")]
     public Transform player;
@@ -38,19 +39,6 @@ public class Boss : MonoBehaviour
         StartCoroutine(BossLoop());
     }
     
-    void Update()
-    {
-        if (rb.linearVelocity.x > 0f)
-        {
-            transform.localScale = new Vector3(-1, 1, 1);
-        }
-        else if (rb.linearVelocity.x <= 0f)
-        {
-            transform.localScale = new Vector3(1, 1, 1);
-        }
-    }
-    
-
     IEnumerator BossLoop()
     {
         yield return new WaitForSeconds(1f);
@@ -77,31 +65,38 @@ public class Boss : MonoBehaviour
                 yield return StartCoroutine(ReturnToStart());
                 yield return new WaitForSeconds(attackCooldown);
             }
-            
+
             yield return null;
         }
     }
-
-    //ATAQUE 1: CARGA
+    
+    // ATAQUE 1: CARGA
     IEnumerator ChargeAttack()
     {
         isAttacking = true;
-        bossMovementAnimator.SetBool("dashAttack", true);
-        bossMovementAnimator.SetBool("returnPosition", false);
         isCharging = true;
         forceReturn = false;
+
+        bossMovementAnimator.SetBool("dashAttack", true);
+        bossMovementAnimator.SetBool("returnPosition", false);
 
         rb.bodyType = RigidbodyType2D.Kinematic;
 
         Vector2 direction = (player.position - transform.position).normalized;
         rb.linearVelocity = direction * chargeSpeed;
 
-        while (isCharging && IsOnScreen())
+        float timer = 0f;
+
+        while (isCharging && !forceReturn)
         {
+            timer += Time.deltaTime;
+
+            if (timer >= chargeDuration)
+                forceReturn = true;
+
             yield return null;
         }
 
-        // Detener totalmente
         rb.linearVelocity = Vector2.zero;
         rb.bodyType = RigidbodyType2D.Dynamic;
 
@@ -109,14 +104,8 @@ public class Boss : MonoBehaviour
         isAttacking = false;
         bossMovementAnimator.SetBool("dashAttack", false);
     }
-
-    bool IsOnScreen()
-    {
-        Vector3 viewportPos = Camera.main.WorldToViewportPoint(transform.position);
-        return viewportPos.x > -0.2f && viewportPos.x < 1.2f;
-    }
-
-    //ATAQUE 2: INVOCAR BIKERS
+    
+    // ATAQUE 2
     IEnumerator SummonBikers()
     {
         isAttacking = true;
@@ -127,8 +116,8 @@ public class Boss : MonoBehaviour
         yield return new WaitForSeconds(4f);
         isAttacking = false;
     }
-
-    //ATAQUE 3: BOTELLA
+    
+    // ATAQUE 3
     IEnumerator BottleAttack()
     {
         isAttacking = true;
@@ -147,8 +136,8 @@ public class Boss : MonoBehaviour
         isAttacking = false;
         bossMovementAnimator.SetBool("molotovAttack", false);
     }
-
-    //REGRESO A POSICIÓN INICIAL
+    
+    // REGRESO A POSICIÓN INICIAL
     IEnumerator ReturnToStart()
     {
         rb.linearVelocity = Vector2.zero;
@@ -162,17 +151,30 @@ public class Boss : MonoBehaviour
             );
             yield return null;
         }
+
         bossMovementAnimator.SetBool("returnPosition", true);
         transform.position = startPosition;
     }
     
+    // TRIGGER CON EL JUGADOR
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (!isCharging) return;
+
+        if (other.CompareTag("Player"))
+        {
+            forceReturn = true;
+        }
+    }
+    
+    //COLLISION CON EL LIMITE
     void OnCollisionEnter2D(Collision2D other)
     {
-        if (!isAttacking) return;
+        if (!isCharging) return;
 
-        if (other.collider.CompareTag("Player"))
+        if (other.collider.CompareTag("Limit"))
         {
-            isAttacking = false;
+            forceReturn = true;
         }
     }
 }
