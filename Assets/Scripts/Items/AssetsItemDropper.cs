@@ -36,13 +36,13 @@ public class Assets : MonoBehaviour,IReciveDamage
 
         if (itemPrefab != null && randomValue <= dropChance)
         {
-            int zonaRandomEnX = TomarNumeroRandomSinRepetir(-6, 1);
+            int zonaRandomEnX = TomarNumeroRandomSinRepetir(-2, 1);
             
             
             int indexGameObject = Random.Range(0, itemPrefab.Length);
             GameObject instantiateGameObject = itemPrefab[indexGameObject];
             
-            Instantiate(instantiateGameObject, new Vector3(zonaRandomEnX,-1,0), Quaternion.identity);
+            Instantiate(instantiateGameObject, this.transform.position + new Vector3(zonaRandomEnX,-1,0), Quaternion.identity);
             
             
         }
