@@ -76,11 +76,12 @@ public class PlayerHealth : MonoBehaviour, IReciveDamage, IReciboObjeto
         
         if (vidaPlayer <= 0)
         {
-            //falta por poner la animacion?
             Muerto();
         }
         
         healthBar.fillAmount = vidaPlayer / vidaMaxPlayer;
+        
+        Debug.Log(healthBar.fillAmount);
         
     }
     

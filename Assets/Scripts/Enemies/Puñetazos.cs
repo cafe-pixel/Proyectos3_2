@@ -33,8 +33,6 @@ public class Puñetazos : EnemyAttack
     {
         if (!player || attackPunches != null) return;
         attackPunches = StartCoroutine(Punches());
-
-
     }
 
     public void Hit() //le llama desde el biker
@@ -61,7 +59,6 @@ public class Puñetazos : EnemyAttack
             yield return new WaitForSeconds(0.01f); //mini dilay para q arranque animacion
             yield return new WaitForSeconds(timeBetweenPunches);
         }
-        //Animator.SetInteger("comboIndex", i);
         attackPunches = null;
     }
 }
