@@ -375,9 +375,10 @@ GameObject:
   m_Component:
   - component: {fileID: 6143733998260666360}
   - component: {fileID: 4877743236763779858}
+  - component: {fileID: 543273035215050893}
   m_Layer: 3
   m_Name: Collision
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -434,6 +435,19 @@ CapsuleCollider2D:
   m_Offset: {x: -0.084210396, y: -0.38947356}
   m_Size: {x: 1.0268192, y: 3.612292}
   m_Direction: 0
+--- !u!114 &543273035215050893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5070314192058581958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67155ef7c7032124897333d9e9a6966f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  checkpointPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &6268106174993044909
 GameObject:
   m_ObjectHideFlags: 0
@@ -603,7 +617,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 6336013
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: -2942038956242656197, guid: 3b06ac0929c7f7d4090de3ef256f687a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -674,6 +688,7 @@ MonoBehaviour:
   healthBar: {fileID: 834664878304869971}
   vidaMaxPlayer: 100
   vidaPlayer: 0
+  checkpointPosition: {fileID: 543273035215050893}
 --- !u!1 &7574894814777799631
 GameObject:
   m_ObjectHideFlags: 0

@@ -11,6 +11,8 @@ public class PlayerHealth : MonoBehaviour, IReciveDamage, IReciboObjeto
     private Player player;
     private Animator anim;
 
+    public PlayerCheckpointDetector checkpointPosition;
+    
     private void Awake()
     {
         player = GetComponent<Player>();
@@ -89,11 +91,10 @@ public class PlayerHealth : MonoBehaviour, IReciveDamage, IReciboObjeto
         
     }
     
-    private void Muerto() //hacer el canvas
+    private void Muerto() 
     {
-       Destroy(gameObject);
-        //Pantalla de Jugar Otra Vez
-
+        transform.position = checkpointPosition.checkpointPosition;
+        vidaPlayer = vidaMaxPlayer;
     }
     
     public void Damage(float damage) //daño recibido menos la defensa

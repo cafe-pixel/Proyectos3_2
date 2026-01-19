@@ -56,4 +56,13 @@ public class AudioManager : MonoBehaviour
 
         musicSource.volume = startVolume;
     }
+    
+    public void StopMusic()
+    {
+        if (fadeCoroutine != null)
+            StopCoroutine(fadeCoroutine);
+
+        musicSource.Stop();
+    }
+    
 }

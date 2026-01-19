@@ -14,6 +14,7 @@ public class MenuScript : MonoBehaviour
     
     public void PlayGame()
     {
+        AudioManager.Instance.StopMusic();
         SceneManager.LoadSceneAsync(1);
     }
     
