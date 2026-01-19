@@ -56,7 +56,9 @@ public class Player : MonoBehaviour, IReciboObjeto
     private int hardAttackNumber = 0;
 
     [Header("Knockback")] 
-    [SerializeField] private float knockBackForce;
+    [SerializeField] private float maxKnockBackForce;
+    [SerializeField] private float knockBackForceX; //fuerza de empuje en horizontal
+    private float knockBackForce;
     
     [Header("Movement")] 
     new Vector3 initialPosition;
@@ -294,6 +296,18 @@ public class Player : MonoBehaviour, IReciboObjeto
 
                 break;
             
+            case "knockBack":
+                knockBackForce -= grav * Time.deltaTime;
+
+                rb.linearVelocity = new Vector2(-1* knockBackForceX, knockBackForce);
+
+                if (knockBackForce <= -maxKnockBackForce)
+                {
+                    rb.linearVelocity = new Vector2(-1*knockBackForceX, 0);
+                    state = "move";
+                }
+                break;
+            
             
             
 
@@ -358,7 +372,9 @@ public class Player : MonoBehaviour, IReciboObjeto
 
     private void KnockBackPropio() //le llama desde el animator
     {
-        rb.AddForce(new Vector2(-1,-1).normalized * knockBackForce ,ForceMode2D.Impulse);
+        Debug.Log("intento hacer el knocback");
+        knockBackForce = maxKnockBackForce;
+        state = "knockBack";
     }
     
     

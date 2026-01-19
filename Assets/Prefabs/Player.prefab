@@ -645,7 +645,8 @@ MonoBehaviour:
   suaveMaxTimer: 1
   hardAttack: 1
   hardMaxTimer: 1
-  knockBackForce: 2
+  maxKnockBackForce: 3
+  knockBackForceX: 1
   velocidad: 1
   dashForce: 2
   dashMaxTimer: 2
