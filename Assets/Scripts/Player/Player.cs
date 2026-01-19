@@ -223,7 +223,9 @@ public class Player : MonoBehaviour, IReciboObjeto
                 break;
             
             case "hardAttack":
-            
+
+                rb.linearVelocity = Vector2.zero;
+
                 hardTimer -=  Time.deltaTime;
                 Debug.Log("Estoy restando tiempo");
                 
@@ -435,6 +437,15 @@ public class Player : MonoBehaviour, IReciboObjeto
         {
             //Se mueve
             anim.SetBool("isWalking", true);
+            if (xInput > -1)
+            {
+                transform.localScale = new Vector3(1, 1, 1);
+            }
+
+            else
+            {
+                transform.localScale = new Vector3(-1, 1, 1);
+            }
         }
         else
         {
