@@ -344,6 +344,11 @@ public class Player : MonoBehaviour, IReciboObjeto
             HitInJump();
         }
         
+        if (comboInputs.Contains(3)&&comboInputs.Contains(0))
+        {
+            HitInJump2();
+        }
+        
         if (comboInputs.Contains(4)&&comboInputs.Contains(0))
         {
             BlockEnemy();
@@ -360,6 +365,14 @@ public class Player : MonoBehaviour, IReciboObjeto
         //prepara el salto como para jump y lo ejecuta
         jumpForce = maxJumpForce;
         anim.SetTrigger("hitInJump");
+        state = "jump";
+    }
+    
+    private void HitInJump2()
+    {
+        //prepara el salto como para jump y lo ejecuta
+        jumpForce = maxJumpForce;
+        anim.SetTrigger("hitInJump2");
         state = "jump";
     }
 
