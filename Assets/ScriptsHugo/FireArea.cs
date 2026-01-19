@@ -3,7 +3,7 @@ using UnityEngine;
 public class FireArea : MonoBehaviour
 {
     public float duration = 2f;
-    public int damagePerSecond = 1;
+    public int damagePerSecond = -18;
 
     void Start()
     {

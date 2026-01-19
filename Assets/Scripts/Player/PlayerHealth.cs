@@ -19,14 +19,7 @@ public class PlayerHealth : MonoBehaviour, IReciveDamage, IReciboObjeto
         vidaPlayer = vidaMaxPlayer;
         anim = GetComponent<Animator>();
     }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.U)) PlayerRestarVida(10);
-        if (Input.GetKeyDown(KeyCode.I)) PlayerSumarVida2();
-        if (Input.GetKeyDown(KeyCode.O)) PlayerSumarVida();
-    }
-
+    
     private void PlayerSumarVida() //suma vida si es que puede (bebida1)
     {
         if (!Mathf.Approximately(vidaPlayer, vidaMaxPlayer))

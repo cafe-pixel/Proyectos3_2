@@ -163,7 +163,7 @@ public class Boss : MonoBehaviour
 
         if (other.CompareTag("Player"))
         {
-            forceReturn = true;
+            forceReturn = true; //Metele daño Silvia
         }
     }
     
