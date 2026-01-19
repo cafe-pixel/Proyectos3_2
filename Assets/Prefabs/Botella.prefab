@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2847096763101961755}
   - component: {fileID: 7112820328953565279}
   - component: {fileID: 5952974521207722247}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Botella
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -77,9 +77,9 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 6336013
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: -970761445926334699, guid: da4b8e36eb6f8514eba61d17b04d1150, type: 3}
+  m_Sprite: {fileID: -8811190038128692301, guid: 11159b57740cbef418f992e16259f6d6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -128,7 +128,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.5625, y: 1.125}
+    oldSize: {x: 0.875, y: 0.8125}
     newSize: {x: 0.18, y: 0.36}
     adaptiveTilingThreshold: 0.5
     drawMode: 0

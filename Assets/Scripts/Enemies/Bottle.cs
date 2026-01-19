@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Bottle : MonoBehaviour
 {
-    private float damage = 20;
+    private float damage = 5;
 
     public void Initialize(float target)
     {
