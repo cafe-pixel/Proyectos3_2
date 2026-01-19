@@ -890,7 +890,7 @@ GameObject:
   - component: {fileID: 472561240}
   m_Layer: 0
   m_Name: BottomLimit
-  m_TagString: Untagged
+  m_TagString: Limit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1843,7 +1843,7 @@ GameObject:
   - component: {fileID: 853814279}
   m_Layer: 0
   m_Name: TopLimit
-  m_TagString: Untagged
+  m_TagString: Limit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4291,63 +4291,6 @@ Transform:
   - {fileID: 317453817}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &8406330699069031905
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 5925615145575266310, guid: aaacc77891ff0ee4a9cab7b8f6f84585, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 4.08
-      objectReference: {fileID: 0}
-    - target: {fileID: 5925615145575266310, guid: aaacc77891ff0ee4a9cab7b8f6f84585, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.05
-      objectReference: {fileID: 0}
-    - target: {fileID: 5925615145575266310, guid: aaacc77891ff0ee4a9cab7b8f6f84585, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5925615145575266310, guid: aaacc77891ff0ee4a9cab7b8f6f84585, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5925615145575266310, guid: aaacc77891ff0ee4a9cab7b8f6f84585, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5925615145575266310, guid: aaacc77891ff0ee4a9cab7b8f6f84585, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5925615145575266310, guid: aaacc77891ff0ee4a9cab7b8f6f84585, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5925615145575266310, guid: aaacc77891ff0ee4a9cab7b8f6f84585, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5925615145575266310, guid: aaacc77891ff0ee4a9cab7b8f6f84585, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5925615145575266310, guid: aaacc77891ff0ee4a9cab7b8f6f84585, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8132453379924607013, guid: aaacc77891ff0ee4a9cab7b8f6f84585, type: 3}
-      propertyPath: m_Name
-      value: Biker
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: aaacc77891ff0ee4a9cab7b8f6f84585, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -4359,4 +4302,3 @@ SceneRoots:
   - {fileID: 1699488546}
   - {fileID: 1208658905}
   - {fileID: 2062220896}
-  - {fileID: 8406330699069031905}
