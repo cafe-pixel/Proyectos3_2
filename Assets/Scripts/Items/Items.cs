@@ -31,6 +31,7 @@ public class Items : MonoBehaviour, IReciveDamage
             if (collision.TryGetComponent<IReciboObjeto>(out IReciboObjeto reciveItem))
             {
                 reciveItem.AplicarEfecto(tipoItem);
+                Destroy(gameObject);
                 
             }
         }

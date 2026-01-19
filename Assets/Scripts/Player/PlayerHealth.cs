@@ -71,12 +71,12 @@ public class PlayerHealth : MonoBehaviour, IReciveDamage, IReciboObjeto
                 break;
         }
     }
-    
-    public void PlayerRestarVida(float damage) //le resta el daño total
+
+    private void PlayerRestarVida(float damage) //le resta el daño total
     {
         vidaPlayer -= damage;
         
-        if (vidaPlayer == 0)
+        if (vidaPlayer <= 0)
         {
             Muerto();
         }
