@@ -641,9 +641,9 @@ MonoBehaviour:
   maxSwingTimer: 2
   elbowStrikeDamage: 100
   maxElbowStrikeTimer: 2
-  softAttack: 1
+  softAttack: 0
   suaveMaxTimer: 1
-  hardAttack: 0
+  hardAttack: 1
   hardMaxTimer: 1
   velocidad: 1
   dashForce: 2
