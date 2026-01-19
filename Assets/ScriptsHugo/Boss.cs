@@ -42,11 +42,11 @@ public class Boss : MonoBehaviour
     {
         if (rb.linearVelocity.x > 0f)
         {
-            spriteRenderer.flipX = true;
+            transform.localScale = new Vector3(-1, 1, 1);
         }
         else if (rb.linearVelocity.x <= 0f)
         {
-            spriteRenderer.flipX = false;
+            transform.localScale = new Vector3(1, 1, 1);
         }
     }
     
@@ -124,7 +124,7 @@ public class Boss : MonoBehaviour
         Instantiate(bikerEnemyPrefab, spawnTop.position, Quaternion.identity);
         Instantiate(bikerEnemyPrefab, spawnBottom.position, Quaternion.identity);
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(4f);
         isAttacking = false;
     }
 
