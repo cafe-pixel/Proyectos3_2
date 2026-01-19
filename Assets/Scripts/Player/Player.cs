@@ -343,6 +343,16 @@ public class Player : MonoBehaviour, IReciboObjeto
         {
             HitInJump();
         }
+        
+        if (comboInputs.Contains(4)&&comboInputs.Contains(0))
+        {
+            BlockEnemy();
+        }
+    }
+
+    private void BlockEnemy()
+    {
+        //ur por hacer
     }
 
     private void HitInJump()
