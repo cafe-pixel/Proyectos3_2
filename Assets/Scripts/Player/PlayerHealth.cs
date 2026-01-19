@@ -87,7 +87,7 @@ public class PlayerHealth : MonoBehaviour, IReciveDamage, IReciboObjeto
     
     private void Muerto() //hacer el canvas
     {
-       
+       Destroy(gameObject);
         //Pantalla de Jugar Otra Vez
 
     }

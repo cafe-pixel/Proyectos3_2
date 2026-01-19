@@ -1,0 +1,87 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &1976035068716874729
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1136510423110996306, guid: a0daabcc6a92c6c4086da34f69e0ecc9, type: 3}
+      propertyPath: tipoItem
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1756216528640084605, guid: a0daabcc6a92c6c4086da34f69e0ecc9, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 7888463898620554597, guid: f8a84e3875a08754cb7052828357391c, type: 3}
+    - target: {fileID: 1756216528640084605, guid: a0daabcc6a92c6c4086da34f69e0ecc9, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1756216528640084605, guid: a0daabcc6a92c6c4086da34f69e0ecc9, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1756216528640084605, guid: a0daabcc6a92c6c4086da34f69e0ecc9, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2212683796395046338, guid: a0daabcc6a92c6c4086da34f69e0ecc9, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 7.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2212683796395046338, guid: a0daabcc6a92c6c4086da34f69e0ecc9, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -5.53
+      objectReference: {fileID: 0}
+    - target: {fileID: 2212683796395046338, guid: a0daabcc6a92c6c4086da34f69e0ecc9, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2212683796395046338, guid: a0daabcc6a92c6c4086da34f69e0ecc9, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2212683796395046338, guid: a0daabcc6a92c6c4086da34f69e0ecc9, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2212683796395046338, guid: a0daabcc6a92c6c4086da34f69e0ecc9, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2212683796395046338, guid: a0daabcc6a92c6c4086da34f69e0ecc9, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2212683796395046338, guid: a0daabcc6a92c6c4086da34f69e0ecc9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2212683796395046338, guid: a0daabcc6a92c6c4086da34f69e0ecc9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2212683796395046338, guid: a0daabcc6a92c6c4086da34f69e0ecc9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3577442219018484300, guid: a0daabcc6a92c6c4086da34f69e0ecc9, type: 3}
+      propertyPath: m_Name
+      value: BebidaEnergetica2 Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 8395112734107441274, guid: a0daabcc6a92c6c4086da34f69e0ecc9, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8395112734107441274, guid: a0daabcc6a92c6c4086da34f69e0ecc9, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.x
+      value: 0.5625
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a0daabcc6a92c6c4086da34f69e0ecc9, type: 3}
