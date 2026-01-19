@@ -9,11 +9,13 @@ public class PlayerHealth : MonoBehaviour, IReciveDamage, IReciboObjeto
     [SerializeField] private float vidaPlayer;
 
     private Player player;
+    private Animator anim;
 
     private void Awake()
     {
         player = GetComponent<Player>();
         vidaPlayer = vidaMaxPlayer;
+        anim = GetComponent<Animator>();
     }
 
     private void Update()
@@ -75,9 +77,11 @@ public class PlayerHealth : MonoBehaviour, IReciveDamage, IReciboObjeto
     private void PlayerRestarVida(float damage) //le resta el daño total
     {
         vidaPlayer -= damage;
+        anim.SetTrigger("hitTaken");
         
         if (vidaPlayer <= 0)
         {
+            //falta por poner la animacion?
             Muerto();
         }
         

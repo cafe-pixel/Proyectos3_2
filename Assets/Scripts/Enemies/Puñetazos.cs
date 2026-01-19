@@ -56,7 +56,7 @@ public class Puñetazos : EnemyAttack
         int punches = Random.Range(1, maxPunch + 1);
         for (int i = 0; i < punches; i++)
         {
-            //Animamtor.SetInteger("comboIndex", i)
+            anim.SetInteger("hitNumber", i);
             anim.SetTrigger("hit");
             yield return new WaitForSeconds(0.01f); //mini dilay para q arranque animacion
             yield return new WaitForSeconds(timeBetweenPunches);
