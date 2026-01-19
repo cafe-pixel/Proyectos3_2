@@ -244,8 +244,8 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.016480684, y: 1.7812572}
-  m_Size: {x: 2.1065536, y: 3.5403428}
+  m_Offset: {x: -0.016480684, y: 1.6792502}
+  m_Size: {x: 2.1065536, y: 3.7443566}
   m_Direction: 0
 --- !u!114 &101567866455238353
 MonoBehaviour:
@@ -265,8 +265,8 @@ MonoBehaviour:
   patrol: {fileID: 6375141643131574024}
   enemyAttack: {fileID: 7257635792948282273}
   ataqueDrunkGuy: 10
-  chaseRange: 8
-  attackRange: 4.81
+  chaseRange: 15
+  attackRange: 7
 --- !u!95 &2773273976792650465
 Animator:
   serializedVersion: 7

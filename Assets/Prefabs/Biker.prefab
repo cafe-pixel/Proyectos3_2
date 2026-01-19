@@ -219,7 +219,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.18111014, y: 1.9863491}
+  m_Offset: {x: 0.004356116, y: 1.9863491}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0}
@@ -229,7 +229,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.3753915, y: 3.8202496}
+  m_Size: {x: 1.7463241, y: 3.8202496}
   m_EdgeRadius: 0
 --- !u!212 &813799736323169259
 SpriteRenderer:
@@ -305,7 +305,7 @@ MonoBehaviour:
   enemyAttack: {fileID: 2856529259190525177}
   ataqueBiker: 5
   chaseRange: 15
-  attackRange: 2
+  attackRange: 1
   "pu\xF1etazos": {fileID: 2856529259190525177}
 --- !u!95 &7129235665015348769
 Animator:
