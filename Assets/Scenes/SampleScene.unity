@@ -601,7 +601,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1392104466
 Transform:
   m_ObjectHideFlags: 0
@@ -1095,12 +1095,12 @@ PrefabInstance:
     m_TransformParent: {fileID: 1085340122}
     m_Modifications:
     - target: {fileID: 3690811347323707675, guid: 13b9e2f62b797204d8b75645960219cd, type: 3}
-      propertyPath: hardAttack
-      value: 1
+      propertyPath: comboMaxTimer
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 3690811347323707675, guid: 13b9e2f62b797204d8b75645960219cd, type: 3}
-      propertyPath: softAttack
-      value: 0
+      propertyPath: knockBackForce
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6065425259595644898, guid: 13b9e2f62b797204d8b75645960219cd, type: 3}
       propertyPath: m_LocalPosition.x

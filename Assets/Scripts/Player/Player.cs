@@ -54,6 +54,9 @@ public class Player : MonoBehaviour, IReciboObjeto
     [SerializeField] private float hardMaxTimer = 1.75f;
     private float hardTimer;
     private int hardAttackNumber = 0;
+
+    [Header("Knockback")] 
+    [SerializeField] private float knockBackForce;
     
     [Header("Movement")] 
     new Vector3 initialPosition;
@@ -137,7 +140,25 @@ public class Player : MonoBehaviour, IReciboObjeto
             {
                 ResolverCombo();
                 comboInputs.Clear();
+                comboActivated = false;
             }
+        }
+        
+        if (Input.GetMouseButtonDown(hardAttack)&& canGiveDamage) // --LOS INPUTS DE COMBO SE RECOGEN EN CUALQUIER ESTADO--
+        {
+            Debug.Log("tomo input");
+            ((IList)comboInputs).Add(1); //CD
+            if (!comboActivated) comboTimer = comboMaxTimer;
+            Debug.Log("Activo combo");
+            comboActivated = true;
+        }
+
+        if (Input.GetMouseButtonDown(softAttack)&&canGiveDamage)
+        {
+            ((IList)comboInputs).Add(0); //CI
+            if (!comboActivated) comboTimer = comboMaxTimer;
+            comboActivated = true;
+                    
         }
 
         switch (state)
@@ -162,22 +183,7 @@ public class Player : MonoBehaviour, IReciboObjeto
                     comboActivated = true;
                 }
 
-                if (Input.GetMouseButton(hardAttack)&& canGiveDamage) //instaura el tiempo que va a tardar
-                {
-                    Debug.Log("tomo input");
-                    ((IList)comboInputs).Add(1); //CD
-                    if (!comboActivated) comboTimer = comboMaxTimer;
-                    Debug.Log("Activo combo");
-                    comboActivated = true;
-                }
-
-                if (Input.GetMouseButtonDown(softAttack)&&canGiveDamage)
-                {
-                    ((IList)comboInputs).Add(0); //CI
-                    if (!comboActivated) comboTimer = comboMaxTimer;
-                    comboActivated = true;
-                    
-                }
+                
 
                 if (Input.GetKeyDown(parry))
                 {
@@ -200,7 +206,9 @@ public class Player : MonoBehaviour, IReciboObjeto
                 break;
             
             case "softAttack":
-            
+                
+                rb.linearVelocity = Vector2.zero;
+                
                 suaveTimer -=  Time.deltaTime;
                 
                 if (suaveTimer <= 0)
@@ -209,15 +217,15 @@ public class Player : MonoBehaviour, IReciboObjeto
                     anim.SetInteger("softCombo", softAttackNumber);
                     
                     state = "move";
-                    suaveTimer = suaveMaxTimer;
+                    
                     canGiveDamage = true;
                 }
                         
                 if (Input.GetMouseButtonDown(softAttack)&&canGiveDamage)
                 {
                     SoftAttack();
-                    // ((IList)comboInputs).Add(0); //CI
-                    // comboTimer = comboMaxTimer;
+                    ((IList)comboInputs).Add(0); //CI
+                    comboTimer = comboMaxTimer;
                 }
             
                 break;
@@ -238,7 +246,7 @@ public class Player : MonoBehaviour, IReciboObjeto
                     
                     
                     state = "move";
-                    hardTimer = hardMaxTimer;
+                    
                     canGiveDamage = true;
                     
                 }
@@ -246,11 +254,30 @@ public class Player : MonoBehaviour, IReciboObjeto
                 if (Input.GetMouseButtonDown(hardAttack)&&canGiveDamage) //instaura el tiempo que va a tardar
                 {
                     HardAttack();
+                    ((IList)comboInputs).Add(1); //CD
+                    comboTimer = comboMaxTimer;
                 }
                         
                 
             
                 break;
+
+            case "jabSwingJump":
+                rb.linearVelocity = Vector2.zero;
+
+                hardTimer -= Time.deltaTime;
+                
+                if (hardTimer<= 0)
+                {
+                    
+
+                    state = "move";
+
+                    canGiveDamage = true;
+                }
+                break;
+            
+            
             case "jump":
 
                 Jump();
@@ -267,33 +294,8 @@ public class Player : MonoBehaviour, IReciboObjeto
 
                 break;
             
-            case "headbutt":
-                headbuttTimer -= Time.deltaTime;
-                if (headbuttTimer <= 0f)
-                {
-                    state = "move";
-                    canGiveDamage = true;
-                }
-                break;
             
-            case "swing":
-                swingTimer -= Time.deltaTime;
-                if (swingTimer <= 0f)
-                {
-                    state = "move";
-                    canGiveDamage = true;
-                }
-                break;
             
-            case "elbow":
-                elbowStrikeTimer -= Time.deltaTime;
-                if (swingTimer <= 0f)
-                {
-                    state = "move";
-                    canGiveDamage=true;
-                }
-                break;
-                
 
             
 
@@ -316,21 +318,24 @@ public class Player : MonoBehaviour, IReciboObjeto
 
     private void ResolverComboEspecial()
     {
-        if (comboInputs.Count == 2)
-        {
-            if (comboInputs[0] == 0 && comboInputs[1] == 0) JabCodo();
-            if (comboInputs[0] == 1 && comboInputs[1] == 1) SwingSwing();
-          
-        }
+        
 
-        if (comboInputs.Count == 3)
+        if (comboInputs.Contains(0)&&comboInputs.Contains(1))
         {
-           
-            if (comboInputs[0] == 1 && comboInputs[1] == 1 && comboInputs[2] == 1) Cabezazo();
+           JabSwingSalto();
         }
     }
-    
-    
+
+    private void JabSwingSalto()
+    {
+        anim.SetTrigger("softHardComb");
+        hardTimer = hardMaxTimer;
+        Debug.Log("Soy la nueva anim");
+
+        state = "hardAttack";
+    }
+
+
     // --EFECTUAR EL ATAQUE --
     
     public void Attack(float damage) //toma el daño del ataque seleccionado
@@ -349,37 +354,18 @@ public class Player : MonoBehaviour, IReciboObjeto
     
     // --ATAQUES ESPECIALES--
 
-    private void Cabezazo()
+    
+
+    private void KnockBackPropio() //le llama desde el animator
     {
-        Attack(headbuttDamage);
-        headbuttTimer = maxHeadbuttTimer;
-        state = "headbutt";
-
-        //falta ponerle la animacion
-    }
-
-
-    private void SwingSwing()
-    {
-        Attack(swingDamage);
-        swingTimer = maxSwingTimer;
-        state = "swing";
-        
-        //falta animacion
+        rb.AddForce(new Vector2(-1,-1).normalized * knockBackForce ,ForceMode2D.Impulse);
     }
     
     
-    private void JabCodo()
-    {
-        Attack(elbowStrikeDamage);
-        elbowStrikeTimer = maxElbowStrikeTimer;
-        state = "elbow";
-        
-        // falta animacion
-    }
 
     private void HardAttack()
     {
+        
         if (hardAttackNumber < 4)
         {
             Debug.Log(3);

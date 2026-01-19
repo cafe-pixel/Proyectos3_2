@@ -634,7 +634,7 @@ MonoBehaviour:
   layerAttackable:
     serializedVersion: 2
     m_Bits: 64
-  comboMaxTimer: 0.2
+  comboMaxTimer: 0.3
   headbuttDamage: 100
   maxHeadbuttTimer: 2
   swingDamage: 100
@@ -645,6 +645,7 @@ MonoBehaviour:
   suaveMaxTimer: 1
   hardAttack: 1
   hardMaxTimer: 1
+  knockBackForce: 2
   velocidad: 1
   dashForce: 2
   dashMaxTimer: 2
