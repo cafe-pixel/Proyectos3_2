@@ -338,6 +338,19 @@ public class Player : MonoBehaviour, IReciboObjeto
         {
            JabSwingSalto();
         }
+        
+        if (comboInputs.Contains(3)&&comboInputs.Contains(1))
+        {
+            HitInJump();
+        }
+    }
+
+    private void HitInJump()
+    {
+        //prepara el salto como para jump y lo ejecuta
+        jumpForce = maxJumpForce;
+        anim.SetTrigger("hitInJump");
+        state = "jump";
     }
 
     private void JabSwingSalto()
