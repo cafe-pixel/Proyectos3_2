@@ -11,6 +11,8 @@ public class Boss : MonoBehaviour
     [Header("Referencias")]
     public Transform player;
     public Rigidbody2D rb;
+    [SerializeField] private Animator bossMovementAnimator;
+    [SerializeField] private SpriteRenderer spriteRenderer;
 
     [Header("Spawning")]
     public GameObject bikerEnemyPrefab;
@@ -35,6 +37,19 @@ public class Boss : MonoBehaviour
 
         StartCoroutine(BossLoop());
     }
+    
+    void Update()
+    {
+        if (rb.linearVelocity.x > 0f)
+        {
+            spriteRenderer.flipX = true;
+        }
+        else if (rb.linearVelocity.x <= 0f)
+        {
+            spriteRenderer.flipX = false;
+        }
+    }
+    
 
     IEnumerator BossLoop()
     {
@@ -62,7 +77,7 @@ public class Boss : MonoBehaviour
                 yield return StartCoroutine(ReturnToStart());
                 yield return new WaitForSeconds(attackCooldown);
             }
-
+            
             yield return null;
         }
     }
@@ -71,6 +86,8 @@ public class Boss : MonoBehaviour
     IEnumerator ChargeAttack()
     {
         isAttacking = true;
+        bossMovementAnimator.SetBool("dashAttack", true);
+        bossMovementAnimator.SetBool("returnPosition", false);
         isCharging = true;
         forceReturn = false;
 
@@ -90,6 +107,7 @@ public class Boss : MonoBehaviour
 
         isCharging = false;
         isAttacking = false;
+        bossMovementAnimator.SetBool("dashAttack", false);
     }
 
     bool IsOnScreen()
@@ -114,6 +132,7 @@ public class Boss : MonoBehaviour
     IEnumerator BottleAttack()
     {
         isAttacking = true;
+        bossMovementAnimator.SetBool("molotovAttack", true);
 
         GameObject bottle = Instantiate(
             bottlePrefab,
@@ -126,6 +145,7 @@ public class Boss : MonoBehaviour
 
         yield return new WaitForSeconds(0.3f);
         isAttacking = false;
+        bossMovementAnimator.SetBool("molotovAttack", false);
     }
 
     //REGRESO A POSICIÓN INICIAL
@@ -142,7 +162,7 @@ public class Boss : MonoBehaviour
             );
             yield return null;
         }
-
+        bossMovementAnimator.SetBool("returnPosition", true);
         transform.position = startPosition;
     }
     
