@@ -41,7 +41,7 @@ public class Puñetazos : EnemyAttack
     {
         if (!player) return;
 
-        if (player.TryGetComponent<IReciveDamage>(out IReciveDamage playerHealth))
+        if (player.TryGetComponent<IReciveDamage>(out IReciveDamage playerHealth) && player.CompareTag("Player"))
         {
             playerHealth.Damage(finalDamage);
         }
