@@ -119,7 +119,8 @@ public class Player : MonoBehaviour, IReciboObjeto
     private bool defenseFuncionando = false;
     private bool velocidadFuncionando = false;
     
-
+    
+    private PlayerHealth health;
 
 
 
@@ -130,6 +131,7 @@ public class Player : MonoBehaviour, IReciboObjeto
         floor = GetComponentInChildren<FloorDetection>();
         sr = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
+        health = GetComponent<PlayerHealth>();
         
         comboTimer = comboMaxTimer;
     }
@@ -549,6 +551,10 @@ public class Player : MonoBehaviour, IReciboObjeto
     {
         switch (item)
         {
+            case Items.TipoItem.BebidaEnergetica:
+            case Items.TipoItem.BebidaEnergetica2:
+                health.AplicarEfecto(item);
+                break;
             
             case Items.TipoItem.PatatasPicantes:
                 PlayerSubirAtaque();

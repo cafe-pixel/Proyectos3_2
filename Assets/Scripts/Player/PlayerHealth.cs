@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerHealth : MonoBehaviour, IReciveDamage, IReciboObjeto
+public class PlayerHealth : MonoBehaviour, IReciveDamage
 {
     [SerializeField] private Image healthBar;
     [SerializeField] private float vidaMaxPlayer = 100;
