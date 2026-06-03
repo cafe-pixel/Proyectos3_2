@@ -7,7 +7,7 @@ public class LanzaBotellas : EnemyAttack
 {
     
     //stats
-    [SerializeField] private float cooldown = 0.3f;
+    [SerializeField] private float cooldown = 2f;
     [SerializeField] private float baseDamage = 20f;
     
     //referencias
