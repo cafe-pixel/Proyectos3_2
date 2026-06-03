@@ -878,7 +878,7 @@ MonoBehaviour:
   bikerEnemy: {fileID: 8132453379924607013, guid: aaacc77891ff0ee4a9cab7b8f6f84585, type: 3}
   drunkEnemy: {fileID: 4173818141177043692, guid: 3897087f936e3f44a802bff7620dab4d, type: 3}
   amountBikerEnemy: 3
-  amountDrunkEnemy: 3
+  amountDrunkEnemy: 1
   areaCenter: {x: 166, y: -5}
   areaSize: {x: 27, y: 2}
 --- !u!61 &317453819
@@ -4320,7 +4320,7 @@ MonoBehaviour:
   bikerEnemy: {fileID: 8132453379924607013, guid: aaacc77891ff0ee4a9cab7b8f6f84585, type: 3}
   drunkEnemy: {fileID: 4173818141177043692, guid: 3897087f936e3f44a802bff7620dab4d, type: 3}
   amountBikerEnemy: 1
-  amountDrunkEnemy: 2
+  amountDrunkEnemy: 1
   areaCenter: {x: 125, y: -4}
   areaSize: {x: 10, y: 3}
 --- !u!61 &1473252237
