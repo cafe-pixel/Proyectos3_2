@@ -402,8 +402,12 @@ public class Player : MonoBehaviour, IReciboObjeto
         Debug.Log("te ataco xd");
         Collider2D[] col = Physics2D.OverlapCircleAll(attackPoint.position, 1,layerAttackable); //desde el punto de ataque con un radio de uno golpea solo a los enemigos e items
 
+        Debug.Log("COLLIDERS ENCONTRADOS: " + col.Length);
+        
         foreach (var c in col)
         {
+            Debug.Log("HE GOLPEADO: " + c.name);
+            
             if (c.TryGetComponent<Enemy>(out Enemy enemyHitted))
             {
                 enemyHitted.Damage(damage);
@@ -412,6 +416,7 @@ public class Player : MonoBehaviour, IReciboObjeto
             }
             else if (c.TryGetComponent<IReciveDamage>(out IReciveDamage hitted))
             {
+                Debug.Log("TIENE IReciveDamage");
                 hitted.Damage(damage);
             }
         }

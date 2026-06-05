@@ -2,8 +2,15 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
 
-public class Boss : MonoBehaviour
+public class Boss : MonoBehaviour,IReciveDamage
 {
+    [Header("Stats")]
+    [SerializeField] private float vidaMaxBoss = 300f;
+    [SerializeField] private float defensaBoss = 0f;
+
+    private float vidaBoss;
+    private bool dead = false;
+    
     [Header("General")]
     public float attackCooldown = 2f;
     public float returnSpeed = 6f;
@@ -24,17 +31,16 @@ public class Boss : MonoBehaviour
     [Header("Bottle Attack")]
     public GameObject bottlePrefab;
     public Transform bottleSpawnPoint;
-    
-    [Header("Scene Transition")]
-    private float timeToNextScene = 15f; 
 
     private Vector2 startPosition;
     private bool isAttacking = false;
     private bool isCharging = false;
     private bool forceReturn = false;
 
-    void Start()
+    private void Start()
     {
+        vidaBoss = vidaMaxBoss;
+        
         startPosition = transform.position;
 
         if (player == null)
@@ -42,22 +48,12 @@ public class Boss : MonoBehaviour
 
         StartCoroutine(BossLoop());
     }
-    void OnEnable()
-    {
-        StartCoroutine(GoToNextSceneAfterTime());
-    }
-    
-    IEnumerator GoToNextSceneAfterTime()
-    {
-        yield return new WaitForSeconds(timeToNextScene);
-        SceneManager.LoadSceneAsync(2);
-    }
-    
+
     IEnumerator BossLoop()
     {
         yield return new WaitForSeconds(1f);
 
-        while (true)
+        while (!dead)
         {
             if (!isAttacking)
             {
@@ -68,9 +64,11 @@ public class Boss : MonoBehaviour
                     case 0:
                         yield return StartCoroutine(ChargeAttack());
                         break;
+
                     case 1:
-                        yield return StartCoroutine(SummonBikers());
+                        //yield return StartCoroutine(SummonBikers());
                         break;
+
                     case 2:
                         yield return StartCoroutine(BottleAttack());
                         break;
@@ -83,8 +81,7 @@ public class Boss : MonoBehaviour
             yield return null;
         }
     }
-    
-    // ATAQUE 1: CARGA
+
     IEnumerator ChargeAttack()
     {
         isAttacking = true;
@@ -116,10 +113,11 @@ public class Boss : MonoBehaviour
 
         isCharging = false;
         isAttacking = false;
+
         bossMovementAnimator.SetBool("dashAttack", false);
     }
-    
-    // ATAQUE 2
+
+    /*
     IEnumerator SummonBikers()
     {
         isAttacking = true;
@@ -128,13 +126,15 @@ public class Boss : MonoBehaviour
         Instantiate(bikerEnemyPrefab, spawnBottom.position, Quaternion.identity);
 
         yield return new WaitForSeconds(4f);
+
         isAttacking = false;
     }
-    
-    // ATAQUE 3
+    */
+
     IEnumerator BottleAttack()
     {
         isAttacking = true;
+
         bossMovementAnimator.SetBool("molotovAttack", true);
 
         GameObject bottle = Instantiate(
@@ -144,14 +144,16 @@ public class Boss : MonoBehaviour
         );
 
         Vector2 dir = (player.position - bottleSpawnPoint.position).normalized;
+
         bottle.GetComponent<Rigidbody2D>().linearVelocity = dir * 8f;
 
         yield return new WaitForSeconds(0.3f);
+
         isAttacking = false;
+
         bossMovementAnimator.SetBool("molotovAttack", false);
     }
-    
-    // REGRESO A POSICIÓN INICIAL
+
     IEnumerator ReturnToStart()
     {
         rb.linearVelocity = Vector2.zero;
@@ -163,26 +165,28 @@ public class Boss : MonoBehaviour
                 startPosition,
                 returnSpeed * Time.deltaTime
             );
+
             yield return null;
         }
 
         bossMovementAnimator.SetBool("returnPosition", true);
+
         transform.position = startPosition;
     }
-    
-    // TRIGGER CON EL JUGADOR
-    void OnTriggerEnter2D(Collider2D other)
+
+    private void OnTriggerEnter2D(Collider2D other)
     {
         if (!isCharging) return;
 
         if (other.CompareTag("Player"))
         {
-            forceReturn = true; //Metele daño Silvia
+            forceReturn = true;
+
+            // Aquí puedes meter daño al jugador
         }
     }
-    
-    //COLLISION CON EL LIMITE
-    void OnCollisionEnter2D(Collision2D other)
+
+    private void OnCollisionEnter2D(Collision2D other)
     {
         if (!isCharging) return;
 
@@ -190,5 +194,44 @@ public class Boss : MonoBehaviour
         {
             forceReturn = true;
         }
+    }
+    
+    protected void BossRestarVida(float value)
+    {
+        vidaBoss -= value;
+
+        Debug.Log("Vida Boss: " + vidaBoss);
+
+        // Animación de daño si tienes una
+        bossMovementAnimator.SetTrigger("hitTaken");
+
+        if (vidaBoss <= 0)
+        {
+            Morir();
+        }
+    }
+
+    public void Damage(float damage)
+    {
+        float damageFinal = damage - defensaBoss;
+
+        if (damageFinal < 1)
+            damageFinal = 1;
+
+        BossRestarVida(damageFinal);
+    }
+
+    private void Morir()
+    {
+        if (dead) return;
+
+        dead = true;
+
+        StopAllCoroutines();
+        
+        Destroy(gameObject);
+
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        
     }
 }
