@@ -16,6 +16,7 @@ public class FireArea : MonoBehaviour
         {
             player.Damage(damagePerSecond);
         }*/
+        
         if (other.TryGetComponent(out PlayerHealth playerHealth))
         {
             playerHealth.Damage(damagePerSecond);
