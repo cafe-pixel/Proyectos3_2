@@ -10,7 +10,7 @@ public class BossSpawn : MonoBehaviour
         if(other.CompareTag("Player"))
         {
             boss.SetActive(true);
-            Destroy(gameObject);
+            //Destroy(gameObject);
         }
     }
 
