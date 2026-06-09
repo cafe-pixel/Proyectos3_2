@@ -211,11 +211,11 @@ PrefabInstance:
       objectReference: {fileID: 113433387}
     - target: {fileID: 6065425259595644898, guid: 13b9e2f62b797204d8b75645960219cd, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 203.97
+      value: -22.81
       objectReference: {fileID: 0}
     - target: {fileID: 6065425259595644898, guid: 13b9e2f62b797204d8b75645960219cd, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.9
+      value: -4.7
       objectReference: {fileID: 0}
     - target: {fileID: 6065425259595644898, guid: 13b9e2f62b797204d8b75645960219cd, type: 3}
       propertyPath: m_LocalPosition.z
@@ -938,13 +938,13 @@ GameObject:
   - component: {fileID: 335379885}
   - component: {fileID: 335379887}
   - component: {fileID: 335379886}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: MusicZone (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &335379885
 Transform:
   m_ObjectHideFlags: 0
@@ -1415,13 +1415,13 @@ GameObject:
   - component: {fileID: 474741623}
   - component: {fileID: 474741625}
   - component: {fileID: 474741624}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: MusicZone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &474741623
 Transform:
   m_ObjectHideFlags: 0
@@ -1539,13 +1539,13 @@ GameObject:
   - component: {fileID: 575601686}
   - component: {fileID: 575601688}
   - component: {fileID: 575601687}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: MusicZone (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &575601686
 Transform:
   m_ObjectHideFlags: 0
@@ -1859,7 +1859,7 @@ GameObject:
   m_Component:
   - component: {fileID: 673373706}
   - component: {fileID: 673373704}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: -MUSIC-
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3241,7 +3241,7 @@ Transform:
   m_GameObject: {fileID: 1017304872}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 205.47, y: -2.9, z: -10}
+  m_LocalPosition: {x: -21.31, y: -4.7, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4136,13 +4136,13 @@ GameObject:
   - component: {fileID: 1352749840}
   - component: {fileID: 1352749842}
   - component: {fileID: 1352749841}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: MusicZone (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1352749840
 Transform:
   m_ObjectHideFlags: 0
@@ -5301,7 +5301,7 @@ Transform:
   m_GameObject: {fileID: 1880306109}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 205.47, y: -0.060269833, z: -10}
+  m_LocalPosition: {x: -15.476868, y: -0.060269833, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5573,13 +5573,13 @@ GameObject:
   - component: {fileID: 1969227312}
   - component: {fileID: 1969227314}
   - component: {fileID: 1969227313}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: MusicZone (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1969227312
 Transform:
   m_ObjectHideFlags: 0
