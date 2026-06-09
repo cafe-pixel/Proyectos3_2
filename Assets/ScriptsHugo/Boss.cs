@@ -7,7 +7,8 @@ public class Boss : MonoBehaviour,IReciveDamage
     [Header("Stats")]
     [SerializeField] private float vidaMaxBoss = 300f;
     [SerializeField] private float defensaBoss = 0f;
-
+    [SerializeField] private float chargeDamage = 20f;
+    
     private float vidaBoss;
     private bool dead = false;
     
@@ -182,7 +183,12 @@ public class Boss : MonoBehaviour,IReciveDamage
         {
             forceReturn = true;
 
-            // Aquí puedes meter daño al jugador
+            IReciveDamage playerHealth = other.GetComponent<IReciveDamage>();
+
+            if (playerHealth != null)
+            {
+                playerHealth.Damage(chargeDamage);
+            }
         }
     }
 

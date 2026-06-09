@@ -3992,7 +3992,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2474211090168223557, guid: 33be6bc496d17bc408dc5e3928fd262c, type: 3}
       propertyPath: m_Constraints
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2648507362623810092, guid: 33be6bc496d17bc408dc5e3928fd262c, type: 3}
       propertyPath: m_Name
@@ -4004,7 +4004,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5589357894181335212, guid: 33be6bc496d17bc408dc5e3928fd262c, type: 3}
       propertyPath: chargeSpeed
-      value: 0
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5589357894181335212, guid: 33be6bc496d17bc408dc5e3928fd262c, type: 3}
       propertyPath: attackCooldown
@@ -4012,7 +4012,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5589357894181335212, guid: 33be6bc496d17bc408dc5e3928fd262c, type: 3}
       propertyPath: chargeDuration
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7350033943256427755, guid: 33be6bc496d17bc408dc5e3928fd262c, type: 3}
       propertyPath: m_Enabled
