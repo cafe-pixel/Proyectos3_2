@@ -2,24 +2,24 @@ using UnityEngine;
 
 public class FireArea : MonoBehaviour
 {
-    public float duration = 2f;
-    public int damagePerSecond = 10;
+    [SerializeField] private float duration = 2f;
+    [SerializeField] private float damagePerSecond = 10f;
 
-    void Start()
+    private void Start()
     {
         Destroy(gameObject, duration);
     }
 
-    void OnTriggerStay2D(Collider2D other)
+    private void OnTriggerStay2D(Collider2D other)
     {
-        /*if (other.TryGetComponent<IReciveDamage>(out IReciveDamage player) && other.CompareTag("Player"))
+        if (!other.CompareTag("Player"))
+            return;
+
+        IReciveDamage target = other.GetComponentInParent<IReciveDamage>();
+
+        if (target != null)
         {
-            player.Damage(damagePerSecond);
-        }*/
-        
-        if (other.TryGetComponent(out PlayerHealth playerHealth))
-        {
-            playerHealth.Damage(damagePerSecond);
+            target.Damage(damagePerSecond * Time.deltaTime);
         }
     }
 }

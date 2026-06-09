@@ -88,6 +88,7 @@ public class PlayerHealth : MonoBehaviour, IReciveDamage
     private void Muerto() 
     {
         transform.position = checkpointPosition.checkpointPosition;
+        healthBar.fillAmount = vidaPlayer / vidaMaxPlayer;
         vidaPlayer = vidaMaxPlayer;
     }
     
@@ -96,6 +97,10 @@ public class PlayerHealth : MonoBehaviour, IReciveDamage
         if (!player.isParrying)
         {
             float damageFinal = damage -  player.defensaPlayer;
+            
+            if (damageFinal < 1f)
+                damageFinal = 1f;
+            
             PlayerRestarVida(damageFinal);
         }
         
