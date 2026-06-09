@@ -343,7 +343,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 6336013
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 8791816394772665202, guid: 476fdb373a792394297e34bed2774477, type: 3}
   m_Color: {r: 0.97735846, g: 0.97735846, b: 0.97735846, a: 1}
@@ -371,8 +371,10 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 8
+  rb: {fileID: 0}
   patrol: {fileID: 5971757958012982879}
   enemyAttack: {fileID: 2856529259190525177}
+  maxCatchedTimer: 0
   ataqueBiker: 5
   chaseRange: 15
   attackRange: 1
@@ -439,4 +441,4 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 4
+  m_Constraints: 5
