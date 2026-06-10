@@ -7,8 +7,11 @@ public class LanzaBotellas : EnemyAttack
 {
     
     //stats
-    [SerializeField] private float cooldown = 2f;
+    [SerializeField] private float cooldown = 5f;
     [SerializeField] private float baseDamage = 20f;
+    
+    [SerializeField] private float bottleCooldown = 5f;
+    private float lastBottleTime;
     
     //referencias
    [SerializeField] private DrunkGuy drunkGuy;
@@ -32,27 +35,35 @@ public class LanzaBotellas : EnemyAttack
 
     protected override void DoAttack()
     {
-        finalAttack =  baseDamage + drunkGuy.ataqueDrunkGuy;
-        Debug.Log("Voy a tirar la botella");
-        anim.SetTrigger("hit");
+        finalAttack = baseDamage + drunkGuy.ataqueDrunkGuy;
         DropBottle();
         
     }
 
     private void DropBottle()
     {
-       
+        if (Time.time < lastBottleTime + bottleCooldown)
+            return;
+
+        lastBottleTime = Time.time;
+
+        anim.SetTrigger("hit");
+
         float randomValue = Random.value;
+
         if (randomValue <= dropChance && bottle != null)
         {
             GameObject bottleInstantiate = Instantiate(bottle, transform.position, Quaternion.identity);
+
             Rigidbody2D bottleRigidBody = bottleInstantiate.GetComponent<Rigidbody2D>();
             if (bottleRigidBody == null) return;
-            bottleRigidBody.AddForce((player.position - transform.position).normalized * fuerzaHorizontal + Vector3.up * fuerzaVertical, ForceMode2D.Impulse);
-            Bottle bottleInst = bottleInstantiate.GetComponent<Bottle>();
-            bottleInst.Initialize(finalAttack);
-            Debug.Log("He tirado la botella");
 
+            bottleRigidBody.AddForce(
+                (player.position - transform.position).normalized * fuerzaHorizontal +
+                Vector3.up * fuerzaVertical,
+                ForceMode2D.Impulse);
+
+            bottleInstantiate.GetComponent<Bottle>().Initialize(finalAttack);
         }
     }
 
