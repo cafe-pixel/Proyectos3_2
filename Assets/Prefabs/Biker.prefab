@@ -371,7 +371,7 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 8
-  rb: {fileID: 0}
+  rb: {fileID: 6817713898684703708}
   patrol: {fileID: 5971757958012982879}
   enemyAttack: {fileID: 2856529259190525177}
   maxCatchedTimer: 0

@@ -52,7 +52,7 @@ public abstract class Enemy : MonoBehaviour,IReciveDamage
    private void Update() //update ejecuta cada frame, NO USAR WHILE
    {
        
-       
+       Debug.Log(state);
        
        bool inChase = PlayerInChaseRange();
        bool inAttack = PlayerInAttackRange();
