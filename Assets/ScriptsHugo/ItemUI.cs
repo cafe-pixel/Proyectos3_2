@@ -5,39 +5,21 @@ using UnityEngine.UI;
 
 public class ItemUI : MonoBehaviour
 {
-    public Image imagenUI;
-    
+    public Sprite imagenItem;
     public float duracion = 3f;
 
-    private Coroutine rutinaActual;
+    private ManagerUI uiManager;
 
     private void Start()
     {
-        if (imagenUI != null)
-        {
-            imagenUI.gameObject.SetActive(false);
-        }
+        uiManager = FindFirstObjectByType<ManagerUI>();
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
-            if (rutinaActual != null)
-            {
-                StopCoroutine(rutinaActual);
-            }
-
-            rutinaActual = StartCoroutine(MostrarImagen());
+            uiManager.Mostrar(imagenItem, duracion);
         }
-    }
-
-    private IEnumerator MostrarImagen()
-    {
-        imagenUI.gameObject.SetActive(true);
-
-        yield return new WaitForSeconds(duracion);
-
-        imagenUI.gameObject.SetActive(false);
     }
 }
